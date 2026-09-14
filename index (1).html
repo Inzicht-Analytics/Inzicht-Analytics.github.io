@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belinda Kennedy — Technical Business Analyst &amp; Product Owner</title>
+<meta name="description" content="Belinda Kennedy — Technical Business Analyst & Product Owner. Systems thinking, requirements engineering, and delivery leadership across fintech, CRM, and CX domains.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1D1F21;
+    --copper: #B87533;
+    --persimmon: #E25A2A;
+    --gold: #D4AF37;
+    --sand: #F2E6C9;
+    --ivory: #FFF6E6;
+    --rule: rgba(29,31,33,0.14);
+    --max: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: 'Sora', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .eyebrow {
+    font-family: 'Sora', sans-serif;
+    font-variant: small-caps;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--copper);
+  }
+
+  .rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 28px 0;
+  }
+
+  section { padding: 96px 0; }
+
+  /* ---------- Skip link ---------- */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 12px 20px;
+    z-index: 100;
+  }
+  .skip-link:focus { left: 16px; top: 16px; }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,246,230,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .wordmark {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .wordmark svg { display: block; }
+  nav.links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+  }
+  nav.links a {
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.15s ease;
+  }
+  nav.links a:hover, nav.links a:focus-visible { border-color: var(--persimmon); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 88px 0 72px 0;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    margin: 14px 0 22px 0;
+  }
+  .hero p.lede {
+    font-size: 1.15rem;
+    max-width: 46ch;
+    color: rgba(29,31,33,0.82);
+    margin: 0 0 30px 0;
+  }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--persimmon); color: var(--ivory); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #cb4d20; }
+  .btn-ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: var(--ink); color: var(--ivory); }
+
+  .locus {
+    font-size: 0.92rem;
+    color: rgba(29,31,33,0.68);
+    margin-top: 28px;
+  }
+
+  /* Orbital hero mark */
+  .orbit-wrap { display: flex; justify-content: center; align-items: center; }
+  .orbit-wrap svg { width: 100%; max-width: 380px; height: auto; }
+
+  /* ---------- Sections shared ---------- */
+  .section-head { margin-bottom: 44px; }
+  .section-head h2 {
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    margin-top: 10px;
+  }
+
+  /* ---------- About ---------- */
+  .about { background: var(--sand); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .about p { margin: 0 0 18px 0; max-width: 58ch; }
+  .about-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 28px;
+  }
+  .fact dt {
+    font-variant: small-caps;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--copper);
+    margin-bottom: 4px;
+  }
+  .fact dd { margin: 0; font-size: 0.98rem; }
+
+  /* ---------- Case studies ---------- */
+  .cases { display: flex; flex-direction: column; gap: 0; }
+  .case {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .case:last-child { border-bottom: 1px solid var(--rule); }
+  .case-meta { }
+  .case-meta .org {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+  .case-meta .dates { color: rgba(29,31,33,0.6); font-size: 0.88rem; }
+  .case-meta .role { font-size: 0.9rem; margin-top: 10px; color: var(--persimmon); font-weight: 600; }
+  .case-body h3 { font-size: 1.2rem; margin-bottom: 12px; }
+  .case-body p { margin: 0 0 14px 0; max-width: 68ch; }
+  .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag {
+    font-size: 0.78rem;
+    border: 1px solid var(--rule);
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: rgba(29,31,33,0.72);
+  }
+  .highlight {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: var(--sand);
+    border-left: 3px solid var(--gold);
+    font-size: 0.94rem;
+  }
+
+  /* ---------- Specialization spotlight ---------- */
+  .spotlight { background: var(--ink); color: var(--ivory); }
+  .spotlight .eyebrow { color: var(--gold); }
+  .spotlight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .spotlight p { color: rgba(255,246,230,0.82); max-width: 54ch; }
+  .spotlight ul { padding-left: 0; list-style: none; margin: 22px 0 0 0; }
+  .spotlight li {
+    padding: 12px 0;
+    border-top: 1px solid rgba(255,246,230,0.16);
+    font-size: 0.96rem;
+    display: flex;
+    gap: 12px;
+  }
+  .spotlight li:last-child { border-bottom: 1px solid rgba(255,246,230,0.16); }
+  .spotlight li .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--persimmon);
+    margin-top: 9px;
+    flex-shrink: 0;
+  }
+
+  /* ---------- Skills ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+  .skill-badge {
+    text-align: center;
+    padding: 26px 14px;
+    border: 1px solid var(--rule);
+  }
+  .skill-badge .ring {
+    width: 52px; height: 52px;
+    margin: 0 auto 14px auto;
+    border-radius: 50%;
+    border: 1.5px solid var(--copper);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .skill-badge h3 { font-size: 0.98rem; margin-bottom: 6px; }
+  .skill-badge p { font-size: 0.84rem; color: rgba(29,31,33,0.65); margin: 0; }
+
+  /* ---------- Learning / certifications ---------- */
+  .learning { background: var(--sand); }
+  .cert-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 40px; }
+  .cert-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
+    font-size: 0.92rem;
+  }
+  .cert-row .name { font-weight: 500; }
+  .cert-row .year { color: rgba(29,31,33,0.55); white-space: nowrap; }
+
+  /* ---------- AI Assistant ---------- */
+  .assistant { }
+  .assistant-shell {
+    border: 1px solid var(--rule);
+    background: var(--ivory);
+  }
+  .assistant-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    background: var(--ink);
+    color: var(--ivory);
+  }
+  .assistant-header .ring {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .assistant-header h3 { font-size: 0.98rem; color: var(--ivory); }
+  .assistant-header p { margin: 2px 0 0 0; font-size: 0.8rem; color: rgba(255,246,230,0.7); }
+  #chat-log {
+    height: 300px;
+    overflow-y: auto;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .msg { max-width: 78%; padding: 11px 15px; font-size: 0.92rem; border-radius: 3px; }
+  .msg.bot { background: var(--sand); align-self: flex-start; }
+  .msg.user { background: var(--persimmon); color: var(--ivory); align-self: flex-end; }
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 22px 16px 22px;
+  }
+  .chip {
+    font-size: 0.8rem;
+    padding: 7px 12px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: 'Sora', sans-serif;
+  }
+  .chip:hover, .chip:focus-visible { border-color: var(--persimmon); color: var(--persimmon); }
+  .chat-input-row {
+    display: flex;
+    border-top: 1px solid var(--rule);
+  }
+  #chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 16px 22px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.94rem;
+    color: var(--ink);
+  }
+  #chat-input:focus { outline: none; }
+  #chat-send {
+    border: none;
+    background: transparent;
+    color: var(--persimmon);
+    font-weight: 600;
+    padding: 0 24px;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
+  }
+  .assistant-note {
+    font-size: 0.82rem;
+    color: rgba(29,31,33,0.55);
+    margin-top: 14px;
+  }
+
+  /* ---------- Contact / footer ---------- */
+  footer.contact { background: var(--ink); color: var(--ivory); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: end;
+  }
+  footer.contact h2 { color: var(--ivory); font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+  footer.contact p.lede { color: rgba(255,246,230,0.75); max-width: 44ch; margin-top: 16px; }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; }
+  .contact-links a {
+    text-decoration: none;
+    color: var(--ivory);
+    font-size: 1.02rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,246,230,0.2);
+    padding-bottom: 10px;
+  }
+  .contact-links a:hover, .contact-links a:focus-visible { color: var(--gold); }
+  .foot-bottom {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,246,230,0.16);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: rgba(255,246,230,0.55);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ---------- Motion (reduced) ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  .spin-slow { animation: spin 40s linear infinite; transform-origin: center; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .hero-grid, .about-grid, .spotlight-grid, .contact-grid { grid-template-columns: 1fr; }
+    .orbit-wrap { order: -1; }
+    .case { grid-template-columns: 1fr; gap: 12px; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .cert-list { grid-template-columns: 1fr; }
+    nav.links { display: none; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="wordmark">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <circle cx="13" cy="13" r="12" stroke="#1D1F21" stroke-width="1.4"/>
+        <path d="M13 1 A12 12 0 0 1 13 25 Z" fill="#E25A2A"/>
+        <path d="M13 1 A12 12 0 0 0 1 13 L13 13 Z" fill="#D4AF37"/>
+      </svg>
+      Inzicht Analytics
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#specialisation">IAM</a>
+      <a href="#skills">Skills</a>
+      <a href="#assistant">Ask Belinda</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Technical Business Analyst · Product Owner</p>
+        <h1>Belinda Kennedy</h1>
+        <p class="lede">I turn ambiguous business problems into working systems — requirements, architecture, testing, delivery. Fintech, CRM, and CX platforms so far; genuinely domain-agnostic by design.</p>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary">See the work</a>
+          <a href="#assistant" class="btn btn-ghost">Ask about my experience</a>
+        </div>
+        <p class="locus">Based in Western Cape, South Africa — working with clients remotely, globally</p>
+      </div>
+      <div class="orbit-wrap">
+        <svg viewBox="0 0 400 400" fill="none" aria-hidden="true">
+          <circle cx="200" cy="200" r="150" stroke="#B87533" stroke-width="1"/>
+          <circle cx="200" cy="200" r="110" stroke="#1D1F21" stroke-width="1" opacity="0.35"/>
+          <circle cx="200" cy="200" r="70" stroke="#D4AF37" stroke-width="1"/>
+          <g class="spin-slow">
+            <circle cx="200" cy="50" r="5" fill="#E25A2A"/>
+            <circle cx="200" cy="350" r="3" fill="#1D1F21"/>
+            <circle cx="50" cy="200" r="3" fill="#B87533"/>
+            <circle cx="350" cy="200" r="4" fill="#D4AF37"/>
+          </g>
+          <path d="M200 130 A70 70 0 0 1 270 200" stroke="#E25A2A" stroke-width="2"/>
+          <path d="M200 90 A110 110 0 0 1 310 200" stroke="#1D1F21" stroke-width="1.2" opacity="0.4"/>
+          <circle cx="200" cy="200" r="26" fill="#1D1F21"/>
+          <circle cx="200" cy="200" r="26" fill="none" stroke="#FFF6E6" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div>
+        <p class="eyebrow">About</p>
+        <h2>Insight-led, wherever the domain sits</h2>
+        <p style="margin-top:22px;">I've spent my career at the join between business need and technical delivery — eliciting requirements from SMEs, translating them into architectures a dev team can build against, and running the testing and UAT that confirms it actually works.</p>
+        <p>That's carried me through private wealth platforms, a global CRM rebuild for banking and concierge clients, and CX research for blue-chip corporates. The common thread isn't the industry — it's the way I work: structured, systems-first, and comfortable being the translator between technical and non-technical stakeholders.</p>
+        <p>I'm currently extending that skill set into frontend engineering and applied AI, so I can carry BA thinking further into how AI-enabled products actually get specified and built.</p>
+      </div>
+      <dl class="about-facts">
+        <div class="fact"><dt>Current role</dt><dd>Lead Technical Business Analyst, SecuritEase</dd></div>
+        <div class="fact"><dt>Years in tech delivery</dt><dd>2021 – present</dd></div>
+        <div class="fact"><dt>Core toolkit</dt><dd>Jira, Confluence, SQL, Postman, Figma, Miro</dd></div>
+        <div class="fact"><dt>Methodology</dt><dd>Agile / Scrum, 2-week sprints</dd></div>
+        <div class="fact"><dt>Languages</dt><dd>English &amp; Afrikaans</dd></div>
+        <div class="fact"><dt>Currently building</dt><dd>Frontend engineering &amp; AI analyst skills</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== WORK / CASE STUDIES ===================== -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Selected work</p>
+        <h2>Case studies</h2>
+      </div>
+      <div class="cases">
+
+        <div class="case">
+          <div class="case-meta">
+            <div class="org">SecuritEase</div>
+            <div class="dates">May 2025 – Present</div>
+            <div class="role">Lead Technical Business Analyst</div>
+          </div>
+          <div class="case-body">
+            <h3>Multijurisdictional private wealth platforms</h3>
+            <p>Leading technical BA for a private wealth delivery workstream spanning Sanlam Private Wealth and a confidential New Zealand client. I sit between client SMEs and the dev team, turning elicited requirements into technical architectures the Chief Technical Architect and engineers can build against, and I own the full testing lifecycle — API, functional, and UAT — against rigorous financial-services specifications.</p>
+            <p>I also built a complete Gherkin test case and scenario repository for the end-to-end product, now the source of truth for ongoing test automation, and decompose project specs into prioritised Jira backlogs across 2-week Scrum sprints.</p>
+            <div class="highlight">Established and chair a weekly internal Business Analysis Forum — technical mentorship and shared standards across the BA team, not just my own delivery.</div>
+            <div class="case-tags">
+              <span class="tag">Requirements engineering</span>
+              <span class="tag">API &amp; functional testing</span>
+              <span class="tag">UAT orchestration</span>
+              <span class="tag">SQL / PostgreSQL</span>
+              <span class="tag">AWS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case">
+          <div class="case-meta">
+            <div class="org">Ten Lifestyle Group</div>
+            <div class="dates">July 2022 – April 2025</div>
+            <div class="role">Technical Business Analyst</div>
+          </div>
+          <div class="case-body">
+            <h3>Ground-up rebuild of a global concierge CRM</h3>
+            <p>Led technical requirements gathering and end-to-end QA for a full rebuild of a bespoke CRM platform used by Visa, HSBC, Coutts and other banking and concierge partners. Ran API and functional testing to confirm new CRM features integrated cleanly with existing backend systems, and managed UAT phases with business SMEs to sign off revenue-saving workflow changes.</p>
+            <p>Worked alongside .NET developers on high-impact features while owning backlog prioritisation and actively managing technical debt, and mentored junior staff — several moved into permanent technical roles as a result.</p>
+            <div class="highlight">Named Employee of the Year in the technical space (2024) for the CRM rebuild's user research, data modelling, and Agile delivery.</div>
+            <div class="case-tags">
+              <span class="tag">CRM rebuild</span>
+              <span class="tag">Data modelling</span>
+              <span class="tag">Gap analysis</span>
+              <span class="tag">Backlog ownership</span>
+              <span class="tag">Mentorship</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case">
+          <div class="case-meta">
+            <div class="org">DataNoble</div>
+            <div class="dates">March 2021 – June 2022</div>
+            <div class="role">Senior Researcher &amp; Technical Consultant, UX/CX</div>
+          </div>
+          <div class="case-body">
+            <h3>Data-driven CX transformation for blue-chip clients</h3>
+            <p>Used data modelling to surface operational bottlenecks for Altron Group and major South African internet and IoT suppliers, driving organisational change that lifted NPS scores. Facilitated Design Thinking workshops and deep-dive research to resolve complex customer-experience inefficiencies, and partnered directly with C-level executives to set data-driven KPIs and track how business processes evolved against them.</p>
+            <div class="case-tags">
+              <span class="tag">Process mapping</span>
+              <span class="tag">Design Thinking</span>
+              <span class="tag">KPI design</span>
+              <span class="tag">Executive stakeholder management</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== IAM SPOTLIGHT ===================== -->
+  <section class="spotlight" id="specialisation">
+    <div class="wrap spotlight-grid">
+      <div>
+        <p class="eyebrow">Specialisation</p>
+        <h2 style="margin-top:10px;color:#FFF6E6;">Identity &amp; Access Management</h2>
+        <p style="margin-top:18px;">A niche within the niche: I design the access architecture that decides who can see and do what. This sits squarely in BA territory — it's requirements engineering applied to security and data governance rather than features.</p>
+      </div>
+      <ul>
+        <li><span class="dot"></span>Mapped complex access control requirements into Azure Active Directory (Entra ID), designing scalable Role-Based Access Control (RBAC) frameworks.</li>
+        <li><span class="dot"></span>Architected and documented granular security specifications defining exact data and functional read/write permissions, enforcing least-privilege principles.</li>
+        <li><span class="dot"></span>Served as Lead IAM Specialist for a startup application, guiding identity architecture from concept through launch.</li>
+        <li><span class="dot"></span>Refined enterprise IAM controls at Ten Lifestyle Group for high-profile banking and concierge clients under strict compliance demands.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== SKILLS ===================== -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Toolkit</p>
+        <h2>Skills &amp; technical proficiency</h2>
+      </div>
+      <div class="skills-grid">
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" stroke="#1D1F21" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Analysis &amp; strategy</h3>
+          <p>Technical requirements engineering, SDLC, API &amp; functional testing</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="#1D1F21" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="#1D1F21" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Delivery</h3>
+          <p>Agile, Scrum &amp; Kanban, UAT coordination, Jira / Confluence</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18V10M12 18V6M20 18v-4" stroke="#1D1F21" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Data</h3>
+          <p>SQL, PostgreSQL, Tableau, Qlik Sense, advanced Excel</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#1D1F21" stroke-width="1.6"/><path d="M4 9h16" stroke="#1D1F21" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Design &amp; mapping</h3>
+          <p>Figma, Miro, Visio, Lucidchart, process mapping</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 10l6-1z" stroke="#1D1F21" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Security &amp; access</h3>
+          <p>Azure AD / Entra ID, RBAC design, least-privilege architecture</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h4l2-7 4 14 2-7h4" stroke="#1D1F21" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Integration</h3>
+          <p>REST APIs, Postman, API architecture analysis</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 4l-5 8 5 8M16 4l5 8-5 8" stroke="#1D1F21" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Building now</h3>
+          <p>Frontend engineering fundamentals, applied AI workflows</p>
+        </div>
+
+        <div class="skill-badge">
+          <div class="ring">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#1D1F21" stroke-width="1.6"/><path d="M2 12h20M12 2c2.5 2.7 4 6.3 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.3-4-10s1.5-7.3 4-10z" stroke="#1D1F21" stroke-width="1.2"/></svg>
+          </div>
+          <h3>Stakeholder management</h3>
+          <p>C-level KPI alignment, SME elicitation, cross-team translation</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEARNING / CERTIFICATIONS ===================== -->
+  <section class="learning">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Always learning</p>
+        <h2>Recent training</h2>
+      </div>
+      <div class="cert-list">
+        <div class="cert-row"><span class="name">Frontend Engineering Specialisation — Scrimba</span><span class="year">In progress</span></div>
+        <div class="cert-row"><span class="name">AI Essentials and Workflows — Google</span><span class="year">2026</span></div>
+        <div class="cert-row"><span class="name">AI Competency — Mindstone</span><span class="year">2025</span></div>
+        <div class="cert-row"><span class="name">Business Analysis Foundations (IIBA endorsed)</span><span class="year">2023–2024</span></div>
+        <div class="cert-row"><span class="name">Salesforce Career Course — Salesforce Ben</span><span class="year">2023</span></div>
+        <div class="cert-row"><span class="name">API Technical Writing: JSON &amp; XML</span><span class="year">2023</span></div>
+        <div class="cert-row"><span class="name">The Complete SQL Bootcamp — Udemy</span><span class="year">2022</span></div>
+        <div class="cert-row"><span class="name">Product-led Certification — Pendo.io</span><span class="year">2022</span></div>
+        <div class="cert-row"><span class="name">Design Thinking for Innovation — UVA / Coursera</span><span class="year">2022</span></div>
+        <div class="cert-row"><span class="name">Qlik Sense — Analytics Development</span><span class="year">2021</span></div>
+        <div class="cert-row"><span class="name">Introduction to SQL — DataCamp</span><span class="year">2021</span></div>
+        <div class="cert-row"><span class="name">Coding Fundamentals (JavaScript) — Grasshopper</span><span class="year">2020</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AI ASSISTANT ===================== -->
+  <section class="assistant" id="assistant">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Ask directly</p>
+        <h2>Ask about my experience</h2>
+      </div>
+      <div class="assistant-shell">
+        <div class="assistant-header">
+          <div class="ring">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="#FFF6E6" stroke-width="1.2"/><circle cx="8" cy="8" r="2" fill="#D4AF37"/></svg>
+          </div>
+          <div>
+            <h3>Inzicht Assistant</h3>
+            <p>Answers grounded in Belinda's real experience — try a question below</p>
+          </div>
+        </div>
+        <div id="chat-log" role="log" aria-live="polite"></div>
+        <div class="suggestions">
+          <button class="chip" type="button" data-q="What does Belinda do at SecuritEase?">SecuritEase role?</button>
+          <button class="chip" type="button" data-q="What is her IAM experience?">IAM experience?</button>
+          <button class="chip" type="button" data-q="What industries has she worked in?">Which industries?</button>
+          <button class="chip" type="button" data-q="Is she available for remote work?">Remote availability?</button>
+        </div>
+        <div class="chat-input-row">
+          <input id="chat-input" type="text" placeholder="Ask about her roles, skills, or availability…" aria-label="Ask a question about Belinda's experience">
+          <button id="chat-send" type="button">Send</button>
+        </div>
+      </div>
+      <p class="assistant-note">This assistant answers from a fixed set of facts about my career — it doesn't call a live AI model, so it won't speculate or make things up about my experience.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER / CONTACT ===================== -->
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <p class="eyebrow" style="color:#D4AF37;">Get in touch</p>
+        <h2>Let's talk about your systems</h2>
+        <p class="lede">Available for remote Technical BA / Product Owner engagements — consulting or full-time — from South Africa, anywhere in the world.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:belinda.innovate@gmail.com">Email — belinda.innovate@gmail.com</a>
+        <a href="https://www.linkedin.com/in/belinda-kennedy-analyst/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Inzicht-Analytics" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Belinda Kennedy — Inzicht Analytics</span>
+      <span>Western Cape, South Africa</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ---- Constrained, pre-scripted assistant. No live API key, no external calls. ----
+  // Grounded strictly in Belinda's real CV facts so it cannot misrepresent her experience.
+  var FACTS = {
+    intro: "I'm Belinda Kennedy, a Technical Business Analyst and Product Owner currently leading BA work at SecuritEase. Ask me about a specific role, my IAM work, my skills, or availability.",
+    securitease: "At SecuritEase (May 2025–present) I'm Lead Technical Business Analyst on multijurisdictional private wealth platforms for Sanlam Private Wealth and a confidential New Zealand client. I run requirements elicitation, own the API/functional/UAT testing lifecycle, built the team's Gherkin test repository, and chair a weekly internal BA Forum for mentorship and shared standards.",
+    tenlifestyle: "At Ten Lifestyle Group (2022–2025) I was Technical BA on a ground-up rebuild of a global CRM platform serving Visa, HSBC, Coutts and other banking/concierge clients — leading requirements gathering, QA, and UAT, and managing the backlog alongside the .NET dev team. I was named Employee of the Year in the technical space in 2024.",
+    datanoble: "At DataNoble (2021–2022) I was Senior Researcher & Technical Consultant on UX/CX, using data modelling and Design Thinking workshops to solve CX inefficiencies for Altron Group and major SA internet/IoT suppliers, working directly with C-level stakeholders on KPI design.",
+    iam: "I specialise in Identity & Access Management — mapping access requirements into Azure AD (Entra ID), designing RBAC frameworks, and writing least-privilege security specifications. I was Lead IAM Specialist for a startup app from concept to launch, and refined IAM controls at Ten Lifestyle Group for banking-grade compliance.",
+    industries: "So far: fintech and private wealth management (SecuritEase), banking and global concierge services (Ten Lifestyle Group), and CX/IoT consulting (DataNoble). I'm domain-agnostic by design — the constant is the way I work, not the industry.",
+    skills: "Core toolkit: Jira, Confluence, SQL/PostgreSQL, Postman, Figma, Miro, REST APIs, Agile/Scrum. I'm also currently building frontend engineering and applied AI skills through Scrimba and Google's AI Essentials programme.",
+    availability: "Belinda is based in Western Cape, South Africa, and open to remote Technical BA / Product Owner engagements globally, as well as consulting work through Inzicht Analytics. Best way to reach her is via the contact links below.",
+    fallback: "I can only answer from Belinda's actual career facts, so I don't have a scripted answer for that one — try asking about a specific role (SecuritEase, Ten Lifestyle Group, DataNoble), her IAM work, her skills, or her availability. Or reach her directly using the contact links below."
+  };
+
+  var PATTERNS = [
+    { re: /securitease|sanlam|wealth|new zealand/i, key: 'securitease' },
+    { re: /ten lifestyle|visa|hsbc|coutts|crm/i, key: 'tenlifestyle' },
+    { re: /datanoble|altron|cx|ux|nps/i, key: 'datanoble' },
+    { re: /iam|identity|access|rbac|entra|azure ad/i, key: 'iam' },
+    { re: /industr|domain|sector/i, key: 'industries' },
+    { re: /skill|toolkit|technolog|stack/i, key: 'skills' },
+    { re: /available|remote|hire|contact|rate/i, key: 'availability' }
+  ];
+
+  var log = document.getElementById('chat-log');
+  var input = document.getElementById('chat-input');
+  var sendBtn = document.getElementById('chat-send');
+
+  function addMsg(text, cls) {
+    var div = document.createElement('div');
+    div.className = 'msg ' + cls;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function answer(question) {
+    for (var i = 0; i < PATTERNS.length; i++) {
+      if (PATTERNS[i].re.test(question)) return FACTS[PATTERNS[i].key];
+    }
+    return FACTS.fallback;
+  }
+
+  function ask(text) {
+    if (!text || !text.trim()) return;
+    addMsg(text, 'user');
+    setTimeout(function () { addMsg(answer(text), 'bot'); }, 220);
+    input.value = '';
+  }
+
+  sendBtn.addEventListener('click', function () { ask(input.value); });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () { ask(chip.getAttribute('data-q')); });
+  });
+
+  addMsg(FACTS.intro, 'bot');
+})();
+</script>
+
+</body>
+</html>
