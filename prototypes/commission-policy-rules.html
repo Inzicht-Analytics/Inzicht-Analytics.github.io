@@ -308,7 +308,7 @@ dialog::backdrop{background:rgba(15,23,42,.45)}
 </head>
 <body>
 <header class="top">
-  <div class="brand"><b>ARM</b><span>Commission</span></div>
+  <div class="brand"><b>Admin</b><span>Commission</span></div>
   <nav class="nav" aria-label="Sections">
     <button data-act="nav" data-v="policies">Policies</button>
     <button data-act="nav" data-v="pools">Accrued revenue pools</button>
@@ -401,7 +401,7 @@ let POOLS=[
  {id:'pl6',code:'LEGACY ASSET MANAGERS',desc:'Replaced by OTHER INCOME in 2025',status:'NOT_IN_USE',types:[T('revenue','Other Income Percentage','ALLAN GRAY'),T('revenue','Other Income Percentage','CORONATION')],updated:'2025-11-02'}];
 
 /* saved changes survive a reload in this browser */
-const STORE='arm.policies.v2';
+const STORE='cpr.policies.v2';
 try{const o=JSON.parse(localStorage.getItem(STORE)||'null');
   if(o&&o.v===2&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
 let noPersist=false;
@@ -838,7 +838,7 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
  <div class="db help">
   <h3>In three steps</h3><ol><li><b>Add a rule.</b> Start here. Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</li><li><b>Set its rate.</b> One rate, or a <b>tiered</b> rate that grows as the advisor’s revenue builds up during the period.</li><li><b>Check a rate</b> to see what any type earns and why.</li></ol>
   <p>A <b>default rate</b> is optional. It covers anything no rule does. Without one, anything no rule covers fails in a commission run.</p>
-  <h3>Which rate wins</h3><p>ARM starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission; cost and expense rules are deducted from it.</p>
+  <h3>Which rate wins</h3><p>The system starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission; cost and expense rules are deducted from it.</p>
   <h3>Tiered rates</h3><p>Each tier has a <b>From</b>, an <b>Up to</b> and a <b>Rate</b>. <b>From</b> is filled in for you: it’s where the tier before ended. The last tier has no upper limit. The advisor’s total revenue so far this period, added up from an <b>accrued revenue pool</b>, picks the tier, and that tier’s rate is used. Tiers use the same rate type as the rule (percentage, basis points or flat amount), and can apply to individual advisors, advisor teams, or both. Pools are managed under <b>Accrued revenue pools</b> and shared by every policy.</p>
   <h3>Changing and removing rules</h3><ul><li>Click a rule to edit it. Save shows <b>✓ Saved</b>; every change offers <b>Undo</b>.</li><li><b>Remove…</b> lets you stop using a rule (kept, can come back) or delete it. Rules already used in a commission run can only be stopped, so history stays traceable.</li><li>Stopping a rule also stops the rules under it.</li></ul>
   <h3>For developers: rules the screen enforces</h3><ul>
@@ -868,10 +868,10 @@ const SLIDES=[
 function intro(i){const s=SLIDES[i];openDialog(`<div class="intro"><div class="dh"><div><p style="margin:0 0 4px;font-weight:600;color:var(--faint);font-size:13px">Step ${i+1} of ${SLIDES.length}</p><h2 id="dlgT">${s.t}</h2></div></div><div class="db"><div class="art">${s.art}</div><p style="margin:0;color:var(--muted)">${s.b}</p></div>
   <div class="da"><div class="dots" aria-hidden="true">${SLIDES.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div><span class="sp"></span>${i<SLIDES.length-1?'<button class="btn ghost" data-ix="skip">Skip</button>':''}${i?'<button class="btn" data-ix="back">Back</button>':''}<button class="btn primary" data-ix="next" autofocus>${i<SLIDES.length-1?'Next':'Get started'}</button></div></div>`);
   dlg.oninput=dlg.onchange=null;
-  dlg.onclick=e=>{const b=e.target.closest('[data-ix]');if(!b)return;const a=b.dataset.ix;if(a==='back')return intro(i-1);if(a==='next'&&i<SLIDES.length-1)return intro(i+1);try{localStorage.setItem('arm.intro.v3','1')}catch(_){}closeDialog()}}
+  dlg.onclick=e=>{const b=e.target.closest('[data-ix]');if(!b)return;const a=b.dataset.ix;if(a==='back')return intro(i-1);if(a==='next'&&i<SLIDES.length-1)return intro(i+1);try{localStorage.setItem('cpr.intro.v3','1')}catch(_){}closeDialog()}}
 
 render();
-let seen=false;try{seen=localStorage.getItem('arm.intro.v3')==='1'}catch(_){}
+let seen=false;try{seen=localStorage.getItem('cpr.intro.v3')==='1'}catch(_){}
 if(!seen)setTimeout(()=>intro(0),250);
 })();
 </script>
