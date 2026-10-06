@@ -237,6 +237,9 @@
     border-left: 3px solid var(--gold);
     font-size: 0.94rem;
   }
+  .case-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .btn-sm { padding: 10px 16px; font-size: 0.86rem; }
+  .btn:focus-visible { outline: 2px solid var(--persimmon); outline-offset: 3px; }
 
   /* ---------- Specialization spotlight ---------- */
   .spotlight { background: var(--ink); color: var(--ivory); }
@@ -521,6 +524,30 @@
         <h2>Case studies</h2>
       </div>
       <div class="cases">
+
+        <div class="case" id="prototypes">
+          <div class="case-meta">
+            <div class="org">SecuritEase</div>
+            <div class="dates">2026</div>
+            <div class="role">Lead Technical Business Analyst</div>
+          </div>
+          <div class="case-body">
+            <h3>Admin screens for a commission system</h3>
+            <p>Designed two interactive prototypes for the setup screens of a commission and remuneration system for financial advisors: how revenue, cost and expense classes and types are organised, and how commission policies are built. The people using these screens aren't highly technical, but the rules behind them are strict, so the screens had to be simple to use and still enforce the data rules.</p>
+            <p>Policies start from the rule: choose a class or a single type and give it a rate, or a tiered rate that steps up as an advisor's accrued revenue builds. Every rule has a collapsible developer view showing exactly how it is saved, and the business questions still open are listed on the Help screen instead of being buried.</p>
+            <div class="highlight">Try them yourself. Both are clickable, work on a phone, and use demo data that is saved in your browser only.</div>
+            <div class="case-links">
+              <a class="btn btn-ghost btn-sm" href="prototypes/commission-policy-rules.html">Policies &amp; Rules prototype →</a>
+              <a class="btn btn-ghost btn-sm" href="prototypes/arm-classes-types.html">Classes &amp; Types prototype →</a>
+            </div>
+            <div class="case-tags">
+              <span class="tag">UX design</span>
+              <span class="tag">Interactive prototyping</span>
+              <span class="tag">Data rules &amp; validation</span>
+              <span class="tag">Developer hand-off</span>
+            </div>
+          </div>
+        </div>
 
         <div class="case">
           <div class="case-meta">
