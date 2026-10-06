@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ARM classification: classes and types</title>
+<title>Classification: classes and types</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -170,7 +170,7 @@ dialog .da{display:flex;justify-content:flex-end;gap:8px;padding:0 22px 18px;fle
 <body data-domain="revenue">
 <div class="app">
   <header class="top">
-    <div class="mark" aria-hidden="true">ARM</div>
+    <div class="mark" aria-hidden="true">Admin</div>
     <div class="crumbs">Configuration / <b>Classes and types</b></div>
     <div class="sp"></div>
     <div class="who">Administrator</div>
@@ -465,7 +465,7 @@ function drawDrawer(){
 
   if(kind==='type'&&d!=='commission'){
     const m=draft.method,mt=m?m.type:'NONE';
-    h+=`<section class="sec"><h3>Calculation during ingestion</h3><p class="lead">How the recorded amount is worked out from the source amount when ARM ingests this ${noun}.</p>`;
+    h+=`<section class="sec"><h3>Calculation during ingestion</h3><p class="lead">How the recorded amount is worked out from the source amount when the system ingests this ${noun}.</p>`;
     h+=`<div class="mseg" role="radiogroup" aria-label="Calculation methodology">`+[['NONE','None'],['PERCENTAGE','Percentage'],['BASIS_POINTS','Basis points'],['FLAT','Flat']].map(([v,l])=>`<label><input type="radio" name="mt" value="${v}" ${mt===v?'checked':''}>${l}</label>`).join('')+'</div>';
     if(m){const u=METH[m.type].unit;h+=fld('mval','Value',`<div class="affix">${m.type==='FLAT'?`<i>${u}</i>`:''}<input data-k="mval" inputmode="decimal" value="${esc(m.value??'')}">${m.type!=='FLAT'?`<i>${u}</i>`:''}</div>`,METH[m.type].help)}
     else h+=`<p class="lead" style="margin:0 0 10px">No methodology set, so 100% of the source amount is recorded.</p>`;
