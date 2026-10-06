@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Commission policies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8FAFC;--surface:#FFFFFF;--sunk:#F1F5F9;--hover:#F1F5F9;--ink:#0F172A;--muted:#475569;--faint:#5B6B80;
+  --line:#E2E8F0;--line2:#CBD5E1;--primary:#1E293B;--on-primary:#FFFFFF;--link:#1D4ED8;--focus:#2563EB;
+  --ok:#15803D;--okbg:#F0FDF4;--warn:#B45309;--warnbg:#FFFBEB;--danger:#B91C1C;--dangerbg:#FEF2F2;
+  --rev:#0F766E;--cost:#BE185D;--exp:#94580A;--sel:#EFF6FF;--selb:#60A5FA;
+  --radius:10px;--font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1120;--surface:#111827;--sunk:#1E293B;--hover:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#A3B1C4;
+  --line:#253246;--line2:#334155;--primary:#F1F5F9;--on-primary:#0F172A;--link:#93C5FD;--focus:#60A5FA;
+  --ok:#4ADE80;--okbg:#06240F;--warn:#FBBF24;--warnbg:#2A1D05;--danger:#FCA5A5;--dangerbg:#2A0B0B;
+  --rev:#2DD4BF;--cost:#F9A8D4;--exp:#FACC15;--sel:#14223F;--selb:#3B82F6;}}
+:root[data-theme="dark"]{
+  --bg:#0B1120;--surface:#111827;--sunk:#1E293B;--hover:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#A3B1C4;
+  --line:#253246;--line2:#334155;--primary:#F1F5F9;--on-primary:#0F172A;--link:#93C5FD;--focus:#60A5FA;
+  --ok:#4ADE80;--okbg:#06240F;--warn:#FBBF24;--warnbg:#2A1D05;--danger:#FCA5A5;--dangerbg:#2A0B0B;
+  --rev:#2DD4BF;--cost:#F9A8D4;--exp:#FACC15;--sel:#14223F;--selb:#3B82F6;}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:18px;height:18px;flex:none}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;padding:10px 24px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600}
+.brand b{background:var(--primary);color:var(--on-primary);border-radius:6px;padding:3px 7px;font-size:12px;letter-spacing:.03em}
+.nav{display:flex;gap:4px}
+.nav button{border:0;background:none;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:500;min-height:40px}
+.nav button:hover{background:var(--hover);color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--sunk);color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+main{max-width:1280px;margin:0 auto;padding:24px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:8px 14px;border-radius:8px;border:1px solid var(--line2);background:var(--surface);cursor:pointer;font-weight:500;white-space:nowrap;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn.primary:hover{opacity:.9}
+.btn.ghost{border-color:transparent;background:none}
+.btn.ghost:hover{background:var(--hover)}
+.btn.danger{color:var(--danger)}
+.btn.sm{min-height:32px;padding:5px 10px;font-size:14px}
+.link{border:0;background:none;padding:2px 0;color:var(--link);cursor:pointer;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+/* page heads */
+.phead{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;margin-bottom:18px}
+.phead h1{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.phead p{margin:4px 0 0;color:var(--muted);max-width:68ch}
+.phead .sp{flex:1}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.inp{min-height:40px;padding:8px 12px;border:1px solid var(--line2);border-radius:8px;background:var(--surface);width:100%}
+.tools .inp{max-width:320px;flex:1 1 220px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:8px;background:var(--surface);padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:5px 12px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:500;min-height:32px}
+.seg button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary)}
+.chk{display:inline-flex;align-items:center;gap:8px;color:var(--muted);cursor:pointer;min-height:40px}
+.chk input{width:18px;height:18px;accent-color:var(--primary);cursor:pointer}
+
+/* list rows (policies & pools) */
+.list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.lhead,.lrow{display:grid;grid-template-columns:minmax(160px,1.6fr) 96px minmax(200px,2.6fr) minmax(130px,1.1fr) 96px;gap:12px;align-items:center;padding:12px 18px}
+.pools .lhead,.pools .lrow{grid-template-columns:minmax(220px,2fr) minmax(200px,2fr) 150px 110px}
+.lhead{font-size:13px;font-weight:600;color:var(--muted);background:var(--sunk);border-bottom:1px solid var(--line)}
+.lrow{width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;cursor:pointer;min-height:64px}
+.list li:last-child .lrow{border-bottom:0}
+.lrow:hover{background:var(--hover)}
+.lrow .nm b{display:block;font-weight:600}
+.lrow .nm small{color:var(--faint);font-size:13px}
+.lrow .lbl{display:none}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:2px 9px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.state{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500}
+.state svg{width:16px;height:16px}
+.state.ok{color:var(--ok)}.state.bad{color:var(--danger)}.state.warn{color:var(--warn)}.state.off{color:var(--faint)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.dot.off{background:var(--faint)}
+.empty{padding:40px 24px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.empty .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.foot{color:var(--faint);font-size:13px;margin-top:10px}
+
+/* editor */
+.back{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--muted);cursor:pointer;padding:6px 0;min-height:32px;font-weight:500}
+.back:hover{color:var(--ink)}
+.ehead{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;margin:4px 0 16px}
+.ehead h1{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.ehead .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.ehead .sp{flex:1}
+.banner{display:flex;gap:12px;align-items:flex-start;border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;border:1px solid}
+.banner.bad{background:var(--dangerbg);border-color:color-mix(in srgb,var(--danger) 35%,transparent)}
+.banner.ok{background:var(--okbg);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+.banner.info{background:var(--sel);border-color:color-mix(in srgb,var(--selb) 50%,transparent)}
+.banner .bi{margin-top:1px}
+.banner.bad .bi{color:var(--danger)}.banner.ok .bi{color:var(--ok)}.banner.info .bi{color:var(--link)}
+.banner .bb{flex:1;min-width:0}
+.banner .bb b{font-weight:600}
+.banner .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.gaplist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.gaplist button{border:1px solid var(--line2);background:var(--surface);border-radius:999px;padding:3px 10px;font-size:13px;cursor:pointer;min-height:30px}
+.gaplist button:hover{border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);min-width:0}
+@media (max-width:520px){.rn b{white-space:normal}.card>header{flex-wrap:wrap}.card>header .sp{display:none}.rrow,.defrow{gap:8px;padding:8px}.kids{margin-left:10px;padding-left:6px}.tag.tier{display:none}}
+.card>header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.card>header h2{margin:0;font-size:16px;font-weight:600}
+.card>header .sp{flex:1}
+.rules{padding:8px 10px 14px}
+.defrow,.rrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:8px;padding:9px 10px;cursor:pointer;min-height:52px}
+.defrow{border:1px dashed var(--line2);margin:4px 0 6px}
+.defrow:hover,.rrow:hover{background:var(--hover)}
+.rrow.sel,.defrow.sel{background:var(--sel);border-color:var(--selb)}
+.rrow.path{box-shadow:inset 3px 0 0 var(--link)}
+.rrow.applied,.defrow.applied{background:var(--sel);border-color:var(--selb);box-shadow:inset 3px 0 0 var(--link)}
+.rrow.off .rn,.rrow.off .rate{opacity:.6}
+.rrow.draft{border-style:dashed;border-color:var(--selb)}
+.rn{flex:1;min-width:0;line-height:1.3}
+.rn b{font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rn small{color:var(--faint);font-size:13px}
+.lvl{font-size:12px;font-weight:600;padding:2px 7px;border-radius:5px;flex:none;border:1px solid}
+.lvl.c{color:var(--on-primary);border-color:transparent}
+.lvl.t{background:transparent}
+.d-revenue .lvl.c{background:var(--rev)}.d-revenue .lvl.t{color:var(--rev);border-color:var(--rev)}
+.d-cost .lvl.c{background:var(--cost)}.d-cost .lvl.t{color:var(--cost);border-color:var(--cost)}
+.d-expense .lvl.c{background:var(--exp)}.d-expense .lvl.t{color:var(--exp);border-color:var(--exp)}
+.defrow .lvl{background:var(--primary);color:var(--on-primary);border-color:transparent}
+.rate{font-weight:600;white-space:nowrap;text-align:right}
+.rate.unset{color:var(--danger);font-weight:500}
+.tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tag.off{background:var(--sunk);color:var(--muted)}
+.tag.ap{background:var(--link);color:var(--surface)}
+.tag.new{background:var(--sel);color:var(--link);border:1px solid var(--selb)}
+.tag.tier{background:var(--sunk);color:var(--ink)}
+.dsec{margin-top:10px}
+.dsec>h3{display:flex;align-items:center;gap:8px;margin:0;padding:8px 10px 4px;font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.dsec>h3 i{width:9px;height:9px;border-radius:50%;flex:none}
+.dsec>h3 small{text-transform:none;letter-spacing:0;font-weight:500;color:var(--faint)}
+.dsec .none{padding:6px 10px 2px;color:var(--faint);font-size:14px}
+.kids{list-style:none;margin:0 0 0 22px;border-left:2px solid var(--line);padding-left:8px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;font-size:13px;line-height:1.3;padding:2px 9px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--ink)}
+.chip i{width:7px;height:7px;border-radius:50%;flex:none;background:var(--faint)}
+.chip.d-revenue i{background:var(--rev)}.chip.d-cost i{background:var(--cost)}.chip.d-expense i{background:var(--exp)}
+.chip b{font-weight:600;white-space:nowrap}
+.chip.dim{color:var(--muted);background:var(--sunk);border-color:transparent}
+.chip.todo{background:var(--sel);border:1px dashed var(--selb);color:var(--link);font-weight:500}
+.rate.faint{color:var(--faint);font-weight:500}
+.grid.solo{grid-template-columns:minmax(0,720px)}
+.setup{padding:28px 26px}
+.setup h2{margin:0 0 6px;font-size:20px;font-weight:700}
+.setup p{margin:0 0 14px;color:var(--muted);max-width:60ch}
+.how{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:10px}
+.how li{display:flex;gap:12px;align-items:flex-start;color:var(--muted)}
+.how li b{color:var(--ink)}
+.how .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;font-size:13px;font-weight:700}
+.setup .ex{margin:0 0 18px;max-width:460px}
+.setup .alt{margin:14px 0 0;font-size:14px}
+.stepno,.dh .stepno{margin:0 0 4px;font-size:13px;font-weight:600;color:var(--link)}
+
+/* side panel */
+.panel{position:sticky;top:76px}
+.ptabs{display:flex;border-bottom:1px solid var(--line)}
+.ptabs button{flex:1;border:0;background:none;padding:12px 8px;cursor:pointer;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;min-height:46px}
+.ptabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+.pbody{padding:18px;max-height:calc(100vh - 230px);overflow:auto}
+.pfoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 18px;border-top:1px solid var(--line)}
+.pfoot .sp{flex:1}
+.ptitle{margin:0 0 2px;font-size:18px;font-weight:700}
+.psub{margin:0 0 16px;color:var(--muted);font-size:14px}
+.say{background:var(--sunk);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--ink);margin:0 0 16px}
+.fld{display:block;margin-bottom:14px}
+.fld>span,.flabel{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.fld small,.hint{display:block;color:var(--faint);font-size:13px;margin-top:6px}
+.fld select,.fld input[type=text],.fld input:not([type]){width:100%;min-height:40px;padding:8px 12px;border:1px solid var(--line2);border-radius:8px;background:var(--surface)}
+.fld .e{display:none;color:var(--danger);font-size:13px;font-weight:500;margin-top:6px}
+.fld.err .e{display:block}
+.fld.err input,.fld.err select,.fld.err .affix{border-color:var(--danger)}
+.affix{display:flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:var(--surface)}
+.affix input{flex:1;min-width:0;border:0!important;padding:8px 12px;min-height:40px;background:none;font-weight:600;font-size:16px}
+.affix i{font-style:normal;display:flex;align-items:center;padding:0 12px;background:var(--sunk);color:var(--muted)}
+.affix:focus-within{outline:2px solid var(--focus);outline-offset:1px}
+.affix input:focus-visible{outline:none}
+.mseg{display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:10px}
+details.more{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
+details.more>summary{cursor:pointer;font-weight:600;padding:8px 0;min-height:40px;display:flex;align-items:center;gap:6px;list-style:none}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary svg{transition:transform .15s}
+details.more[open]>summary svg{transform:rotate(90deg)}
+.sw{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:6px 0 12px}
+.sw b{display:block;font-size:14px;font-weight:600}
+.sw small{color:var(--faint);font-size:13px}
+.tog{position:relative;width:44px;height:26px;flex:none}
+.tog input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.tog i{position:absolute;inset:0;border-radius:999px;background:var(--line2);transition:background .15s}
+.tog i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.tog input:checked+i{background:var(--primary)}
+.tog input:checked+i::after{transform:translateX(18px)}
+.tog input:focus-visible+i{outline:2px solid var(--focus);outline-offset:2px}
+.bands{width:100%;border-collapse:collapse;table-layout:fixed;margin-bottom:8px}
+.bands th{text-align:left;font-size:13px;font-weight:600;color:var(--muted);padding:0 6px 6px 0}
+.bands td{padding:0 6px 8px 0}
+.bands th:last-child,.bands td:last-child{width:40px;padding-right:0}
+.bands .affix input{font-size:14px;font-weight:500;padding:6px 6px;min-height:36px}
+.bands .affix i{padding:0 6px}
+.xbtn{border:0;background:none;cursor:pointer;color:var(--muted);width:36px;height:36px;border-radius:8px;display:grid;place-items:center}
+.xbtn:hover{background:var(--hover);color:var(--danger)}
+.berr{color:var(--danger);font-size:13px;font-weight:500;margin:0 0 8px}
+.bands td{vertical-align:middle}
+.bands td.ro{font-size:13.5px;font-weight:500;white-space:nowrap;padding-right:2px}
+.bands .open{color:var(--muted);font-size:14px}
+.affix.bad{border-color:var(--danger)}
+details.dev{margin-top:12px}
+.who{display:flex;flex-wrap:wrap;gap:0 18px}
+fieldset.fld{border:0;padding:0;margin:0 0 14px;min-width:0}
+fieldset.fld>legend{padding:0;font-size:14px;font-weight:600;margin-bottom:2px}
+.dbwrap{overflow:auto;border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.dbtab{border-collapse:collapse;width:100%;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.dbtab th,.dbtab td{padding:4px 8px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line)}
+.dbtab th{background:var(--sunk);color:var(--muted);font-weight:600}
+.dbtab tr:last-child td{border-bottom:0}
+.codebox{display:flex;gap:8px;align-items:flex-start;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.codebox code{flex:1;min-width:0;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;color:var(--ink)}
+.hint code,.help code{font:12.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--sunk);border-radius:4px;padding:1px 4px;color:var(--ink)}
+.status-line{font-size:13px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.status-line.saved{color:var(--ok)}.status-line.dirty{color:var(--warn)}
+.result{border-radius:var(--radius);border:1px solid var(--selb);background:var(--sel);padding:16px;margin:4px 0 14px}
+.result.bad{border-color:color-mix(in srgb,var(--danger) 40%,transparent);background:var(--dangerbg)}
+.result .big{font-size:30px;font-weight:700;line-height:1.1}
+.result .from{color:var(--muted);font-size:14px;margin-top:4px}
+.result .calc{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line2);margin-top:12px;padding-top:10px;font-size:14px}
+.steps{margin:0;padding-left:20px;font-size:14px;color:var(--muted)}
+.steps li{margin-bottom:6px}
+.steps b{color:var(--ink)}
+
+/* dialogs and drawer */
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(520px,calc(100% - 24px));max-height:calc(100vh - 32px);box-shadow:0 24px 60px rgba(15,23,42,.25)}
+dialog.wide{width:min(640px,calc(100% - 24px))}
+dialog::backdrop{background:rgba(15,23,42,.45)}
+.dh{padding:20px 22px 6px;display:flex;gap:10px;align-items:flex-start}
+.dh h2{margin:0;font-size:19px;font-weight:700}
+.dh p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.dh .x{margin-left:auto}
+.db{padding:12px 22px;overflow:auto;max-height:calc(100vh - 220px)}
+.da{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding:12px 22px 20px}
+.da .sp{flex:1}
+.errsum{border:1px solid var(--danger);background:var(--dangerbg);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.errsum b{display:block;color:var(--danger);margin-bottom:4px}
+.errsum ul{margin:0;padding-left:18px}
+.pick{list-style:none;margin:0;padding:0}
+.pick h4{margin:12px 0 4px;font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.pick button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:8px 10px;cursor:pointer;min-height:44px}
+.pick button:hover{background:var(--hover)}
+.pick button .rn small{white-space:normal}
+.pick button.t{padding-left:30px}
+.pick .now{font-size:13px;color:var(--faint);white-space:nowrap}
+.pick .now.bad{color:var(--danger);font-weight:600}
+.intro .art{background:var(--sunk);border-radius:10px;padding:16px;margin:4px 0 12px}
+.intro .dots{display:flex;gap:6px}
+.intro .dots i{width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.intro .dots i.on{background:var(--ink)}
+.ex{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ex div{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+.ex div span{flex:1}
+.ex .lvl{flex:none}.ex .in1{margin-left:24px}.ex .in2{margin-left:48px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:40;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease;box-shadow:-16px 0 40px rgba(15,23,42,.12);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:35}
+.drawer .dbd{flex:1;overflow:auto;padding:4px 22px 20px}
+.mem{border:1px solid var(--line);border-radius:8px;margin-top:6px}
+.mem .cl{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--sunk);font-weight:600;font-size:14px;cursor:pointer;min-height:40px}
+.mem .cl small{margin-left:auto;font-weight:500;color:var(--faint)}
+.mem label.ty{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 32px;font-size:14px;cursor:pointer;min-height:36px;border-top:1px solid var(--line)}
+.mem input{width:18px;height:18px;accent-color:var(--primary);cursor:pointer}
+.mem .also{margin-left:auto;font-size:12px;color:var(--faint)}
+.used{list-style:none;padding:0;margin:6px 0 0;font-size:14px}
+.used li{padding:6px 0;border-bottom:1px solid var(--line)}
+.help h3{margin:18px 0 6px;font-size:16px}
+.help p,.help li{font-size:14px;color:var(--muted)}
+.help b{color:var(--ink)}
+.help ul,.help ol{padding-left:20px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);background:var(--primary);color:var(--on-primary);padding:10px 14px;border-radius:10px;display:flex;gap:14px;align-items:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;max-width:calc(100% - 24px);font-size:14px}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{border:0;background:none;color:inherit;font-weight:700;text-decoration:underline;cursor:pointer;min-height:32px}
+
+@media (max-width:1000px){.grid{grid-template-columns:minmax(0,1fr)}.panel{position:static}.pbody{max-height:none}}
+@media (max-width:900px){.lhead{display:none}.lrow,.pools .lrow{grid-template-columns:1fr 1fr 1fr;gap:6px 12px}.lrow .nm{grid-column:1/-1;order:-2}.lrow .rl{grid-column:1/-1;order:-1}.lrow .lbl{display:block;font-size:12px;color:var(--faint)}}
+@media (max-width:760px){
+  main{padding:16px}.top{padding:10px 16px}
+  .nav{order:3;width:100%}.nav button{flex:1}
+  .tools .inp{max-width:none;flex-basis:100%}
+}
+@media (max-width:520px){.lrow,.pools .lrow{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>ARM</b><span>Commission</span></div>
+  <nav class="nav" aria-label="Sections">
+    <button data-act="nav" data-v="policies">Policies</button>
+    <button data-act="nav" data-v="pools">Accrued revenue pools</button>
+  </nav>
+  <span class="sp"></span>
+  <button class="btn ghost" data-act="help" aria-haspopup="dialog"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5M12 17h.01"/></svg>Help</button>
+</header>
+<main id="app"></main>
+<dialog id="dlg" aria-labelledby="dlgT"></dialog>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drT" hidden></aside>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastT"></span><button id="toastU" hidden>Undo</button></div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug=s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+const TODAY='2026-10-06',LASTRUN='2026-09-30';
+const ICON={
+ ok:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5L20 7"/></svg>',
+ warn:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg>',
+ info:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>',
+ x:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ back:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 6-6 6 6 6"/></svg>',
+ plus:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>',
+ chev:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 6 6 6-6 6"/></svg>',
+ gear:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'};
+
+/* ===================== classes & types (from Classes & Types) ===================== */
+const DOMS={revenue:{one:'Revenue',many:'Revenue',c:'var(--rev)'},cost:{one:'Cost',many:'Costs',c:'var(--cost)'},expense:{one:'Expense',many:'Expenses',c:'var(--exp)'}};
+const ORDER=['revenue','cost','expense'];
+const ENT={},LIB={revenue:[],cost:[],expense:[]};
+function mk(d,name,types){const id=`c:${d}:${slug(name)}`;const c={id,d,name,types:[]};ENT[id]={id,d,level:'CLASS',name,cls:c,code:slug(name)};
+  c.types=types.map(tn=>{const tid=`t:${d}:${slug(name)}:${slug(tn)}`;const t={id:tid,name:tn,cls:c};ENT[tid]={id:tid,d,level:'TYPE',name:tn,cls:c,code:slug(tn)};return t});LIB[d].push(c)}
+mk('revenue','Brokerage Percentage',['Basic','Brokerage']);
+mk('revenue','Offshore Rebates Percentage',['ABSA Rebates','AllFunds Rebates','Calibre Rebates','GinsGlobal Fund Rebates','Investec Fund Rebates','Mutual Fund','Offshore Brokerage EO','Offshore Brokerage UK Managed','Polar Star Rebates','SAMI Emerging Markets Fund Rebates','Sustainable Fund Rebates','UK Discretionary Equity Model Rebates','UK SAMI Fund Rebates']);
+mk('revenue','Other Income Percentage',['AIMS GLC ABSA','ALLAN GRAY','CI COLLECTIVE','Comm Rec: Bond Trade','CORONATION','Fees Rec: Lending','Fees Receive: Guarantee','Fees: Product Development']);
+mk('cost','Brokerage Percentage',['Cost Basic']);
+mk('cost','Other Income Percentage',['Cost Spw Local Management Fee','Cost Spw Unit Trust Fee Offshore','Cost Spw Unit Trust Fee Local','Cost Spw Offshore Asset Swap Fee']);
+mk('cost','Lisp Admin Fee',['Cost Lisp Admin Fee Recouped']);
+mk('expense','Assistant',['Assistant Bonus','Assistant Tgp']);
+mk('expense','Travel',['Travel']);mk('expense','Communications',['Cellphone Costs']);mk('expense','Entertainment',['Entertainment']);
+mk('expense','Marketing',['Marketing']);mk('expense','It',['It Pc Information Sources']);mk('expense','Referral Fees',['Referral Fees']);
+const C=(d,c)=>`c:${d}:${slug(c)}`,T=(d,c,t)=>`t:${d}:${slug(c)}:${slug(t)}`;
+const ALLT=ORDER.flatMap(d=>LIB[d].flatMap(c=>c.types.map(t=>t.id)));
+const covers=eid=>{const e=ENT[eid];return e.level==='CLASS'?e.cls.types.map(t=>t.id):[e.id]};
+
+/* ===================== demo data ===================== */
+let seq=0;const rid=()=>'r'+(++seq);
+const P=v=>({type:'PERCENTAGE',value:v}),BP=v=>({type:'BASIS_POINTS',value:v}),FL=v=>({type:'FLAT',value:v});
+function R(eid,m,parent=null,status='IN_USE',used=true){return{id:rid(),parent,entityId:eid,method:m,tier:null,status,used,lastRun:used?LASTRUN:null,updated:'2026-09-21',updatedBy:'b.kennedy'}}
+function seedTiered(){const a=[];const add=(...x)=>{const r=R(...x);a.push(r);return r};
+  const bp=add(C('revenue','Brokerage Percentage'),P(30));bp.tier={poolId:'pl1',bands:[{from:0,value:30},{from:100000,value:40},{from:250000,value:50}]};
+  add(T('revenue','Brokerage Percentage','Basic'),P(40),bp.id);add(T('revenue','Brokerage Percentage','Brokerage'),BP(35),bp.id);
+  const or=add(C('revenue','Offshore Rebates Percentage'),P(35));or.tier={poolId:'pl3',ind:true,team:true,bands:[{from:0,value:35},{from:17070000,value:37.5},{from:25745000,value:40},{from:34248000,value:42.5}]};
+  add(T('revenue','Offshore Rebates Percentage','Mutual Fund'),P(25),or.id);add(T('revenue','Offshore Rebates Percentage','AllFunds Rebates'),P(50),or.id);add(T('revenue','Offshore Rebates Percentage','ABSA Rebates'),P(20),or.id,'IN_USE',false);
+  const oi=add(C('revenue','Other Income Percentage'),P(30));
+  add(T('revenue','Other Income Percentage','ALLAN GRAY'),P(35),oi.id);add(T('revenue','Other Income Percentage','CORONATION'),P(35),oi.id);
+  add(T('revenue','Other Income Percentage','Comm Rec: Bond Trade'),BP(10),oi.id);add(T('revenue','Other Income Percentage','Fees Receive: Guarantee'),FL(250),oi.id);
+  add(T('revenue','Other Income Percentage','Fees: Product Development'),P(20),oi.id,'NOT_IN_USE');
+  const cb=add(C('cost','Brokerage Percentage'),P(30));add(T('cost','Brokerage Percentage','Cost Basic'),P(40),cb.id);
+  const co=add(C('cost','Other Income Percentage'),P(30));add(T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'),P(100),co.id);
+  add(C('cost','Lisp Admin Fee'),P(100),null,'IN_USE',false);
+  add(C('expense','Assistant'),P(50));add(C('expense','Referral Fees'),FL(250),null,'IN_USE',false);
+  return a}
+const POL=[['IMED (30%)','IMED 30','DISTRIBUTOR',30],['Third Party Contract (33.33%)','Third Party 33','DISTRIBUTOR',33.33],['Fixed 29% Contract','Fixed 29','ADVISOR',29],['Allfunds Distributor 25%','Allfunds 25','DISTRIBUTOR',0,'allfunds',25],
+ ['Third Party Contract (15%)','Third Party 15','DISTRIBUTOR',15],['Lisp Deduction Contract','Lisp Deduction','DISTRIBUTOR',null,'lisp'],['Third Party Contract (25%)','Third Party 25','DISTRIBUTOR',25],['IMED (50%)','IMED 50','DISTRIBUTOR',50],
+ ['Third Party Contract (50%)','Third Party 50','DISTRIBUTOR',50],['LISP Contract','LISP','DISTRIBUTOR',null,'lispc'],['Fixed 15% Contract','Fixed 15','ADVISOR',15],['Graviton','Graviton','DISTRIBUTOR',null],
+ ['IMED (25%)','IMED 25','DISTRIBUTOR',25],['IMED (33%)','IMED 33','DISTRIBUTOR',33],['Third Party Contract (36%)','Third Party 36','DISTRIBUTOR',36],['Allfunds Distributor 50%','Allfunds 50','DISTRIBUTOR',0,'allfunds',50],
+ ['Fixed 25% Contract','Fixed 25','ADVISOR',25],['Third Party Contract (40%)','Third Party 40','DISTRIBUTOR',40],['IMED (33.33%)','IMED 33.33','DISTRIBUTOR',33.33],['Allfunds Distributor 33%','Allfunds 33','DISTRIBUTOR',0,'allfunds',33],
+ ['SPW Mauritius Advisor Contract at 33%','Advisor 33','ADVISOR',33],['SPW Mauritius Advisor Contract at 0%','Advisor 0','ADVISOR',0,'adv0'],['Third Party Contract (20%)','Third Party 20','DISTRIBUTOR',20],['Tiered Rate Contract','Tiered Rate','ADVISOR',30,'tiered'],
+ ['Phase out Contract (25%)','Phase Out 25','ADVISOR',25],['Phase out Contract (34.5%)','Phase Out 34.5','ADVISOR',34.5],['Third Party Contract (32%)','Third Party 32','DISTRIBUTOR',32]];
+const DAYS=['2026-09-29','2026-09-24','2026-09-18','2026-09-11','2026-08-30','2026-08-21','2026-08-14'];
+let policies=POL.map(([name,code,type,def,seed,x],i)=>{let rules=[];
+  if(seed==='tiered')rules=seedTiered();
+  if(seed==='allfunds')rules=[R(T('revenue','Offshore Rebates Percentage','AllFunds Rebates'),P(x))];
+  if(seed==='lisp')rules=[R(C('cost','Lisp Admin Fee'),P(100))];
+  if(seed==='lispc')rules=[R(C('revenue','Offshore Rebates Percentage'),P(50)),R(C('cost','Lisp Admin Fee'),P(100))];
+  if(seed==='adv0')rules=[R(T('revenue','Offshore Rebates Percentage','Mutual Fund'),P(0))];
+  return{id:'p'+i,name,code,type,ncf:!name.startsWith('IMED'),status:'IN_USE',def:def==null?null:P(def),rules,updated:seed==='tiered'?'2026-10-02':DAYS[i%7],updatedBy:'b.kennedy'}});
+const revT=c=>LIB.revenue.find(x=>x.name===c).types.map(t=>t.id);
+let POOLS=[
+ {id:'pl1',code:'BROKERAGE',desc:'Brokerage revenue',status:'IN_USE',types:revT('Brokerage Percentage'),updated:'2026-09-12'},
+ {id:'pl2',code:'ON MONEY MARKET FUNDS',desc:'Money market fund revenue',status:'IN_USE',types:[T('revenue','Offshore Rebates Percentage','Mutual Fund')],updated:'2026-08-28'},
+ {id:'pl3',code:'OFFSHORE REBATES',desc:'Offshore fund rebates',status:'IN_USE',types:revT('Offshore Rebates Percentage'),updated:'2026-09-03'},
+ {id:'pl4',code:'OTHER INCOME',desc:'Asset manager income and fees received',status:'IN_USE',types:revT('Other Income Percentage'),updated:'2026-07-30'},
+ {id:'pl5',code:'TOTAL REVENUE',desc:'Every revenue type',status:'IN_USE',types:ALLT.filter(t=>ENT[t].d==='revenue'),updated:'2026-07-30'},
+ {id:'pl6',code:'LEGACY ASSET MANAGERS',desc:'Replaced by OTHER INCOME in 2025',status:'NOT_IN_USE',types:[T('revenue','Other Income Percentage','ALLAN GRAY'),T('revenue','Other Income Percentage','CORONATION')],updated:'2025-11-02'}];
+
+/* saved changes survive a reload in this browser */
+const STORE='arm.policies.v2';
+try{const o=JSON.parse(localStorage.getItem(STORE)||'null');
+  if(o&&o.v===2&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
+let noPersist=false;
+function persist(){if(noPersist)return;try{localStorage.setItem(STORE,JSON.stringify({v:2,seq,policies,pools:POOLS}))}catch(_){}}
+
+/* ===================== rule logic ===================== */
+const pol=()=>policies.find(p=>p.id===st.pid);
+const poolById=id=>POOLS.find(x=>x.id===id);
+const byId=(p,id)=>p.rules.find(r=>r.id===id);
+const kids=(p,id)=>p.rules.filter(r=>r.parent===id);
+function descendants(p,id){const o=[];const w=i=>kids(p,i).forEach(k=>{o.push(k.id);w(k.id)});w(id);return o}
+function ancestors(p,r){const o=[];let x=r&&r.parent&&byId(p,r.parent);while(x){o.unshift(x);x=x.parent&&byId(p,x.parent)}return o}
+const ent=r=>ENT[r.entityId];
+const num=v=>Number(String(v??'').replace(/\s/g,'').replace(',','.'));
+const fmtN=v=>(+v).toLocaleString('en-ZA',{maximumFractionDigits:4});
+const fmtR=v=>(v<0?'−':'')+'R '+Math.abs(+v).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});
+function mtxt(m){if(!m||m.value===''||m.value==null||isNaN(num(m.value)))return'—';const v=num(m.value);return m.type==='FLAT'?fmtR(v):m.type==='BASIS_POINTS'?`${fmtN(v)} bps`:`${fmtN(v)}%`}
+function rateText(r){if(r.tier&&r.tier.bands.length>1){const vs=r.tier.bands.filter(b=>String(b.value??'').trim()!=='').map(b=>num(b.value)).filter(v=>!isNaN(v));if(!vs.length)return'—';const lo=Math.min(...vs),hi=Math.max(...vs),t=r.method.type;return lo===hi?mtxt({type:t,value:lo}):`${mtxt({type:t,value:lo})} to ${mtxt({type:t,value:hi})}`}return mtxt(r.method)}
+function methodFor(r,bal){if(!r.tier)return{m:r.method};const b=num(bal)||0;let band=r.tier.bands[0],i=0;r.tier.bands.forEach((x,k)=>{if(num(x.from)<=b){band=x;i=k}});return{m:{type:r.method.type,value:band.value},band:i}}
+const applyM=(m,a)=>m.type==='FLAT'?num(m.value):m.type==='BASIS_POINTS'?a*num(m.value)/10000:a*num(m.value)/100;
+function resolve(p,typeId){const t=ENT[typeId],d=t.d;const steps=[],path=[];
+  const live=p.rules.filter(r=>r.status==='IN_USE'&&ENT[r.entityId].d===d),match=r=>covers(r.entityId).includes(typeId);
+  let cur=live.find(r=>!r.parent&&match(r));
+  if(!cur){if(p.def){steps.push(`No rule covers <b>${esc(t.name)}</b>, so the <b>policy default</b> applies.`);return{def:true,path:['default'],steps}}
+    steps.push(`No rule covers <b>${esc(t.name)}</b> and the policy has no default, so these events would <b>fail</b> in a commission run.`);return{error:true,path,steps}}
+  path.push(cur.id);steps.push(`<b>${esc(ent(cur).name)}</b> covers it (${esc(rateText(cur))}).`);
+  for(let g=0;g<20;g++){const nx=live.find(r=>r.parent===cur.id&&match(r));if(!nx)break;path.push(nx.id);steps.push(`The more specific rule <b>${esc(ent(nx).name)}</b> takes over (${esc(rateText(nx))}).`);cur=nx}
+  steps.push(`Nothing more specific matches, so <b>${esc(ent(cur).name)}</b> sets the rate.`);
+  return{rule:cur,path,steps}}
+const uncovered=p=>ALLT.filter(t=>resolve(p,t).error);
+function check(p,eid,parentId,movingId){const e=ENT[eid];parentId=parentId||null;
+  if(parentId){const pr=byId(p,parentId),pe=ent(pr);
+    if(movingId&&(parentId===movingId||descendants(p,movingId).includes(parentId)))return{err:'A rule can’t sit under itself or one of its own sub-rules.'};
+    if(pe.d!==e.d)return{err:`${DOMS[e.d].one} rules can only sit under other ${e.d} rules.`};
+    const cs=covers(eid),ps=covers(pr.entityId);
+    if(!cs.every(x=>ps.includes(x)))return{err:`${e.name} isn’t part of ${pe.name}, so it could never apply there.`};
+    if(cs.length===ps.length)return{err:`${pe.name} already covers exactly ${e.name}. Change its rate instead.`};}
+  const adopt=[];
+  for(const s of p.rules){if(s.id===movingId||(s.parent||null)!==parentId||ent(s).d!==e.d)continue;const se=ent(s);
+    if(!covers(s.entityId).some(x=>covers(eid).includes(x)))continue;
+    if(s.entityId===eid)return{err:`There’s already a rule for ${e.name} here.`};
+    if(e.level==='CLASS'&&se.level==='TYPE'&&se.cls.id===e.cls.id){adopt.push(s.id);continue}
+    return{err:`${se.name} already covers ${e.name} at this level.`}}
+  return{err:null,adopt}}
+function bestParent(p,eid){const e=ENT[eid];if(e.level!=='TYPE')return null;const cr=p.rules.find(r=>r.entityId===e.cls.id&&!check(p,eid,r.id).err);return cr?cr.id:null}
+const usedBy=poolId=>policies.flatMap(p=>p.rules.filter(r=>r.tier&&r.tier.poolId===poolId).map(r=>({p,r})));
+
+/* ===================== state ===================== */
+const st={view:'policies',pid:null,q:'',ftype:'ALL',showOff:false,pq:'',pshowOff:false,tab:'check',sel:null,draft:null,saved:null,
+  check:{d:'revenue',typeId:T('revenue','Brokerage Percentage','Basic'),amt:'10000',bal:'120000'},showGaps:false};
+const isDirty=()=>{const d=st.draft;if(!d)return false;if(d.isNew)return true;const r=byId(pol(),d.id);if(!r)return false;
+  return JSON.stringify([d.method.type,num(d.method.value),d.parent||null,d.tier&&[d.tier.poolId,d.tier.bands.map(b=>[num(b.from),num(b.value)]),d.tier.ind!==false,d.tier.team!==false],(d.desc||'').trim()])!==JSON.stringify([r.method.type,num(r.method.value),r.parent||null,r.tier&&[r.tier.poolId,r.tier.bands.map(b=>[num(b.from),num(b.value)]),r.tier.ind!==false,r.tier.team!==false],(r.desc||'').trim()])};
+
+/* ===================== small UI helpers ===================== */
+let toastT=null,undoFn=null;
+function toast(msg,undo){$('#toastT').textContent=msg;undoFn=undo||null;$('#toastU').hidden=!undo;$('#toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>$('#toast').classList.remove('show'),undo?6000:3500)}
+$('#toastU').onclick=()=>{if(undoFn)undoFn();$('#toast').classList.remove('show')};
+function snapshot(){const s=JSON.stringify({policies,POOLS});return()=>{const o=JSON.parse(s);policies=o.policies;POOLS=o.POOLS;st.draft=null;st.sel=null;persist();render()}}
+const dlg=$('#dlg');let dlgReturn=null;
+function openDialog(html,{wide=false,onOpen}={}){if(!dlg.open)dlgReturn=document.activeElement;dlg.className=wide?'wide':'';dlg.innerHTML=html;if(!dlg.open)dlg.showModal();onOpen&&onOpen();const f=dlg.querySelector('[autofocus],input,select,.btn.primary');f&&f.focus()}
+function closeDialog(){if(dlg.open)dlg.close()}
+dlg.addEventListener('close',()=>{dlg.innerHTML='';if(dlgReturn&&document.body.contains(dlgReturn))dlgReturn.focus()});
+function confirmBox(title,body,actions){openDialog(`<div class="dh"><div><h2 id="dlgT">${esc(title)}</h2><p>${body}</p></div></div><div class="da"><button class="btn" data-dx="cancel">Cancel</button>${actions.map((a,i)=>`<button class="btn${a.primary?' primary':''}${a.danger?' danger':''}" data-dx="a${i}">${esc(a.label)}</button>`).join('')}</div>`);
+  dlg.onclick=e=>{const b=e.target.closest('[data-dx]');if(!b)return;closeDialog();dlg.onclick=null;if(b.dataset.dx!=='cancel')actions[+b.dataset.dx.slice(1)].fn()}}
+function guard(next){if(!isDirty())return next();const d=st.draft;const nm=ENT[d.entityId].name;
+  confirmBox('Save your changes?',`${d.isNew?`The new rule for <b>${esc(nm)}</b> hasn’t been added yet.`:`Your changes to <b>${esc(nm)}</b> aren’t saved.`}`,[
+    {label:'Discard',fn:()=>{st.draft=null;st.sel=null;next()}},{label:d.isNew?'Add rule':'Save',primary:true,fn:()=>{if(saveRule())next()}}])}
+const methodSeg=(m,attr)=>`<div class="seg mseg" role="group" aria-label="How the rate is worked out">${[['PERCENTAGE','Percentage'],['BASIS_POINTS','Basis points'],['FLAT','Flat amount']].map(([v,l])=>`<button type="button" data-act="${attr}" data-v="${v}" aria-pressed="${m.type===v}">${l}</button>`).join('')}</div>`;
+const unitOf=t=>t==='NUM'?['','']:t==='FLAT'?['R','']:t==='BASIS_POINTS'?['','bps']:['','%'];
+const affix=(t,attrs,val,label,cls='')=>{const [a,b]=unitOf(t);return`<div class="affix${cls}">${a?`<i>${a}</i>`:''}<input inputmode="decimal" ${attrs} value="${esc(val)}" aria-label="${esc(label)}">${b?`<i>${b}</i>`:''}</div>`};
+const methodHint=t=>t==='FLAT'?'A fixed amount in rands for every event.':t==='BASIS_POINTS'?'Basis points of the amount. 100 bps = 1%.':'A percentage of the amount, from 0 to 100.';
+function validMethod(m){const s=String(m.value??'').trim();if(s==='')return'Enter a rate.';const v=num(s);if(isNaN(v))return'Enter a number, for example 37.5.';if(v<0)return'Enter 0 or more.';if(m.type==='PERCENTAGE'&&v>100)return'Enter a percentage from 0 to 100.';if(m.type==='BASIS_POINTS'&&v>10000)return'Enter up to 10,000 bps.';return null}
+const lvlTag=e=>`<span class="lvl ${e.level==='CLASS'?'c':'t'}">${e.level==='CLASS'?'Class':'Type'}</span>`;
+
+/* ===================== render: policies list ===================== */
+function render(){
+  $$('.nav button').forEach(b=>b.setAttribute('aria-current',(st.view===b.dataset.v||(st.view==='edit'&&b.dataset.v==='policies'))?'page':'false'));
+  document.title=st.view==='edit'?`${pol().name} · Commission policies`:st.view==='pools'?'Accrued revenue pools':'Commission policies';
+  const app=$('#app');app.innerHTML=st.view==='policies'?viewPolicies():st.view==='pools'?viewPools():viewEditor();
+  persist();
+}
+function ruleChips(p){if(!p.rules.length&&!p.def)return`<span class="chip todo">No rules yet · set up</span>`;
+  const ord=r=>ORDER.indexOf(ent(r).d);
+  const live=sortRules(p.rules.filter(r=>r.status==='IN_USE'&&!r.parent)).sort((a,b)=>ord(a)-ord(b));
+  const sign=r=>ent(r).d==='revenue'?'':'−';
+  let h=live.slice(0,2).map(r=>`<span class="chip d-${ent(r).d}"><i></i><span>${esc(ent(r).name)}</span> <b>${sign(r)}${esc(rateText(r))}</b></span>`).join('');
+  if(live.length>2)h+=`<span class="chip dim">+${live.length-2} more ${live.length-2===1?'rule':'rules'}</span>`;
+  if(p.def)h+=`<span class="chip dim">Everything else <b>${esc(mtxt(p.def))}</b></span>`;
+  return h||`<span class="chip dim">No active rules</span>`}
+function viewPolicies(){const q=st.q.trim().toLowerCase();
+  const rows=policies.filter(p=>(st.showOff||p.status==='IN_USE')&&(st.ftype==='ALL'||p.type===st.ftype)&&(!q||p.name.toLowerCase().includes(q)||p.code.toLowerCase().includes(q)))
+    .map(p=>({p,g:uncovered(p).length,blank:!p.rules.length&&!p.def})).sort((a,b)=>(b.g>0)-(a.g>0)||a.p.name.localeCompare(b.p.name,'en',{numeric:true}));
+  const bad=rows.filter(x=>x.g).length;
+  return`<div class="phead"><div><h1>Commission policies</h1><p>A policy is a list of <b>rules</b>. Each rule gives a revenue, cost or expense a rate, either one rate or a <b>tiered</b> rate that grows with revenue. An optional <b>default rate</b> covers anything the rules don’t.</p></div><span class="sp"></span><button class="btn primary" data-act="new-policy">${ICON.plus}New policy</button></div>
+  <div class="tools"><label class="sr" for="q">Search policies</label><input class="inp" id="q" type="search" placeholder="Search by name or code" value="${esc(st.q)}" data-in="q">
+  <div class="seg" role="group" aria-label="Policy type">${[['ALL','All'],['ADVISOR','Advisor'],['DISTRIBUTOR','Distributor']].map(([v,l])=>`<button data-act="ftype" data-v="${v}" aria-pressed="${st.ftype===v}">${l}</button>`).join('')}</div>
+  <label class="chk"><input type="checkbox" data-in="showOff" ${st.showOff?'checked':''}>Show policies not in use</label></div>
+  ${bad?`<div class="banner bad">${ICON.warn.replace('class="i"','class="i bi"')}<div class="bb"><b>${bad} ${bad===1?'policy needs':'policies need'} attention.</b> Some have no rules yet, and others leave revenue, costs or expenses without a rate, so commission runs would fail for them. They’re listed first.</div></div>`:''}
+  <ul class="list" aria-label="Policies"><li class="lhead" aria-hidden="true"><span>Policy</span><span>Type</span><span>Rules</span><span>Coverage</span><span>Status</span></li>
+  ${rows.length?rows.map(({p,g,blank})=>`<li><button class="lrow" data-act="open" data-v="${p.id}">
+   <span class="nm"><b>${esc(p.name)}</b><small>${esc(p.code)} · ${p.rules.length?`${p.rules.length} ${p.rules.length===1?'rule':'rules'}`:'No rules'}</small></span>
+   <span><span class="lbl">Type</span>${p.type==='ADVISOR'?'Advisor':'Distributor'}</span>
+   <span class="rl"><span class="lbl">Rules</span><span class="chips">${ruleChips(p)}</span></span>
+   <span><span class="lbl">Coverage</span>${blank?`<span class="state warn">${ICON.warn}Not set up yet</span>`:g?`<span class="state bad">${ICON.warn}${g} not covered</span>`:`<span class="state ok">${ICON.ok}Everything covered</span>`}</span>
+   <span><span class="lbl">Status</span><span class="state ${p.status==='IN_USE'?'':'off'}"><span class="dot ${p.status==='IN_USE'?'':'off'}"></span>${p.status==='IN_USE'?'In use':'Not in use'}</span></span></button></li>`).join(''):`<li class="empty"><b>No policies match</b>Try a different search or filter.</li>`}</ul>
+  <p class="foot">${rows.length} of ${policies.length} policies</p>`}
+
+/* ===================== render: policy editor ===================== */
+function viewEditor(){const p=pol();const g=uncovered(p);const live=p.rules.filter(r=>r.status==='IN_USE');
+  const blank=!p.rules.length&&!p.def&&!st.draft;
+  let res=null;if(st.tab==='check'&&!blank)res=resolve(p,st.check.typeId);
+  const path=res?res.path:[];const applied=res&&res.rule?res.rule.id:res&&res.def?'default':null;
+  const head=`<button class="back" data-act="back">${ICON.back}All policies</button>
+  <div class="ehead"><div><h1>${esc(p.name)}</h1><div class="meta"><span>${esc(p.code)}</span><span class="pill">${p.type==='ADVISOR'?'Advisor policy':'Distributor policy'}</span><span class="state ${p.status==='IN_USE'?'':'off'}"><span class="dot ${p.status==='IN_USE'?'':'off'}"></span>${p.status==='IN_USE'?'In use':'Not in use'}</span></div></div><span class="sp"></span>
+  <button class="btn" data-act="settings">${ICON.gear}Policy settings</button><button class="btn primary" data-act="add-rule">${ICON.plus}Add rule</button></div>`;
+  if(blank)return head+`<div class="grid solo"><section class="card setup" aria-labelledby="setupH">
+    <h2 id="setupH">Start with the first rule</h2>
+    <p>This policy has no rules yet. It’s built from rules: each one picks something to pay on, or deduct, and gives it a rate.</p>
+    <ol class="how"><li><span class="n">1</span><span><b>Choose what it covers.</b> A whole class, like Brokerage Percentage, or a single type.</span></li>
+    <li><span class="n">2</span><span><b>Set the rate.</b> One rate, or a tiered rate that grows with the advisor’s revenue.</span></li></ol>
+    <div class="ex" role="img" aria-label="Example: a class rule at 30% with a type rule at 40% beneath it"><div class="d-revenue"><span class="lvl c">Class</span><span>Brokerage Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="lvl t">Type</span><span>Basic</span><b>40%</b></div></div>
+    <button class="btn primary" data-act="add-rule">${ICON.plus}Add the first rule</button>
+    <p class="alt">Paying the same rate on everything? <button class="link" data-act="settings" data-focus="def">Use a default rate instead</button></p>
+   </section></div>`;
+  let banner='';
+  if(!p.rules.length&&!p.def)banner='';
+  else if(g.length)banner=`<div class="banner bad">${ICON.warn.replace('class="i"','class="i bi"')}<div class="bb"><b>${g.length} of ${ALLT.length} types have no rate yet.</b> Their events would fail in a commission run. Add a rule for them, or set a default rate to cover everything else.
+    <div class="acts"><button class="btn sm primary" data-act="add-rule">Add a rule</button><button class="btn sm" data-act="settings" data-focus="def">Set a default rate</button><button class="btn sm" data-act="gaps" aria-expanded="${st.showGaps}">${st.showGaps?'Hide':'Show'} which</button></div>
+    ${st.showGaps?`<div class="gaplist">${g.slice(0,40).map(t=>`<button data-act="add-entity" data-v="${t}" title="Add a rule for ${esc(ENT[t].name)}">+ ${esc(ENT[t].name)}</button>`).join('')}</div>`:''}</div></div>`;
+  else if(!p.rules.length)banner=`<div class="banner info">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb"><b>This policy pays ${mtxt(p.def)} on everything.</b> That’s all most contracts need. Add a rule only where a class or type earns a different rate.</div></div>`;
+  else banner=`<div class="banner ok">${ICON.ok.replace('class="i"','class="i bi"')}<div class="bb"><b>Everything is covered.</b> ${live.length} active ${live.length===1?'rule':'rules'}${p.def?`, and everything else uses the ${mtxt(p.def)} default.`:'.'}</div></div>`;
+  const row=(r,lvl)=>{const e=ent(r);const ks=sortRules(p.rules.filter(k=>k.parent===r.id));
+    const sel=st.tab==='rule'&&st.draft&&st.draft.id===r.id;
+    const cls=['rrow','d-'+e.d,sel?'sel':'',r.status!=='IN_USE'?'off':'',applied===r.id?'applied':path.includes(r.id)?'path':''].join(' ');
+    return`<li><button class="${cls}" data-act="rule" data-v="${r.id}" aria-current="${sel?'true':'false'}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b><small>${e.level==='TYPE'?`In ${esc(e.cls.name)}`:`${e.cls.types.length} ${e.cls.types.length===1?'type':'types'}`}</small></span>
+      ${applied===r.id?'<span class="tag ap">Applies</span>':''}${r.tier?'<span class="tag tier">Tiered</span>':''}${r.status!=='IN_USE'?'<span class="tag off">Not in use</span>':''}
+      <span class="rate">${e.d==='revenue'?'':'<span class="sr">deducted </span>−'}${esc(sel?rateText(st.draft):rateText(r))}</span></button>
+      ${ks.length||(dr&&dr.parent===r.id)?`<ul class="kids" role="list">${ks.map(k=>row(k,lvl+1)).join('')}${dr&&dr.parent===r.id?dr.html:''}</ul>`:''}</li>`};
+  const draftRow=()=>{const d=st.draft;if(!(d&&d.isNew&&st.tab==='rule'))return'';const e=ENT[d.entityId];return{d:e.d,parent:d.parent,html:`<li><div class="rrow draft sel d-${e.d}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b><small>New rule, not added yet</small></span><span class="tag new">New</span><span class="rate">${esc(rateText(d))}</span></div></li>`}};
+  const dr=draftRow();
+  const sec=d=>{const roots=sortRules(p.rules.filter(r=>!r.parent&&ent(r).d===d));
+    let items=roots.map(r=>row(r,0)).join('');
+    if(dr&&dr.d===d&&!dr.parent)items+=dr.html;
+    return`<section class="dsec" aria-label="${DOMS[d].one} rules"><h3><i style="background:${DOMS[d].c}"></i>${DOMS[d].many}${d==='revenue'?'':' <small>· deducted from commission</small>'}</h3>${items?`<ul role="list" style="list-style:none;margin:0;padding:0">${items}</ul>`:`<p class="none">No ${DOMS[d].one.toLowerCase()} rules${p.def?' · uses the default':''}</p>`}</section>`};
+  const defRow=`<section class="dsec" aria-label="Default rate"><h3><i style="background:var(--primary)"></i>Default rate <small>· optional</small></h3><button class="defrow${applied==='default'?' applied':''}" data-act="settings" data-focus="def"><span class="lvl">Default</span><span class="rn"><b>Everything else</b><small>${p.def?'Used for anything no rule covers':'Not set. Anything no rule covers will fail'}</small></span>${applied==='default'?'<span class="tag ap">Applies</span>':''}<span class="rate${p.def?'':g.length?' unset':' faint'}">${p.def?mtxt(p.def):'Not set'}</span></button></section>`;
+  return head+`${banner}
+  <div class="grid">
+   <section class="card" aria-labelledby="rulesH"><header><h2 id="rulesH">Rules in this policy</h2><span class="sp"></span><span style="font-size:13px;color:var(--faint)">A more specific rule wins</span></header>
+    <div class="rules">${ORDER.map(sec).join('')}${defRow}</div></section>
+   <section class="card panel" aria-label="Details">${viewPanel(p,res)}</section>
+  </div>`}
+const sortRules=a=>[...a].sort((x,y)=>(ent(y).level==='CLASS')-(ent(x).level==='CLASS')||ent(x).name.localeCompare(ent(y).name));
+
+function viewPanel(p,res){
+  const tabs=`<div class="ptabs" role="tablist"><button role="tab" data-act="tab" data-v="check" aria-selected="${st.tab==='check'}">Check a rate</button><button role="tab" data-act="tab" data-v="rule" aria-selected="${st.tab==='rule'}">${st.draft&&st.draft.isNew?'New rule':'Edit rule'}</button></div>`;
+  if(st.tab==='check')return tabs+viewCheck(p,res);
+  const d=st.draft;
+  if(!d)return tabs+`<div class="pbody"><div class="empty" style="padding:24px 8px"><b>Pick a rule to edit</b>Click any rule on the left, or add a new one.<div class="acts"><button class="btn primary" data-act="add-rule">${ICON.plus}Add rule</button></div></div></div>`;
+  const e=ENT[d.entityId];const r=d.isNew?null:byId(p,d.id);const parent=d.parent&&byId(p,d.parent);
+  const scope=e.level==='CLASS'?`all ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'} in ${esc(e.cls.name)}`:`${esc(e.name)}`;
+  const dirty=isDirty();const isRev=e.d==='revenue';
+  let h=`<div class="pbody">${d.isNew?`<p class="stepno">Step 2 of 2 · Set the rate</p>`:''}<h2 class="ptitle">${esc(e.name)}</h2><p class="psub">${DOMS[e.d].one} ${e.level==='CLASS'?'class':'type'}${e.level==='TYPE'?` in ${esc(e.cls.name)}`:''}${r&&r.status!=='IN_USE'?' · <b>not in use</b>':''}</p>
+   <p class="say">${isRev?'Pays':'Deducts'} <b>${esc(rateText(d))}</b> on ${scope}${d.tier?', depending on the advisor’s revenue so far this period':''}${parent?`, instead of ${esc(ent(parent).name)}’s ${esc(rateText(parent))}`:''}${d.adopt&&d.adopt.length?`. ${d.adopt.map(i=>esc(ent(byId(p,i)).name)).join(' and ')} will move under it`:''}.</p>`;
+  if(r&&r.status!=='IN_USE')h+=`<div class="banner info" style="margin-bottom:14px">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb">This rule is <b>not in use</b>, so it’s skipped along with everything under it. <div class="acts"><button class="btn sm" data-act="reactivate">Bring back into use</button></div></div></div>`;
+  if(isRev)h+=`<div class="flabel" id="modeL">How is the rate set?</div><div class="seg" role="group" aria-labelledby="modeL" style="display:flex;margin-bottom:14px">${[['one','One rate'],['tier','Tiered rate']].map(([v,l])=>`<button type="button" style="flex:1" data-act="rmode" data-v="${v}" aria-pressed="${(v==='tier')===!!d.tier}">${l}</button>`).join('')}</div>`;
+  if(!d.tier)h+=`<div class="flabel" id="rateL">Rate</div>${methodSeg(d.method,'mtype')}<label class="fld${d.errs.val?' err':''}"><span class="sr">Rate value</span>${affix(d.method.type,'data-in="val" id="val"',d.method.value,'Rate')}<small>${methodHint(d.method.type)}</small><div class="e" id="valE">${esc(d.errs.val||'')}</div></label>`;
+  else h+=viewTier(d);
+  const elig=p.rules.filter(x=>x.id!==d.id&&ent(x).d===e.d&&!(d.id&&descendants(p,d.id).includes(x.id))&&!check(p,d.entityId,x.id,d.isNew?null:d.id).err);
+  const rootOk=!check(p,d.entityId,null,d.isNew?null:d.id).err||!d.parent;
+  const open=d.moreOpen||!!d.errs.parent;
+  h+=`<details class="more" ${open?'open':''} data-act-toggle="more"><summary>${ICON.chev}More options</summary>
+   <label class="fld${d.errs.parent?' err':''}"><span>Sits under</span><select data-in="parent">${rootOk?`<option value="">Nothing (top level)</option>`:''}${elig.map(x=>`<option value="${x.id}" ${x.id===d.parent?'selected':''}>${ancestors(p,x).map(a=>esc(ent(a).name)+' › ').join('')}${esc(ent(x).name)} (${esc(rateText(x))})</option>`).join('')}</select><small>A rule only applies to events that reach the rule above it. Only valid places are listed.</small><div class="e">${esc(d.errs.parent||'')}</div></label>`;
+  h+=descField(d);
+  if(r)h+=`<p class="hint">Last changed ${r.updated} by ${esc(r.updatedBy)}${r.used?` · used in a commission run on ${r.lastRun}`:' · not used in a commission run yet'}.</p>`;
+  h+=`</details>${devBlock(d,p,r)}</div>`;
+  const status=st.saved===d.id&&!dirty?`<span class="status-line saved">${ICON.ok}Saved</span>`:dirty&&!d.isNew?`<span class="status-line dirty">Unsaved changes</span>`:'';
+  h+=`<div class="pfoot">${!d.isNew&&r.status==='IN_USE'?`<button class="btn ghost danger" data-act="remove">Remove…</button>`:''}<span class="sp"></span>${status}<button class="btn" data-act="cancel-rule">${d.isNew?'Cancel':dirty?'Discard':'Close'}</button><button class="btn primary" data-act="save-rule">${d.isNew?'Add rule':'Save'}</button></div>`;
+  return tabs+h}
+
+/* tiers: shown as From / Up to / Rate, the same shape as the CommissionTiers seeding value (lower:upper:rate) */
+const bandN=v=>bandR(v).replace(/^R /,'');
+const bandR=v=>{const n=num(v);return String(v??'').trim()===''||isNaN(n)?'—':'R '+n.toLocaleString('en-ZA',{maximumFractionDigits:2})};
+function tierString(bs){const m=v=>isNaN(v)?'':v.toFixed(2),rt=v=>isNaN(v)?'':Number.isInteger(v)?v.toFixed(1):String(v);
+  return bs.map((b,i)=>`${i?m(num(b.from)):'0.00'}:${i<bs.length-1?m(num(bs[i+1].from)):''}:${rt(num(b.value))}`).join('; ')}
+function bandName(r,i){const bs=r.tier.bands,lo=i?num(bs[i].from):0,hi=i<bs.length-1?num(bs[i+1].from):null;
+  return hi==null?`tier ${i+1}, above ${bandR(lo)}`:i===0?`tier 1, up to ${bandR(hi)}`:`tier ${i+1}, ${bandR(lo)} to ${bandR(hi)}`}
+function poolSummary(id){const x=poolById(id);if(!x)return'Pick the pool whose total revenue decides the tier.';
+  if(x.types.length===ALLT.filter(t=>ENT[t].d==='revenue').length)return'Counts every revenue type.';
+  const names=x.types.map(t=>ENT[t].name);return`Counts ${names.slice(0,3).map(esc).join(', ')}${names.length>3?` and ${names.length-3} more`:''}.`}
+const tierIds=d=>({pid:pol().id,rid:d.isNew?'(new)':d.id});
+function tierRows(t,x){const n=t.bands.length,m=v=>{const x=num(v);return String(v??'').trim()===''||isNaN(x)?'':String(x)};
+  return t.bands.map((b,i)=>`<tr><td>${esc(x.pid)}</td><td>${esc(x.rid)}</td><td>${i?m(b.from)||'—':'0'}</td><td>${i<n-1?m(t.bands[i+1].from)||'—':'NULL'}</td><td>${m(b.value)||'—'}</td><td>${t.ind!==false}</td><td>${t.team!==false}</td><td>IN_USE</td></tr>`).join('')}
+const descField=d=>`<label class="fld"><span>Description <span style="font-weight:500;color:var(--faint)">· optional</span></span><input type="text" data-in="desc" value="${esc(d.desc||'')}" maxlength="200" autocomplete="off"><small>A note for the team. It isn’t used in calculations.</small></label>`;
+function ruleColsRows(d,p,r){const e=ENT[d.entityId];const first=d.tier&&d.tier.bands[0]?d.tier.bands[0].value:d.method.value;
+  return[['policy_id',p.id],['entity_type',`${e.d.toUpperCase()}_${e.level}`],['entity_id',e.id],['parent_rule_id',d.parent||null],['commission_methodology',d.method.type],['base_commission_rate',first],['is_accrued_revenue',!!d.tier],['revenue_accrual_pool_id',d.tier?d.tier.poolId:null],['is_subject_to_advisor_performance',false],['description',(d.desc||'').trim()||null],['record_status',r?r.status:'IN_USE']]
+   .map(([k,x])=>`<tr><th scope="row">${k}</th><td>${esc(x===''||x==null?'NULL':String(x))}</td></tr>`).join('')}
+function devBlock(d,p,r){return`<details class="more dev" ${d.devOpen?'open':''} data-act-toggle="dev"><summary>${ICON.chev}For developers: how this is saved</summary>
+  <p class="hint" style="margin-top:0">The rule is one row in <code>commission_rule</code>. The system fills in <code>id</code> and the audit columns.</p>
+  <div class="dbwrap" tabindex="0" role="region" aria-label="commission_rule columns"><table class="dbtab"><caption class="sr">commission_rule columns</caption><tbody id="ruleCols">${ruleColsRows(d,p,r)}</tbody></table></div>
+  ${d.tier?`<p class="hint">Its tiers are one row each in the tier table. The last tier’s <code>upper_bound</code> is NULL. <code>commission_rate</code> is read with the rule’s <code>commission_methodology</code>.</p>
+  <div class="dbwrap" tabindex="0" role="region" aria-label="Tier table rows"><table class="dbtab"><caption class="sr">Tier table rows</caption><thead><tr><th scope="col">policy_id</th><th scope="col">rule_id</th><th scope="col">lower_bound</th><th scope="col">upper_bound</th><th scope="col">commission_rate</th><th scope="col">is_applied_to_individual_advisors</th><th scope="col">is_applied_to_advisor_teams</th><th scope="col">record_status</th></tr></thead><tbody id="tierRows">${tierRows(d.tier,tierIds(d))}</tbody></table></div>
+  <p class="hint">The same tiers as the <code>CommissionTiers</code> seeding value, <code>lower:upper:rate</code> separated by semicolons. An empty upper means no limit.</p>
+  <div class="codebox"><code id="tierStr">${esc(tierString(d.tier.bands))}</code><button type="button" class="btn sm" data-act="copy-tiers">Copy</button></div>`:''}</details>`}
+function viewTier(d){const t=d.method.type,bs=d.tier.bands,n=bs.length,ba=d.errs.bandAt;
+  const bad=(row,f)=>ba&&ba.row===row&&ba.f===f?' bad':'';
+  const rows=bs.map((b,i)=>`<tr><td class="ro" data-from="${i}">${i?esc(bandN(b.from)):'0'}</td>
+    <td>${i<n-1?affix('NUM',`data-band="${i+1}" data-bf="from"`,bs[i+1].from,`Tier ${i+1} up to`,bad(i+1,'from')):'<span class="open">and above</span>'}</td>
+    <td>${affix(t,`data-band="${i}" data-bf="value"`,b.value,`Tier ${i+1} rate`,bad(i,'value'))}</td>
+    <td>${n>2&&i>0?`<button class="xbtn" data-act="rm-band" data-v="${i}" aria-label="Remove tier ${i+1}">${ICON.x}</button>`:''}</td></tr>`).join('');
+  return`<label class="fld${d.errs.pool?' err':''}"><span>Add up revenue from</span><select data-in="pool"><option value="">Choose a pool…</option>${POOLS.filter(x=>x.status==='IN_USE'||x.id===d.tier.poolId).map(x=>`<option value="${x.id}" ${x.id===d.tier.poolId?'selected':''}>${esc(x.code)} (${x.types.length} ${x.types.length===1?'type':'types'})</option>`).join('')}<option value="__new">+ Create a new pool…</option></select><small>${poolSummary(d.tier.poolId)}${d.tier.poolId?' <button type="button" class="link" data-act="edit-pool">View pool</button>':''}</small><div class="e">${esc(d.errs.pool||'')}</div></label>
+  <div class="flabel" id="rtL">Rates are</div>${methodSeg(d.method,'mtype')}
+  <table class="bands"><caption class="sr">Tiers: from, up to and rate</caption><colgroup><col style="width:26%"><col style="width:32%"><col style="width:28%"><col style="width:40px"></colgroup><thead><tr><th scope="col">From (R)</th><th scope="col">Up to (R)</th><th scope="col">Rate</th><th><span class="sr">Remove</span></th></tr></thead><tbody>${rows}</tbody></table>
+  ${d.errs.bands?`<p class="berr" role="alert">${esc(d.errs.bands)}</p>`:''}<button class="btn sm" data-act="add-band">${ICON.plus}Add tier</button>
+  <p class="hint">The tier the advisor’s total falls in sets the rate. The last tier has no upper limit.</p>
+  <fieldset class="fld${d.errs.who?' err':''}"><legend>Applies to</legend><div class="who"><label class="chk"><input type="checkbox" data-in="t-ind" ${d.tier.ind!==false?'checked':''}>Individual advisors</label><label class="chk"><input type="checkbox" data-in="t-team" ${d.tier.team!==false?'checked':''}>Advisor teams</label></div><div class="e">${esc(d.errs.who||'')}</div></fieldset>`}
+function viewCheck(p,res){const c=st.check;const t=ENT[c.typeId];const amt=num(c.amt)||0;
+  let out='';const m=res.rule?methodFor(res.rule,c.bal):res.def?{m:p.def}:null;
+  if(m){let v=applyM(m.m,amt);const ded=t.d!=='revenue';if(ded)v=-v;
+    out=`<div class="result" aria-live="polite"><div class="big">${esc(mtxt(m.m))}</div><div class="from">from ${res.rule?`<b>${esc(ent(res.rule).name)}</b>${res.rule.tier?`, ${esc(bandName(res.rule,m.band))}`:''}`:'the <b>policy default</b>'}</div><div class="calc"><span>${ded?'Deducted from commission':'Commission'} on ${fmtR(amt)}</span><b>${fmtR(v)}</b></div></div>`}
+  else out=`<div class="result bad" aria-live="polite"><div class="big" style="font-size:20px">No rate applies</div><div class="from">${esc(t.name)} events would fail in a commission run.</div><div class="acts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn sm primary" data-act="add-entity" data-v="${t.id}">Add a rule for it</button><button class="btn sm" data-act="settings" data-focus="def">Set a default rate</button></div></div>`;
+  return`<div class="pbody"><p class="psub" style="margin-bottom:14px">Pick something an advisor earns or pays to see the rate this policy gives it. Nothing is changed.</p>
+   <div class="seg" role="group" aria-label="Kind" style="display:flex;margin-bottom:12px">${ORDER.map(d=>`<button style="flex:1" data-act="check-d" data-v="${d}" aria-pressed="${c.d===d}">${DOMS[d].many}</button>`).join('')}</div>
+   <label class="fld"><span>${DOMS[c.d].one} type</span><select data-in="check-type">${LIB[c.d].map(cl=>`<optgroup label="${esc(cl.name)}">${cl.types.map(x=>`<option value="${x.id}" ${x.id===c.typeId?'selected':''}>${esc(x.name)}</option>`).join('')}</optgroup>`).join('')}</select></label>
+   <label class="fld"><span>Amount</span>${affix('FLAT','data-in="check-amt"',c.amt,'Amount')}</label>
+   ${res.rule&&res.rule.tier?`<label class="fld"><span>Advisor’s revenue so far in ${esc(poolById(res.rule.tier.poolId)?.code||'the pool')}</span>${affix('FLAT','data-in="check-bal"',c.bal,'Revenue so far in the pool')}<small>This is a tiered rule: that total picks the tier.</small></label>`:''}
+   ${out}<details class="more" open><summary>${ICON.chev}How it was worked out</summary><ol class="steps">${res.steps.map(s=>`<li>${s}</li>`).join('')}</ol></details></div>`}
+
+/* ===================== render: pools ===================== */
+function viewPools(){const q=st.pq.trim().toLowerCase();
+  const rows=POOLS.filter(x=>(st.pshowOff||x.status==='IN_USE')&&(!q||x.code.toLowerCase().includes(q)||x.desc.toLowerCase().includes(q)));
+  return`<div class="phead"><div><h1>Accrued revenue pools</h1><p>A pool adds up an advisor’s revenue across several revenue types. <b>Tiered rules</b> use that total to pick their rate. Pools are shared by every policy.</p></div><span class="sp"></span><button class="btn primary" data-act="new-pool">${ICON.plus}New pool</button></div>
+  <div class="tools"><label class="sr" for="pq">Search pools</label><input class="inp" id="pq" type="search" placeholder="Search pools" value="${esc(st.pq)}" data-in="pq"><label class="chk"><input type="checkbox" data-in="pshowOff" ${st.pshowOff?'checked':''}>Show pools not in use</label></div>
+  <ul class="list pools" aria-label="Pools"><li class="lhead" aria-hidden="true"><span>Pool</span><span>Revenue types</span><span>Used by</span><span>Status</span></li>
+  ${rows.length?rows.map(x=>{const u=usedBy(x.id);const cls=[...new Set(x.types.map(t=>ENT[t].cls.name))];return`<li><button class="lrow" data-act="pool" data-v="${x.id}"><span class="nm"><b>${esc(x.code)}</b><small>${esc(x.desc)}</small></span>
+   <span><span class="lbl">Revenue types</span>${x.types.length} ${x.types.length===1?'type':'types'}<br><small style="color:var(--faint)">${esc(cls.join(', '))}</small></span>
+   <span><span class="lbl">Used by</span>${u.length?`${u.length} tiered ${u.length===1?'rule':'rules'}`:'<span style="color:var(--faint)">Not used</span>'}</span>
+   <span><span class="lbl">Status</span><span class="state ${x.status==='IN_USE'?'':'off'}"><span class="dot ${x.status==='IN_USE'?'':'off'}"></span>${x.status==='IN_USE'?'In use':'Not in use'}</span></span></button></li>`}).join(''):`<li class="empty"><b>No pools match</b>Try a different search.</li>`}</ul>`}
+
+/* ===================== pool drawer ===================== */
+const drawer=$('#drawer'),scrim=$('#scrim');let pd=null,drReturn=null;
+function openPool(id,fromRule){drReturn=document.activeElement;const x=id&&poolById(id);pd={id:x?x.id:null,code:x?x.code:'',desc:x?x.desc:'',types:new Set(x?x.types:[]),errs:{},fromRule:!!fromRule,orig:x?JSON.stringify([x.code,x.desc,[...x.types].sort()]):null};
+  drawerRender();drawer.hidden=false;scrim.hidden=false;requestAnimationFrame(()=>drawer.classList.add('open'));setTimeout(()=>$('#drawer [data-pin=code]').focus(),60)}
+const poolDirty=()=>pd&&(pd.id?JSON.stringify([pd.code,pd.desc,[...pd.types].sort()])!==pd.orig:!!(pd.code||pd.desc||pd.types.size));
+function closePool(force){if(!force&&poolDirty()){confirmBox('Discard changes to this pool?','Your changes aren’t saved.',[{label:'Discard',danger:true,fn:()=>closePool(true)}]);return}
+  drawer.classList.remove('open');scrim.hidden=true;setTimeout(()=>{drawer.hidden=true;drawer.innerHTML=''},200);pd=null;drReturn&&document.body.contains(drReturn)&&drReturn.focus()}
+function drawerRender(){const x=pd.id&&poolById(pd.id);const u=pd.id?usedBy(pd.id):[];const inOther=t=>POOLS.filter(o=>o.id!==pd.id&&o.status==='IN_USE'&&o.types.includes(t)).length;
+  const errs=Object.values(pd.errs).filter(Boolean);
+  drawer.innerHTML=`<div class="dh"><div><h2 id="drT">${pd.id?esc(x.code):'New pool'}</h2><p>${pd.id?`${x.status==='IN_USE'?'In use':'Not in use'} · ${u.length?`${u.length} tiered ${u.length===1?'rule':'rules'}`:'not used by any rule'}`:'Choose the revenue types to add together.'}</p></div><button class="btn ghost x" data-pact="close" aria-label="Close">${ICON.x}</button></div>
+  <div class="dbd">${errs.length?`<div class="errsum" role="alert" tabindex="-1" id="perr"><b>Fix ${errs.length===1?'this':'these'} to save</b><ul>${errs.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`:''}
+   <label class="fld${pd.errs.code?' err':''}"><span>Code</span><input data-pin="code" value="${esc(pd.code)}" spellcheck="false" autocomplete="off"><small>Capital letters, for example OFFSHORE REBATES. Shown on tiered rules.</small><div class="e">${esc(pd.errs.code||'')}</div></label>
+   <label class="fld"><span>Description</span><input data-pin="desc" value="${esc(pd.desc)}" autocomplete="off"></label>
+   <div class="flabel">Revenue types <span style="font-weight:500;color:var(--faint)">· ${pd.types.size} selected</span></div>${pd.errs.types?`<p class="berr">${esc(pd.errs.types)}</p>`:''}
+   ${LIB.revenue.map(c=>{const n=c.types.filter(t=>pd.types.has(t.id)).length;return`<div class="mem"><label class="cl"><input type="checkbox" data-pcls="${c.id}" ${n===c.types.length?'checked':''} aria-label="All types in ${esc(c.name)}">${esc(c.name)}<small>${n} of ${c.types.length}</small></label>${c.types.map(t=>{const o=inOther(t.id);return`<label class="ty"><input type="checkbox" data-ptype="${t.id}" ${pd.types.has(t.id)?'checked':''}>${esc(t.name)}${o?`<span class="also">also in ${o} other</span>`:''}</label>`}).join('')}</div>`}).join('')}
+   <details class="more dev"><summary>${ICON.chev}For developers: how this is saved</summary><p class="hint" style="margin-top:0">One row in the pool mapping table (<code>accrued_revenue_pool_id</code>, <code>revenue_type_id</code>) per revenue type. This pool would save ${pd.types.size} ${pd.types.size===1?'row':'rows'}. Ticking a whole class adds a row for each of its types.</p></details>
+   ${u.length?`<div class="flabel" style="margin-top:18px">Used by</div><p class="hint" style="margin-top:0">Changing the types changes these advisors’ balances from the next commission run.</p><ul class="used">${u.map(({p,r})=>`<li><button class="link" data-pact="gorule" data-v="${p.id}|${r.id}">${esc(p.name)}: ${esc(ent(r).name)}</button></li>`).join('')}</ul>`:''}
+   ${pd.id?`<div class="flabel" style="margin-top:18px">Status</div>${x.status==='IN_USE'?`<button class="btn sm" data-pact="off">Stop using this pool</button>`:`<button class="btn sm" data-pact="on">Bring back into use</button>`}`:''}
+  </div><div class="da" style="border-top:1px solid var(--line);padding-top:14px"><button class="btn" data-pact="close">Cancel</button><button class="btn primary" data-pact="save">${pd.id?'Save':'Create pool'}</button></div>`}
+drawer.addEventListener('input',e=>{if(!pd)return;const k=e.target.dataset.pin;if(!k)return;let v=e.target.value;if(k==='code'){const s=e.target.selectionStart;v=v.toUpperCase();e.target.value=v;e.target.setSelectionRange(s,s)}pd[k]=v;if(pd.errs[k]){delete pd.errs[k];e.target.closest('.fld').classList.remove('err')}});
+drawer.addEventListener('change',e=>{if(!pd)return;const t=e.target.dataset.ptype,c=e.target.dataset.pcls;if(!t&&!c)return;
+  if(t)e.target.checked?pd.types.add(t):pd.types.delete(t);
+  if(c){const ts=ENT[c].cls.types.map(x=>x.id);const all=ts.every(x=>pd.types.has(x));ts.forEach(x=>all?pd.types.delete(x):pd.types.add(x))}
+  delete pd.errs.types;const sc=$('#drawer .dbd').scrollTop;drawerRender();$('#drawer .dbd').scrollTop=sc;$(`#drawer [data-${t?'ptype':'pcls'}="${t||c}"]`).focus()});
+drawer.addEventListener('click',e=>{const b=e.target.closest('[data-pact]');if(!b||!pd)return;const a=b.dataset.pact;
+  if(a==='close')return closePool();
+  if(a==='save'){const errs={};const code=pd.code.trim();
+    if(!code)errs.code='Enter a code.';else if(!/^[A-Z0-9][A-Z0-9 _-]*$/.test(code))errs.code='Use capital letters, numbers, spaces, hyphens or underscores.';else if(POOLS.some(x=>x.id!==pd.id&&x.code===code))errs.code='Another pool already uses this code.';
+    if(!pd.types.size)errs.types='Choose at least one revenue type.';
+    pd.errs=errs;if(Object.keys(errs).length){drawerRender();$('#perr').focus();return}
+    const undo=snapshot();let x;if(pd.id){x=poolById(pd.id);Object.assign(x,{code,desc:pd.desc.trim(),types:[...pd.types],updated:TODAY})}
+    else{x={id:'pl'+Date.now().toString(36),code,desc:pd.desc.trim(),status:'IN_USE',types:[...pd.types],updated:TODAY};POOLS.push(x)}
+    const fromRule=pd.fromRule;closePool(true);if(fromRule&&st.draft&&st.draft.tier){st.draft.tier.poolId=x.id;delete st.draft.errs.pool}
+    render();toast(`${x.code} saved`,undo);return}
+  if(a==='off'){const live=usedBy(pd.id).filter(({p,r})=>r.status==='IN_USE');
+    if(live.length){confirmBox('This pool is still in use',`${live.length} active tiered ${live.length===1?'rule uses':'rules use'} it: ${live.map(({p,r})=>`${esc(p.name)} (${esc(ent(r).name)})`).join(', ')}. Change ${live.length===1?'that rule':'those rules'} first.`,[]);return}
+    const x=poolById(pd.id);const undo=snapshot();x.status='NOT_IN_USE';x.updated=TODAY;closePool(true);render();toast(`${x.code} is not in use`,undo);return}
+  if(a==='on'){const x=poolById(pd.id);x.status='IN_USE';x.updated=TODAY;pd.orig=null;drawerRender();render();toast(`${x.code} is in use again`);return}
+  if(a==='gorule'){const [pid,r]=b.dataset.v.split('|');closePool();if(!pd){st.view='edit';st.pid=pid;selectRule(r)}}});
+scrim.addEventListener('click',()=>closePool());
+
+/* ===================== dialogs: policy settings, add rule ===================== */
+function settingsDialog(isNew,focus){const p=isNew?null:pol();const f={name:p?p.name:'',code:p?p.code:'',type:p?p.type:'ADVISOR',ncf:p?p.ncf:true,defOn:p?!!p.def:false,def:p&&p.def?{...p.def}:{type:'PERCENTAGE',value:''},status:p?p.status:'IN_USE',errs:{}};
+  if(focus==='def')f.defOn=true;
+  const draw=()=>{const errs=Object.values(f.errs);
+    openDialog(`<form method="dialog" novalidate><div class="dh"><div><h2 id="dlgT">${isNew?'New policy':'Policy settings'}</h2><p>${isNew?'Name it first. You’ll add its rules next.':'Name, type and the optional default rate.'}</p></div></div><div class="db">
+     ${errs.length?`<div class="errsum" role="alert" tabindex="-1" id="serr"><b>Fix ${errs.length===1?'this':'these'} to save</b><ul>${errs.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`:''}
+     <label class="fld${f.errs.name?' err':''}"><span>Name</span><input data-f="name" value="${esc(f.name)}" autocomplete="off" placeholder="e.g. Third Party Contract (33.33%)"><div class="e">${esc(f.errs.name||'')}</div></label>
+     <label class="fld${f.errs.code?' err':''}"><span>Code</span><input data-f="code" value="${esc(f.code)}" autocomplete="off" placeholder="e.g. Third Party 33"><small>Must be unique.</small><div class="e">${esc(f.errs.code||'')}</div></label>
+     <div class="fld"><span>Policy type</span><div class="seg" role="group" aria-label="Policy type">${[['ADVISOR','Advisor'],['DISTRIBUTOR','Distributor']].map(([v,l])=>`<button type="button" data-sf="type" data-v="${v}" aria-pressed="${f.type===v}">${l}</button>`).join('')}</div></div>
+     ${isNew?'':`<div class="sw" id="defSw"><span><b>Default rate <span style="font-weight:500;color:var(--faint)">· optional</span></b><small>Used for anything no rule covers. Leave it off if every type should have its own rule; anything uncovered then fails in a commission run.</small></span><label class="tog"><input type="checkbox" data-f="defOn" ${f.defOn?'checked':''} aria-label="Use a default rate"><i></i></label></div>
+     ${f.defOn?`${methodSeg(f.def,'sdef')}<label class="fld${f.errs.def?' err':''}"><span class="sr">Default rate value</span>${affix(f.def.type,'data-f="defval" id="defval"',f.def.value,'Default rate')}<small>${methodHint(f.def.type)}</small><div class="e">${esc(f.errs.def||'')}</div></label>`:''}`}
+     <div class="sw"><span><b>Negative carry forward</b><small>Carry a negative commission balance into the next period.</small></span><label class="tog"><input type="checkbox" data-f="ncf" ${f.ncf?'checked':''} aria-label="Negative carry forward"><i></i></label></div>
+     ${isNew?'':`<div class="fld"><span>Status</span><div class="seg" role="group" aria-label="Status">${[['IN_USE','In use'],['NOT_IN_USE','Not in use']].map(([v,l])=>`<button type="button" data-sf="status" data-v="${v}" aria-pressed="${f.status===v}">${l}</button>`).join('')}</div><small>Not in use: no commission is calculated with this policy, but its rules are kept.</small></div>`}
+    </div><div class="da">${isNew?'':'<button type="button" class="btn ghost" data-sact="dup">Duplicate policy</button><span class="sp"></span>'}<button type="button" class="btn" data-sact="cancel">Cancel</button><button type="button" class="btn primary" data-sact="save">${isNew?'Create policy':'Save'}</button></div></form>`,
+    {onOpen:()=>{}});
+    if(errs.length)$('#serr').focus();else if(focus==='def'){const i=$('#defval');i?i.focus():$('[data-f=defOn]').focus()}};
+  dlg.oninput=e=>{const k=e.target.dataset.f;if(k==='name'||k==='code')f[k]=e.target.value;if(k==='defval')f.def.value=e.target.value};
+  dlg.onchange=e=>{const k=e.target.dataset.f;if(k==='ncf')f.ncf=e.target.checked;if(k==='defOn'){f.defOn=e.target.checked;focus='def';draw()}};
+  dlg.onclick=e=>{const s=e.target.closest('[data-sf]');if(s){f[s.dataset.sf]=s.dataset.v;focus=null;draw();return}
+    const m=e.target.closest('[data-act="sdef"]');if(m){e.stopPropagation();f.def.type=m.dataset.v;focus='def';draw();return}
+    const a=e.target.closest('[data-sact]');if(!a)return;
+    if(a.dataset.sact==='cancel'){closeDialog();return}
+    if(a.dataset.sact==='dup'){closeDialog();return duplicatePolicy()}
+    const errs={};if(!f.name.trim())errs.name='Enter a name.';if(!f.code.trim())errs.code='Enter a code.';else if(policies.some(x=>x!==p&&x.code.toLowerCase()===f.code.trim().toLowerCase()))errs.code='Another policy already uses this code.';
+    if(f.defOn){const v=validMethod(f.def);if(v)errs.def=v}
+    f.errs=errs;if(Object.keys(errs).length){draw();return}
+    const val={name:f.name.trim(),code:f.code.trim(),type:f.type,ncf:f.ncf,def:f.defOn?{type:f.def.type,value:num(f.def.value)}:null,status:f.status,updated:TODAY,updatedBy:'you'};
+    const undo=snapshot();closeDialog();
+    if(isNew){const np={id:'p'+Date.now().toString(36),rules:[],...val};policies.push(np);st.view='edit';st.pid=np.id;st.tab='check';st.draft=null;render();toast('Policy created. Add its first rule to get started.');setTimeout(addRuleDialog,80)}
+    else{Object.assign(p,val);render();toast('Policy settings saved',undo)}};
+  draw()}
+function duplicatePolicy(){const p=pol();const map={};const rules=p.rules.map(r=>{const n=JSON.parse(JSON.stringify(r));n.id=rid();n.used=false;n.lastRun=null;n.updated=TODAY;n.updatedBy='you';map[r.id]=n.id;return n});rules.forEach(r=>{if(r.parent)r.parent=map[r.parent]});
+  let code=p.code+' copy',i=2;while(policies.some(x=>x.code===code))code=`${p.code} copy ${i++}`;
+  const np={...JSON.parse(JSON.stringify(p)),id:'p'+Date.now().toString(36),name:'Copy of '+p.name,code,rules,updated:TODAY,updatedBy:'you'};policies.push(np);st.pid=np.id;st.draft=null;st.sel=null;render();toast('Policy duplicated. Rename it in Policy settings.')}
+function addRuleDialog(){const p=pol();let q='',d0=st.check.d||'revenue';
+  const has=eid=>p.rules.find(r=>r.entityId===eid);
+  const now=t=>{const r=resolve(p,t);return r.rule?`${rateText(r.rule)} via ${ent(r.rule).name}`:r.def?`${mtxt(p.def)} default`:null};
+  const item=(eid,isType)=>{const e=ENT[eid];const ex=has(eid);let note;
+    if(ex)note=`<span class="now">Has a rule · edit</span>`;else if(isType){const n=now(eid);note=n?`<span class="now">Now ${esc(n)}</span>`:`<span class="now bad">Not covered</span>`}else note='';
+    return`<li><button type="button" class="${isType?'t':''} d-${e.d}" data-pick="${eid}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b>${isType?'':`<small>Every type in this class</small>`}</span>${note}</button></li>`};
+  const draw=()=>{const ql=q.trim().toLowerCase();
+    const body=LIB[d0].map(c=>{const ts=c.types.filter(t=>!ql||t.name.toLowerCase().includes(ql)||c.name.toLowerCase().includes(ql));if(!ts.length)return'';
+      return`<h4>${esc(c.name)}</h4><ul class="pick">${item(c.id,false)}${ts.filter(t=>!(c.types.length===1&&t.name===c.name)).map(t=>item(t.id,true)).join('')}</ul>`}).join('')||'<p class="empty">Nothing matches.</p>';
+    const list=$('#pickList');if(list){list.innerHTML=body;$$('#pickSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===d0));return}
+    openDialog(`<div class="dh"><div><p class="stepno">Step 1 of 2 · Choose what it covers</p><h2 id="dlgT">Add a rule</h2><p>Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</p></div><button class="btn ghost x" data-pk="close" aria-label="Close">${ICON.x}</button></div>
+     <div class="db" style="padding-bottom:0"><div class="seg" id="pickSeg" role="group" aria-label="Kind" style="display:flex;margin-bottom:10px">${ORDER.map(d=>`<button type="button" style="flex:1" data-pk="dom" data-v="${d}" aria-pressed="${d===d0}">${DOMS[d].many}</button>`).join('')}</div>
+     <label class="sr" for="pickQ">Search classes and types</label><input class="inp" id="pickQ" type="search" placeholder="Search classes and types" autofocus></div>
+     <div class="db" id="pickList" style="max-height:min(52vh,460px)">${body}</div>`,{wide:true})};
+  dlg.oninput=e=>{if(e.target.id==='pickQ'){q=e.target.value;draw()}};dlg.onchange=null;
+  dlg.onclick=e=>{const b=e.target.closest('[data-pk]');if(b){if(b.dataset.pk==='close')closeDialog();else{d0=b.dataset.v;draw()}return}
+    const pk=e.target.closest('[data-pick]');if(!pk)return;const eid=pk.dataset.pick;closeDialog();const ex=has(eid);if(ex)return selectRule(ex.id);startNew(eid)};
+  draw()}
+
+/* ===================== rule actions ===================== */
+function selectRule(id){guard(()=>{const r=byId(pol(),id);if(!r)return;st.tab='rule';st.saved=st.saved===id?id:null;
+  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:false};render();
+  const b=$(`[data-act="rule"][data-v="${id}"]`);b&&b.scrollIntoView({block:'nearest'});if(innerWidth<=1000)$('.panel').scrollIntoView({block:'start'})})}
+function startNew(eid,parent){guard(()=>{const p=pol();parent=parent===undefined?bestParent(p,eid):parent;const c=check(p,eid,parent);if(c.err){toast(c.err);return}
+  const pr=parent&&byId(p,parent);const cur=resolve(p,ENT[eid].level==='TYPE'?eid:covers(eid)[0]);
+  const base=pr?pr.method:cur.rule?cur.rule.method:p.def||{type:'PERCENTAGE',value:''};
+  st.tab='rule';st.saved=null;st.draft={isNew:true,entityId:eid,parent,desc:'',adopt:c.adopt,method:{type:base.type,value:base.value},tier:null,errs:{},moreOpen:false};render();
+  if(innerWidth<=1000)$('.panel').scrollIntoView({block:'start'});const i=$('#val');i&&(i.focus(),i.select())})}
+function saveRule(){const p=pol();const d=st.draft;const errs={};
+  if(d.tier){if(!d.tier.poolId)errs.pool='Choose which pool’s revenue decides the tier.';if(d.tier.ind===false&&d.tier.team===false)errs.who='Choose who these tiers apply to.';
+    const bs=d.tier.bands;let prev=0;const bad=(m,row,f)=>{errs.bands=m;errs.bandAt={row,f}};
+    for(let i=0;i<bs.length;i++){
+      if(i<bs.length-1){const raw=String(bs[i+1].from??'').trim(),f=num(raw);
+        if(raw===''||isNaN(f)){bad(`Tier ${i+1}: enter where it ends in “Up to”.`,i+1,'from');break}
+        if(f<=prev){bad(`Tier ${i+1}: “Up to” must be higher than ${i?bandR(prev):'R 0'}.`,i+1,'from');break}prev=f}
+      const v=validMethod({type:d.method.type,value:bs[i].value});if(v){bad(`Tier ${i+1}: ${v}`,i,'value');break}}}
+  else{const v=validMethod(d.method);if(v)errs.val=v}
+  const c=check(p,d.entityId,d.parent,d.isNew?null:d.id);if(c.err)errs.parent=c.err;
+  d.errs=errs;if(Object.keys(errs).length){render();const f=$('.panel .fld.err input,.panel .fld.err select,.panel .berr');const bi=$('.panel .affix.bad input');if(bi){bi.scrollIntoView({block:'center'});bi.focus()}else if(f){f.scrollIntoView({block:'center'});(f.matches('input,select')?f:$('.panel [data-band]'))?.focus()}return false}
+  const undo=snapshot();const name=ENT[d.entityId].name;
+  const tier=d.tier?{poolId:d.tier.poolId,ind:d.tier.ind!==false,team:d.tier.team!==false,bands:d.tier.bands.map((b,i)=>({from:i?num(b.from):0,value:num(b.value)}))}:null;
+  const method={type:d.method.type,value:tier?tier.bands[0].value:num(d.method.value)};
+  let r;if(d.isNew){r={id:rid(),parent:d.parent||null,entityId:d.entityId,method,tier,desc:(d.desc||'').trim(),status:'IN_USE',used:false,lastRun:null,updated:TODAY,updatedBy:'you'};p.rules.push(r)}
+  else{r=byId(p,d.id);Object.assign(r,{method,tier,desc:(d.desc||'').trim(),parent:d.parent||null,updated:TODAY,updatedBy:'you'})}
+  c.adopt.forEach(i=>byId(p,i).parent=r.id);p.updated=TODAY;
+  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:d.moreOpen,devOpen:d.devOpen};st.saved=r.id;
+  const first=d.isNew&&p.rules.length===1&&!p.def;
+  render();toast(d.isNew?(first?`Rule for ${name} added. Add more rules, or set a default rate for everything else.`:`Rule for ${name} added`):`${name} saved`,undo);return true}
+function removeRule(){const p=pol();const r=byId(p,st.draft.id);const e=ent(r);const ds=descendants(p,r.id).map(i=>byId(p,i)).filter(x=>x.status==='IN_USE');
+  const fallback=r.parent?`Its events will use ${esc(ent(byId(p,r.parent)).name)} instead.`:p.def?`Its events will use the policy default (${mtxt(p.def)}).`:`<b>Its events will fail</b>, because this policy has no default rate.`;
+  const stop={label:'Stop using',primary:!r.used?false:true,fn:()=>{const undo=snapshot();[r,...ds].forEach(x=>{x.status='NOT_IN_USE';x.updated=TODAY;x.updatedBy='you'});render();toast(`${e.name} is not in use`,undo)}};
+  const kidsNow=kids(p,r.id);
+  const del={label:'Delete',danger:true,fn:()=>{const blocked=kidsNow.find(k=>check(p,k.entityId,r.parent,k.id).err&&!check(p,k.entityId,r.parent,k.id).err.includes(e.name));
+    if(blocked){confirmBox('Move its sub-rules first',`${esc(ent(blocked).name)} can’t move up without overlapping another rule.`,[]);return}
+    const undo=snapshot();kidsNow.forEach(k=>k.parent=r.parent);p.rules=p.rules.filter(x=>x.id!==r.id);st.draft=null;render();toast(`Rule for ${e.name} deleted`,undo)}};
+  if(r.used)confirmBox(`Remove ${e.name}?`,`It was used in a commission run on ${r.lastRun}, so it’s kept for history and can’t be deleted. You can stop using it. ${fallback}${ds.length?` Its ${ds.length} sub-${ds.length===1?'rule':'rules'} stop too.`:''}`,[stop]);
+  else confirmBox(`Remove ${e.name}?`,`<b>Stop using</b> keeps it so you can bring it back. <b>Delete</b> removes it for good${kidsNow.length?`; its ${kidsNow.length} sub-${kidsNow.length===1?'rule moves':'rules move'} up a level`:''}. ${fallback}`,[stop,{...del}])}
+function reactivate(){const p=pol();const r=byId(p,st.draft.id);const anc=ancestors(p,r).filter(a=>a.status!=='IN_USE');const ds=descendants(p,r.id).map(i=>byId(p,i)).filter(x=>x.status!=='IN_USE');
+  const go=all=>{const undo=snapshot();[...anc,r,...(all?ds:[])].forEach(x=>{x.status='IN_USE';x.updated=TODAY});render();toast(`${ent(r).name} is in use again`,undo)};
+  if(!anc.length&&!ds.length)return go(false);
+  confirmBox(`Bring ${ent(r).name} back?`,`${anc.length?`The rule above it (${anc.map(a=>esc(ent(a).name)).join(', ')}) comes back too. `:''}${ds.length?`It has ${ds.length} sub-${ds.length===1?'rule':'rules'} not in use.`:''}`,ds.length?[{label:'This rule only',fn:()=>go(false)},{label:'Include sub-rules',primary:true,fn:()=>go(true)}]:[{label:'Bring back',primary:true,fn:()=>go(false)}])}
+
+/* ===================== events ===================== */
+document.addEventListener('click',e=>{if(e.target.closest('#dlg,#drawer'))return;const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,v=b.dataset.v;
+  switch(a){
+  case'nav':return guard(()=>{st.view=v;st.pid=null;st.draft=null;render();$('#app').querySelector('h1')?.focus?.()});
+  case'help':return helpDialog();
+  case'ftype':st.ftype=v;return render();
+  case'open':st.view='edit';st.pid=v;st.tab='check';st.draft=null;st.showGaps=false;st.saved=null;const u=uncovered(pol());if(u.length){st.check.d=ENT[u[0]].d;st.check.typeId=u[0]}render();window.scrollTo(0,0);return $('.back').focus();
+  case'back':return guard(()=>{st.view='policies';st.pid=null;st.draft=null;render()});
+  case'new-policy':return settingsDialog(true);
+  case'settings':return guard(()=>settingsDialog(false,b.dataset.focus));
+  case'add-rule':return guard(()=>addRuleDialog());
+  case'add-entity':return startNew(v);
+  case'gaps':st.showGaps=!st.showGaps;return render();
+  case'rule':if(st.draft&&st.draft.id===v&&st.tab==='rule')return;return selectRule(v);
+  case'tab':if(v==='check')return guard(()=>{st.tab='check';st.draft=null;render()});st.tab='rule';return render();
+  case'mtype':st.draft.method.type=v;delete st.draft.errs.val;render();return $('#val')?.focus()||$('.panel [data-bf="value"]')?.focus();
+  case'rmode':return setTier(v==='tier');
+  case'copy-tiers':return copyTiers();
+  case'edit-pool':return openPool(st.draft.tier.poolId);
+  case'add-band':{const bs=st.draft.tier.bands;const last=num(bs[bs.length-1].from)||0;bs.push({from:last?last*2:1000000,value:''});delete st.draft.errs.bands;delete st.draft.errs.bandAt;render();const ins=$$('.panel [data-bf="value"]');return ins[ins.length-1].focus()}
+  case'rm-band':st.draft.tier.bands.splice(+v,1);delete st.draft.errs.bands;delete st.draft.errs.bandAt;return render();
+  case'save-rule':return saveRule();
+  case'cancel-rule':{const d=st.draft;if(d.isNew||!isDirty()){st.draft=null;st.tab=d.isNew?'check':'rule';return render()}const r=byId(pol(),d.id);st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{}};return render()}
+  case'remove':return removeRule();
+  case'reactivate':return reactivate();
+  case'check-d':st.check.d=v;st.check.typeId=LIB[v][0].types[0].id;return render();
+  case'new-pool':return openPool(null);
+  case'pool':return openPool(v);
+  }});
+document.addEventListener('toggle',e=>{const t=e.target.dataset&&e.target.dataset.actToggle;if(!st.draft)return;if(t==='more')st.draft.moreOpen=e.target.open;if(t==='dev')st.draft.devOpen=e.target.open},true);
+function setTier(on){const d=st.draft;if(!d||!!d.tier===on)return;
+  if(on){const cov=covers(d.entityId);const best=POOLS.filter(x=>x.status==='IN_USE'&&cov.every(t=>x.types.includes(t))).sort((a,b)=>a.types.length-b.types.length)[0];
+    d.tier=d.tierKeep||{poolId:best?best.id:'',ind:true,team:true,bands:[{from:0,value:d.method.value},{from:1000000,value:''}]};d.tierKeep=null}
+  else{d.tierKeep=d.tier;d.method.value=d.tier.bands[0].value;d.tier=null}
+  d.errs={};render();const f=$('.panel [data-in="pool"]')||$('#val');f&&f.focus()}
+function copyTiers(){const s=tierString(st.draft.tier.bands);const done=()=>toast('Seeding value copied');
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=s;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(_){toast('Select the value and copy it')}ta.remove()};
+  try{navigator.clipboard.writeText(s).then(done,fb)}catch(_){fb()}}
+document.addEventListener('input',e=>{if(e.target.closest('#dlg,#drawer'))return;const k=e.target.dataset.in;const d=st.draft;
+  if(k==='q'||k==='pq'){st[k]=e.target.value;const pos=e.target.selectionStart;render();const i=$(`[data-in="${k}"]`);i.focus();i.setSelectionRange(pos,pos);return}
+  if(k==='desc'&&d){d.desc=e.target.value;return softRefresh()}
+  if(k==='val'&&d){d.method.value=e.target.value;if(d.errs.val){delete d.errs.val;e.target.closest('.fld').classList.remove('err')}return softRefresh()}
+  if(e.target.dataset.band&&d){d.tier.bands[+e.target.dataset.band][e.target.dataset.bf]=e.target.value;delete d.errs.bands;delete d.errs.bandAt;e.target.closest('.affix')?.classList.remove('bad');$('.panel .berr')?.remove();return softRefresh()}
+  if(k==='check-amt'||k==='check-bal'){st.check[k.slice(6)]=e.target.value;const pos=e.target.selectionStart;render();const i=$(`[data-in="${k}"]`);i.focus();i.setSelectionRange(pos,pos)}});
+function softRefresh(){/* update preview without stealing focus */const d=st.draft;const rc=$('#ruleCols');if(rc)rc.innerHTML=ruleColsRows(d,pol(),d.isNew?null:byId(pol(),d.id));if(d.tier){$$('.panel td[data-from]').forEach(td=>{const i=+td.dataset.from;td.textContent=i?bandN(d.tier.bands[i].from):'0'});const cs=$('#tierStr');if(cs)cs.textContent=tierString(d.tier.bands);const tr=$('#tierRows');if(tr)tr.innerHTML=tierRows(d.tier,tierIds(d))}const r=$(`.rrow.sel .rate`);if(r)r.textContent=(ENT[d.entityId].d==='revenue'?'':'−')+rateText(d);
+  const say=$('.panel .say b');if(say)say.textContent=rateText(d);
+  const foot=$('.panel .pfoot');if(foot&&!d.isNew){foot.querySelector('.status-line')?.remove();if(isDirty()){const s=document.createElement('span');s.className='status-line dirty';s.textContent='Unsaved changes';foot.querySelector('[data-act="cancel-rule"]').before(s);foot.querySelector('[data-act="cancel-rule"]').textContent='Discard'}else foot.querySelector('[data-act="cancel-rule"]').textContent='Close'}}
+document.addEventListener('change',e=>{if(e.target.closest('#dlg,#drawer'))return;const k=e.target.dataset.in;const d=st.draft;
+  if(k==='showOff'||k==='pshowOff'){st[k]=e.target.checked;return render()}
+  if(k==='check-type'){st.check.typeId=e.target.value;render();return $('[data-in="check-type"]').focus()}
+  if(k==='parent'&&d){d.parent=e.target.value||null;delete d.errs.parent;if(d.isNew)d.adopt=check(pol(),d.entityId,d.parent).adopt||[];render();return $('[data-in="parent"]').focus()}
+  if((k==='t-ind'||k==='t-team')&&d&&d.tier){d.tier[k==='t-ind'?'ind':'team']=e.target.checked;delete d.errs.who;e.target.closest('.fld')?.classList.remove('err');return softRefresh()}
+  if(k==='pool'&&d){if(e.target.value==='__new'){e.target.value=d.tier.poolId||'';return openPool(null,true)}d.tier.poolId=e.target.value;delete d.errs.pool;render();$('[data-in="pool"]').focus()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pd&&!dlg.open){e.preventDefault();closePool()}});
+addEventListener('beforeunload',e=>{persist();if(isDirty()||poolDirty()){e.preventDefault();e.returnValue=''}});
+
+/* ===================== help & intro ===================== */
+function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commission policies work</h2><p>The short version, then the details.</p></div><button class="btn ghost x" data-hx="close" aria-label="Close">${ICON.x}</button></div>
+ <div class="db help">
+  <h3>In three steps</h3><ol><li><b>Add a rule.</b> Start here. Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</li><li><b>Set its rate.</b> One rate, or a <b>tiered</b> rate that grows as the advisor’s revenue builds up during the period.</li><li><b>Check a rate</b> to see what any type earns and why.</li></ol>
+  <p>A <b>default rate</b> is optional. It covers anything no rule does. Without one, anything no rule covers fails in a commission run.</p>
+  <h3>Which rate wins</h3><p>ARM starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission; cost and expense rules are deducted from it.</p>
+  <h3>Tiered rates</h3><p>Each tier has a <b>From</b>, an <b>Up to</b> and a <b>Rate</b>. <b>From</b> is filled in for you: it’s where the tier before ended. The last tier has no upper limit. The advisor’s total revenue so far this period, added up from an <b>accrued revenue pool</b>, picks the tier, and that tier’s rate is used. Tiers use the same rate type as the rule (percentage, basis points or flat amount), and can apply to individual advisors, advisor teams, or both. Pools are managed under <b>Accrued revenue pools</b> and shared by every policy.</p>
+  <h3>Changing and removing rules</h3><ul><li>Click a rule to edit it. Save shows <b>✓ Saved</b>; every change offers <b>Undo</b>.</li><li><b>Remove…</b> lets you stop using a rule (kept, can come back) or delete it. Rules already used in a commission run can only be stopped, so history stays traceable.</li><li>Stopping a rule also stops the rules under it.</li></ul>
+  <h3>For developers: rules the screen enforces</h3><ul>
+   <li>A rule sits under another rule only if it’s the same kind (revenue, cost, expense), its class or type is part of the parent’s class, and it covers less than the parent.</li>
+   <li>Two rules at the same level can’t cover the same type. Adding a class where some of its types already have rules at that level moves those rules under the class.</li>
+   <li>No cycles: a rule can’t sit under itself or its sub-rules.</li>
+   <li>Rates: percentage 0–100, basis points 0–10,000, flat ≥ 0.</li>
+   <li>Tiers are contiguous. The first starts at 0, each tier’s upper bound is the next tier’s lower bound, and the last has none (NULL). A tiered rule needs a pool, at least two tiers, and at least one of “individual advisors” or “advisor teams”. Tier rates use the rule’s own <code>commission_methodology</code> (percentage, basis points or flat).</li>
+   <li>Under “For developers” a rule shows how it is saved: its <code>commission_rule</code> columns and, for a tiered rule, its tier rows (<code>lower_bound</code>, <code>upper_bound</code>, <code>commission_rate</code>, the two <code>is_applied_to_…</code> flags, <code>record_status</code>) and the <code>CommissionTiers</code> seeding value, <code>lower:upper:rate; …</code>. A tiered rule saves <code>is_accrued_revenue</code> = true and its pool in <code>revenue_accrual_pool_id</code>. <code>is_subject_to_advisor_performance</code> is always saved as false, because performance tiers no longer apply. Assumed: stopping a rule stops its tiers, and changing the tiers of a rule already used in a run retires the old rows rather than deleting them.</li>
+   <li>Stopping a rule cascades to its sub-rules; bringing it back restores stopped parents. Delete is only allowed for rules never used in a run; sub-rules move up a level.</li>
+   <li>A pool can’t be taken out of use while an active tiered rule uses it. Pools are never deleted. A pool is saved as one mapping row (pool, revenue type) per revenue type; ticking a class adds a row for each of its types.</li>
+   <li>Policy codes and pool codes are unique. Unsaved edits prompt Save or Discard before leaving.</li></ul>
+  <h3>Open questions for the team</h3><ul>
+   <li><b>Whole event or slices?</b> Here, the tier the advisor’s total falls in sets the rate for the whole event. If revenue should be paid in slices, like income-tax brackets, the calculation and wording change.</li>
+   <li><b>Other rule columns.</b> The prototype writes <code>entity_type</code> and <code>entity_id</code>. What do <code>commission_source</code>, <code>revenue_class</code> and <code>revenue_type</code> hold now, and are they still needed? For a tiered rule it saves the first tier’s rate in <code>base_commission_rate</code>. Is that right?</li>
+   <li><b>Applies-to flags.</b> They’re stored on every tier row, and this prototype sets them once per rule. If a rule can have different tiers for individual advisors and for advisor teams, the editor needs a second tier table.</li>
+   <li><b>Policy columns.</b> The <code>commission_policy</code> table wasn’t shared. The prototype assumes it holds the default rate and the policy type (Advisor or Distributor).</li></ul>
+ </div><div class="da"><button class="btn ghost" data-hx="reset">Reset demo data</button><span class="sp"></span><button class="btn" data-hx="intro">Replay intro</button><button class="btn primary" data-hx="close">Done</button></div>`,{wide:true});
+ dlg.oninput=dlg.onchange=null;
+ dlg.onclick=e=>{const b=e.target.closest('[data-hx]');if(!b)return;const a=b.dataset.hx;
+  if(a==='close')return closeDialog();if(a==='intro')return intro(0);
+  if(a==='reset')return confirmBox('Reset the demo data?','Every change saved in this browser is removed and the original data comes back.',[{label:'Reset',danger:true,fn:()=>{noPersist=true;try{localStorage.removeItem(STORE)}catch(_){}location.reload()}}])}}
+const SLIDES=[
+ {t:'A policy is a list of rules',b:'Each rule picks a <b>class</b> (all its types) or a single <b>type</b> and gives it a rate. The most specific rule wins. Start by adding the first rule.',art:`<div class="ex"><div class="d-revenue"><span class="lvl c">Class</span><span>Other Income Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="lvl t">Type</span><span>ALLAN GRAY</span><b>35%</b></div></div>`},
+ {t:'Rates can grow with revenue',b:'A <b>tiered rate</b> looks at the advisor’s total revenue so far this period. The tier it falls in decides the rate.',art:`<div class="ex"><div><span>Up to R 100,000</span><b>30%</b></div><div><span>R 100,000 to R 250,000</span><b>40%</b></div><div><span>Above R 250,000</span><b>50%</b></div></div>`},
+ {t:'Check a rate before it counts',b:'Use <b>Check a rate</b> to see what a type earns and why. A red warning means something has no rate and would fail in a commission run. A <b>default rate</b> is an optional safety net for everything the rules don’t cover.',art:`<div class="ex"><div><span>ALLAN GRAY on R 10,000</span><b>R 3,500.00</b></div><div><span style="color:var(--muted)">from ALLAN GRAY, a type rule</span></div></div>`}];
+function intro(i){const s=SLIDES[i];openDialog(`<div class="intro"><div class="dh"><div><p style="margin:0 0 4px;font-weight:600;color:var(--faint);font-size:13px">Step ${i+1} of ${SLIDES.length}</p><h2 id="dlgT">${s.t}</h2></div></div><div class="db"><div class="art">${s.art}</div><p style="margin:0;color:var(--muted)">${s.b}</p></div>
+  <div class="da"><div class="dots" aria-hidden="true">${SLIDES.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div><span class="sp"></span>${i<SLIDES.length-1?'<button class="btn ghost" data-ix="skip">Skip</button>':''}${i?'<button class="btn" data-ix="back">Back</button>':''}<button class="btn primary" data-ix="next" autofocus>${i<SLIDES.length-1?'Next':'Get started'}</button></div></div>`);
+  dlg.oninput=dlg.onchange=null;
+  dlg.onclick=e=>{const b=e.target.closest('[data-ix]');if(!b)return;const a=b.dataset.ix;if(a==='back')return intro(i-1);if(a==='next'&&i<SLIDES.length-1)return intro(i+1);try{localStorage.setItem('arm.intro.v3','1')}catch(_){}closeDialog()}}
+
+render();
+let seen=false;try{seen=localStorage.getItem('arm.intro.v3')==='1'}catch(_){}
+if(!seen)setTimeout(()=>intro(0),250);
+})();
+</script>
+</body>
+</html>

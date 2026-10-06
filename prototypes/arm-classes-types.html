@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARM classification: classes and types</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F8;--surface:#FFFFFF;--sunk:#EDF1F4;--hover:#E6ECF1;--ink:#15212C;--muted:#5A6B7B;--faint:#8494A3;--line:#DCE3E9;
+  --focus:#2563EB;--danger:#B42318;--ok:#177245;--warn:#8A5A00;
+  --rev:#0E7A70;--cost:#A2375B;--exp:#96600C;--com:#4B45C6;--on-accent:#FFFFFF;
+  --accent:var(--rev);
+  --font:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E151C;--surface:#151F29;--sunk:#1A2632;--hover:#20303E;--ink:#E4EBF1;--muted:#98A8B7;--faint:#6F8193;--line:#283746;
+  --focus:#7AA7FF;--danger:#FF8A7A;--ok:#5BD68A;--warn:#F2C063;
+  --rev:#45C7B6;--cost:#EA86A7;--exp:#E7AE55;--com:#A4A0F7;--on-accent:#0E151C;}}
+:root[data-theme="dark"]{
+  --bg:#0E151C;--surface:#151F29;--sunk:#1A2632;--hover:#20303E;--ink:#E4EBF1;--muted:#98A8B7;--faint:#6F8193;--line:#283746;
+  --focus:#7AA7FF;--danger:#FF8A7A;--ok:#5BD68A;--warn:#F2C063;
+  --rev:#45C7B6;--cost:#EA86A7;--exp:#E7AE55;--com:#A4A0F7;--on-accent:#0E151C;}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--font);font-variant-numeric:tabular-nums}
+body[data-domain="cost"]{--accent:var(--cost)} body[data-domain="expense"]{--accent:var(--exp)} body[data-domain="commission"]{--accent:var(--com)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.app{height:100%;display:flex;flex-direction:column;min-height:0}
+.top{display:flex;align-items:center;gap:12px;padding:10px 24px;border-bottom:1px solid var(--line);background:var(--surface)}
+.mark{padding:0 7px;height:26px;border-radius:6px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-weight:700;font-size:12px}
+.crumbs{color:var(--muted);font-size:13px}.crumbs b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.who{font-size:13px;color:var(--muted)}
+main{flex:1;display:flex;flex-direction:column;min-height:0;padding:20px 24px 16px;gap:14px}
+.title h1{margin:0;font-size:22px;font-weight:600;letter-spacing:-.01em}
+.title p{margin:4px 0 0;color:var(--muted);max-width:70ch}
+.domains{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.dom{appearance:none;border:0;background:none;padding:10px 14px 11px;cursor:pointer;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:8px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.dom .dot{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.dom .n{font-size:12px;color:var(--faint)}
+.dom[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--c)}
+.dom:hover{color:var(--ink)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{position:relative;flex:1 1 240px;max-width:340px}
+.search input{width:100%;padding:8px 10px 8px 32px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--faint)}
+select.f{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:2px}
+.seg button{border:0;background:none;padding:6px 10px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:500;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--sunk);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.tb-sp{flex:1}
+.btn{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--danger);border-color:transparent;background:none;padding-left:4px}
+.btn.danger:hover{background:var(--hover)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.tablewrap{flex:1;min-height:260px;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:900px}
+thead th{position:sticky;top:0;z-index:2;background:var(--surface);text-align:left;font-weight:600;font-size:12.5px;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--hover)}
+tr.cls td{background:var(--sunk);font-weight:600}
+tr.cls td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+tr.typ td.nmcell{padding-left:44px}
+tr.typ td:first-child{box-shadow:inset 3px 0 0 color-mix(in srgb,var(--accent) 35%,transparent)}
+tr.is-selected td{background:color-mix(in srgb,var(--accent) 12%,var(--surface))!important}
+tr.dim td{opacity:.55}
+tr.drop-above td{box-shadow:inset 0 2px 0 var(--accent)}
+tr.drop-below td{box-shadow:inset 0 -2px 0 var(--accent)}
+td.grip{width:40px;color:var(--faint);font-size:11px;text-align:center;padding-right:0;cursor:grab}
+.nmcell{min-width:240px}
+.tw{border:0;background:none;padding:2px;margin:0 6px 0 -4px;cursor:pointer;color:var(--muted);vertical-align:middle;border-radius:4px}
+.tw svg{transition:transform .15s}
+.tw[aria-expanded="false"] svg{transform:rotate(-90deg)}
+.cnt{margin-left:8px;font-weight:400;color:var(--faint);font-size:12.5px}
+code{font:12.5px/1.2 var(--font);color:var(--muted);background:none}
+.meth{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12.5px;font-weight:500;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);white-space:nowrap}
+.meth.none{background:none;color:var(--faint);font-weight:400;padding-left:0}
+.pill{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12.5px;border:1px solid var(--line);margin:1px 4px 1px 0;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+.more{font-size:12.5px;color:var(--muted)}
+.none-t{color:var(--faint)}
+.status{font-size:12.5px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.status.off::before{background:var(--faint)}
+.kebab{border:0;background:none;cursor:pointer;padding:4px 6px;border-radius:6px;color:var(--muted)}
+.kebab:hover{background:var(--line)}
+.empty{padding:48px 24px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.foot{display:flex;justify-content:space-between;color:var(--faint);font-size:12.5px;gap:12px;flex-wrap:wrap}
+.menu{position:fixed;z-index:40;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(10,20,30,.16);padding:4px;min-width:180px;display:none}
+.menu.open{display:block}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.menu button:hover,.menu button:focus-visible{background:var(--hover)}
+.menu button.d{color:var(--danger)}
+.scrim{position:fixed;inset:0;background:rgba(8,15,22,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100%);background:var(--surface);z-index:30;transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column;border-left:1px solid var(--line);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.dh{padding:18px 22px 14px;border-bottom:1px solid var(--line);border-top:4px solid var(--accent);display:flex;gap:12px;align-items:flex-start}
+.dh h2{margin:0;font-size:18px;font-weight:600}
+.dh p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.dh .x{margin-left:auto;border:0;background:none;cursor:pointer;padding:6px;border-radius:6px;color:var(--muted)}
+.db{flex:1;overflow:auto;padding:6px 22px 24px}
+.sec{padding:16px 0;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h3{margin:0 0 4px;font-size:14px;font-weight:600}
+.sec .lead{margin:0 0 12px;color:var(--muted);font-size:13px}
+.fld{display:block;margin-bottom:12px}
+.fld>span{display:block;font-size:13px;font-weight:500;margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.fld textarea{min-height:64px;resize:vertical}
+.fld small{display:block;color:var(--faint);font-size:12px;margin-top:4px}
+.fld.err input,.fld.err select{border-color:var(--danger)}
+.fld .e{color:var(--danger);font-size:12px;margin-top:4px;display:none}
+.fld.err .e{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mseg{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.mseg label{text-align:center;padding:8px 4px;cursor:pointer;font-size:13px;border-right:1px solid var(--line);color:var(--muted)}
+.mseg label:last-child{border-right:0}
+.mseg input{position:absolute;opacity:0;pointer-events:none}
+.mseg label:has(input:checked){background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--ink);font-weight:600}
+.mseg label:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:-2px}
+.affix{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.affix input{border:0!important;border-radius:0!important;flex:1;min-width:0}
+.affix i{font-style:normal;padding:8px 10px;background:var(--sunk);color:var(--muted);font-size:13px;display:flex;align-items:center}
+.calc{background:var(--sunk);border-radius:8px;padding:12px 14px;margin-top:4px}
+.calc .line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 0}
+.calc .line.total{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:600}
+.calc .sub{color:var(--muted);font-size:12.5px}
+.calc input{width:130px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;border:1px solid var(--line);font-size:13px;background:var(--surface)}
+.chip small{color:var(--faint)}
+.chip button{border:0;background:none;cursor:pointer;width:20px;height:20px;border-radius:50%;color:var(--muted);display:grid;place-items:center}
+.chip button:hover{background:var(--hover)}
+.chip .dt{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.adder select{width:100%;padding:7px 10px;border:1px dashed var(--line);border-radius:8px;background:var(--surface);color:var(--muted)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.typelist{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px}
+.typelist li{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;gap:8px}
+.typelist li:last-child{border-bottom:0}
+.typelist button{border:0;background:none;padding:0;cursor:pointer;color:var(--ink);text-align:left}
+.typelist button:hover{text-decoration:underline}
+.note{font-size:12.5px;color:var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:8px;padding:8px 10px;margin-top:8px}
+.df{padding:12px 22px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+.df .sp{flex:1}
+dialog{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--surface);color:var(--ink);width:min(440px,calc(100% - 32px))}
+dialog::backdrop{background:rgba(8,15,22,.4)}
+dialog .dc{padding:20px 22px}
+dialog h2{margin:0 0 8px;font-size:17px}
+dialog p{margin:0;color:var(--muted)}
+dialog .da{display:flex;justify-content:flex-end;gap:8px;padding:0 22px 18px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--surface);padding:10px 14px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s;z-index:50;display:flex;gap:14px;align-items:center;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{border:0;background:none;color:inherit;font-weight:600;text-decoration:underline;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:720px){main{padding:14px}.top{padding:10px 14px}.search{max-width:none}.tb-sp{display:none}.row2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-domain="revenue">
+<div class="app">
+  <header class="top">
+    <div class="mark" aria-hidden="true">ARM</div>
+    <div class="crumbs">Configuration / <b>Classes and types</b></div>
+    <div class="sp"></div>
+    <div class="who">Administrator</div>
+  </header>
+  <main>
+    <div class="title">
+      <h1>Classes and types</h1>
+      <p>Decide how revenue, costs, expenses and commission are grouped, calculated during ingestion, and ordered in reports.</p>
+    </div>
+    <nav class="domains" role="tablist" id="domains"></nav>
+    <div class="toolbar">
+      <label class="search"><span class="sr">Search</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search by name or code">
+      </label>
+      <label><span class="sr">Filter</span><select class="f" id="filter"></select></label>
+      <div class="seg" id="viewSeg" role="group" aria-label="Show">
+        <button data-v="active" aria-pressed="true">Active</button>
+        <button data-v="inactive" aria-pressed="false">Inactive</button>
+      </div>
+      <div class="seg" id="orderSeg" role="group" aria-label="Order">
+        <button data-o="custom">Custom order</button>
+        <button data-o="alpha">A to Z</button>
+      </div>
+      <div class="tb-sp"></div>
+      <button class="btn" id="newClass">New class</button>
+      <button class="btn primary" id="newType">New type</button>
+    </div>
+    <div class="tablewrap" id="wrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    <div class="foot"><span id="footL"></span><span id="footR"></span></div>
+  </main>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-labelledby="dTitle" role="dialog" aria-modal="true"></aside>
+<div class="menu" id="menu" role="menu"></div>
+<dialog id="dlg"><div class="dc"><h2 id="dlgT"></h2><p id="dlgB"></p></div><div class="da" id="dlgA"></div></dialog>
+<div class="toast" id="toast" role="status"><span id="toastT"></span><button id="toastU" hidden>Undo</button></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug=s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+let seq=0;const nid=()=>'x'+(++seq);
+const TODAY='2026-09-30';
+const DOM={
+  revenue:{label:'Revenue',noun:'revenue',c:'var(--rev)'},
+  cost:{label:'Costs',noun:'cost',c:'var(--cost)'},
+  expense:{label:'Expenses',noun:'expense',c:'var(--exp)'},
+  commission:{label:'Commission',noun:'commission',c:'var(--com)'}
+};
+const METH={FLAT:{label:'Flat',unit:'R',help:'A fixed amount in reporting currency (ZAR) replaces the source amount.'},PERCENTAGE:{label:'Percentage',unit:'%',help:'A percentage of the source amount is recorded. Enter a value from 0 to 100.'},BASIS_POINTS:{label:'Basis points',unit:'bps',help:'Basis points of the source amount are recorded. 100 bps equals 1%.'}};
+const T=(name,method=null,status='IN_USE',desc='')=>({id:nid(),name,code:slug(name),desc:desc||name,order:null,status,method,createdBy:'b.kennedy',created:'2026-08-04',updatedBy:'b.kennedy',updated:'2026-09-14'});
+const C=(name,code,types,status='IN_USE')=>({id:nid(),name,code,desc:name,order:null,status,types,createdBy:'b.kennedy',created:'2026-08-04',updatedBy:'b.kennedy',updated:'2026-09-14'});
+const P=v=>({type:'PERCENTAGE',value:v}),B=v=>({type:'BASIS_POINTS',value:v}),F=v=>({type:'FLAT',value:v});
+
+const data={
+ revenue:[
+  C('Brokerage Percentage','brokerage_percentage',[T('Basic',P(0.5)),T('Brokerage',B(35)),T('Aaaaaaaaaaa',null,'NOT_IN_USE')]),
+  C('Offshore Rebates Percentage','offshore_rebates_percentage',[T('ABSA Rebates',P(40)),T('AllFunds Rebates',P(50)),T('Calibre Rebates'),T('GinsGlobal Fund Rebates',P(50)),T('Investec Fund Rebates'),T('Mutual Fund'),T('Offshore Brokerage EO',B(25)),T('Offshore Brokerage UK Managed',B(25)),T('Polar Star Rebates'),T('SAMI Emerging Markets Fund Rebates'),T('Sustainable Fund Rebates'),T('UK Discretionary Equity Model Rebates',P(60)),T('UK SAMI Fund Rebates')]),
+  C('Other Income Percentage','other_income_percentage',[T('AIMS GLC ABSA'),T('Allan Gray',P(30)),T('CI Collective'),T('Comm Rec: Bond Trade',B(10)),T('Coronation',P(30)),T('Fees Rec: Lending'),T('Fees Receive: Guarantee',F(250)),T('Fees: Product Development')]),
+  C('New','new',[],'NOT_IN_USE')
+ ],
+ cost:[
+  C('Brokerage Costs','brokerage_costs',[T('Basic',P(0.1)),T('Exchange Levy',B(2)),T('Settlement Fee',F(12.5))]),
+  C('Platform Costs','platform_costs',[T('Custody Fee',B(5)),T('Offshore Platform Fee',P(15)),T('Legacy Admin Fee',F(40),'NOT_IN_USE')])
+ ],
+ expense:[
+  C('Operational','operational',[T('Market Data Feeds',F(2500)),T('Audit Fees'),T('Compliance Monitoring',P(1))]),
+  C('Client Engagement','client_engagement',[T('Client Events'),T('Research Subscriptions',F(900))])
+ ],
+ commission:[
+  C('Advisor Commission','advisor_commission',[T('Initial Advice Fee'),T('Ongoing Advice Fee'),T('Brokerage Share')]),
+  C('Introducer Commission','introducer_commission',[T('Referral Fee'),T('Asset Retention Bonus')])
+ ]
+};
+// custom order on revenue to show the feature
+data.revenue.forEach((c,i)=>c.order=i+1);
+data.revenue.forEach(c=>c.types.forEach((t,i)=>t.order=i+1));
+
+const byName=(d,cn,tn)=>data[d].find(c=>c.name===cn).types.find(t=>t.name===tn).id;
+const maps={revCost:[],revComm:[],costComm:[],expComm:[]};
+const M=(k,a,b)=>maps[k].push({id:nid(),a,b,status:'IN_USE'});
+M('revCost',byName('revenue','Brokerage Percentage','Basic'),byName('cost','Brokerage Costs','Basic'));
+M('revCost',byName('revenue','Brokerage Percentage','Brokerage'),byName('cost','Brokerage Costs','Exchange Levy'));
+M('revCost',byName('revenue','Brokerage Percentage','Brokerage'),byName('cost','Brokerage Costs','Settlement Fee'));
+['ABSA Rebates','AllFunds Rebates','GinsGlobal Fund Rebates'].forEach(n=>M('revCost',byName('revenue','Offshore Rebates Percentage',n),byName('cost','Platform Costs','Offshore Platform Fee')));
+M('revComm',byName('revenue','Brokerage Percentage','Basic'),byName('commission','Advisor Commission','Brokerage Share'));
+M('revComm',byName('revenue','Brokerage Percentage','Brokerage'),byName('commission','Advisor Commission','Brokerage Share'));
+['Allan Gray','Coronation','CI Collective'].forEach(n=>M('revComm',byName('revenue','Other Income Percentage',n),byName('commission','Advisor Commission','Ongoing Advice Fee')));
+M('revComm',byName('revenue','Offshore Rebates Percentage','ABSA Rebates'),byName('commission','Introducer Commission','Referral Fee'));
+M('costComm',byName('cost','Platform Costs','Custody Fee'),byName('commission','Advisor Commission','Ongoing Advice Fee'));
+M('expComm',byName('expense','Client Engagement','Client Events'),byName('commission','Introducer Commission','Referral Fee'));
+
+const PAIRS={'revenue>cost':['revCost',0],'cost>revenue':['revCost',1],'revenue>commission':['revComm',0],'commission>revenue':['revComm',1],'cost>commission':['costComm',0],'commission>cost':['costComm',1],'expense>commission':['expComm',0],'commission>expense':['expComm',1]};
+function links(d,id,t){const p=PAIRS[d+'>'+t];if(!p)return[];const [k,f]=p;return maps[k].filter(m=>m.status==='IN_USE'&&(f?m.b:m.a)===id).map(m=>f?m.a:m.b)}
+function setLinks(d,id,t,ids){const [k,f]=PAIRS[d+'>'+t];maps[k]=maps[k].filter(m=>(f?m.b:m.a)!==id);ids.forEach(o=>maps[k].push({id:nid(),a:f?o:id,b:f?id:o,status:'IN_USE'}))}
+function findType(d,id){for(const c of data[d]){const t=c.types.find(t=>t.id===id);if(t)return{t,c}}return null}
+function findClass(d,id){return data[d].find(c=>c.id===id)}
+const TARGETS={revenue:['cost','commission'],cost:['revenue','commission'],expense:['commission'],commission:[]};
+
+const st={domain:'revenue',view:'active',q:'',filter:'all',expanded:new Set(data.revenue.map(c=>c.id).concat(Object.values(data).flat().map(c=>c.id))),sel:null,orderMode:{revenue:'custom',cost:'alpha',expense:'alpha',commission:'alpha'}};
+
+const fmtR=v=>'R\u00a0'+Number(v).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});
+function methLabel(m){if(!m)return'<span class="meth none">100% of source</span>';if(m.type==='FLAT')return`<span class="meth">${fmtR(m.value)} flat</span>`;if(m.type==='PERCENTAGE')return`<span class="meth">${m.value}%</span>`;return`<span class="meth">${m.value} bps</span>`}
+function applyM(m,src){if(!m)return src;const v=+m.value||0;return m.type==='FLAT'?v:m.type==='PERCENTAGE'?src*v/100:src*v/10000}
+function sortItems(arr){const custom=st.orderMode[st.domain]==='custom';return[...arr].sort((a,b)=>{if(custom){const ao=a.order??1e9,bo=b.order??1e9;if(ao!==bo)return ao-bo}return a.name.localeCompare(b.name,'en',{sensitivity:'base'})})}
+
+/* ---------- rendering ---------- */
+function renderDomains(){
+  $('#domains').innerHTML=Object.entries(DOM).map(([k,v])=>{const n=data[k].reduce((s,c)=>s+c.types.filter(t=>t.status==='IN_USE').length,0);return`<button class="dom" role="tab" style="--c:${v.c}" data-d="${k}" aria-selected="${k===st.domain}"><span class="dot"></span>${v.label}<span class="n">${n}</span></button>`}).join('');
+}
+function renderFilter(){
+  const d=st.domain,o=[['all','All types']];
+  if(d!=='commission'){o.push(['meth','Has a calculation methodology'],['nometh','Uses 100% of source'],['nocom','No commission link'])}
+  if(d==='revenue')o.push(['nocost','No cost link']);
+  if(d==='commission')o.push(['unused','Not linked to anything']);
+  if(!o.find(x=>x[0]===st.filter))st.filter='all';
+  $('#filter').innerHTML=o.map(([v,l])=>`<option value="${v}" ${v===st.filter?'selected':''}>${l}</option>`).join('');
+}
+function cols(){
+  const d=st.domain;const c=['','Name','Code'];
+  if(d!=='commission')c.push('Calculation');
+  if(d==='revenue')c.push('Linked costs');
+  if(d==='cost')c.push('Linked revenue');
+  if(d!=='commission')c.push('Linked commission'); else c.push('Linked from');
+  c.push('Status','');return c;
+}
+function linkCell(ids,dom){if(!ids.length)return'<span class="none-t">None</span>';const names=ids.map(i=>findType(dom,i)).filter(Boolean);const show=names.slice(0,2).map(x=>`<span class="pill" title="${esc(x.c.name)} / ${esc(x.t.name)}">${esc(x.t.name)}</span>`).join('');return show+(names.length>2?`<span class="more">+${names.length-2}</span>`:'')}
+function passFilter(t){
+  const d=st.domain,f=st.filter;
+  if(f==='meth')return!!t.method; if(f==='nometh')return!t.method;
+  if(f==='nocom')return!links(d,t.id,'commission').length;
+  if(f==='nocost')return!links(d,t.id,'cost').length;
+  if(f==='unused')return['revenue','cost','expense'].every(x=>!links('commission',t.id,x).length);
+  return true;
+}
+function matchQ(x){const q=st.q.trim().toLowerCase();return!q||x.name.toLowerCase().includes(q)||x.code.includes(q)}
+function canDrag(){return st.view==='active'&&st.orderMode[st.domain]==='custom'&&!st.q&&st.filter==='all'}
+
+function typeRow(t,c,opts={}){
+  const d=st.domain,drag=canDrag()&&!opts.inactive;
+  let h=`<tr class="typ${st.sel===t.id?' is-selected':''}${opts.dim?' dim':''}" tabindex="0" data-kind="type" data-id="${t.id}" data-parent="${c.id}" ${drag?'draggable="true"':''}>`;
+  h+=`<td class="grip" aria-hidden="true">${drag?'⋮⋮':''}${drag&&t.order?`<br>${t.order}`:''}</td>`;
+  h+=`<td class="nmcell">${esc(t.name)}</td><td><code>${esc(t.code)}</code></td>`;
+  if(d!=='commission')h+=`<td>${methLabel(t.method)}</td>`;
+  if(d==='revenue')h+=`<td>${linkCell(links(d,t.id,'cost'),'cost')}</td>`;
+  if(d==='cost')h+=`<td>${linkCell(links(d,t.id,'revenue'),'revenue')}</td>`;
+  if(d!=='commission')h+=`<td>${linkCell(links(d,t.id,'commission'),'commission')}</td>`;
+  else{const n=['revenue','cost','expense'].map(x=>[x,links('commission',t.id,x).length]).filter(x=>x[1]);h+=`<td>${n.length?n.map(([x,k])=>`<span class="pill">${k} ${DOM[x].noun}</span>`).join(''):'<span class="none-t">None</span>'}</td>`}
+  h+=`<td><span class="status${t.status==='IN_USE'?'':' off'}">${t.status==='IN_USE'?'In use':'Not in use'}</span></td>`;
+  h+=opts.inactive&&!opts.dim?`<td><button class="btn sm" data-act="react-type" data-id="${t.id}">Reactivate</button></td>`:opts.inactive?'<td></td>':`<td><button class="kebab" data-act="menu" data-kind="type" data-id="${t.id}" aria-label="Actions for ${esc(t.name)}">⋯</button></td>`;
+  return h+'</tr>';
+}
+function classRow(c,nTypes,opts={}){
+  const drag=canDrag()&&!opts.inactive,exp=st.expanded.has(c.id)||!!st.q;
+  const span=cols().length-5;
+  let h=`<tr class="cls${st.sel===c.id?' is-selected':''}${opts.dim?' dim':''}" tabindex="0" data-kind="class" data-id="${c.id}" ${drag?'draggable="true"':''}>`;
+  h+=`<td class="grip" aria-hidden="true">${drag?'⋮⋮':''}${drag&&c.order?`<br>${c.order}`:''}</td>`;
+  h+=`<td class="nmcell">${opts.inactive?'':`<button class="tw" data-act="toggle" data-id="${c.id}" aria-expanded="${exp}" aria-label="${exp?'Collapse':'Expand'} ${esc(c.name)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg></button>`}${esc(c.name)}<span class="cnt">${nTypes} ${nTypes===1?'type':'types'}</span></td>`;
+  h+=`<td><code>${esc(c.code)}</code></td>`+'<td></td>'.repeat(span);
+  h+=`<td><span class="status${c.status==='IN_USE'?'':' off'}">${c.status==='IN_USE'?'In use':'Not in use'}</span></td>`;
+  h+=opts.inactive&&!opts.dim?`<td><button class="btn sm" data-act="react-class" data-id="${c.id}">Reactivate</button></td>`:opts.inactive?'<td></td>':`<td><button class="kebab" data-act="menu" data-kind="class" data-id="${c.id}" aria-label="Actions for ${esc(c.name)}">⋯</button></td>`;
+  return h+'</tr>';
+}
+function render(){
+  document.body.dataset.domain=st.domain;
+  renderDomains();renderFilter();
+  $('#thead').innerHTML='<tr>'+cols().map(c=>`<th>${c}</th>`).join('')+'</tr>';
+  document.querySelectorAll('#viewSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.view));
+  document.querySelectorAll('#orderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.o===st.orderMode[st.domain]));
+  const inact=data[st.domain].reduce((s,c)=>s+(c.status!=='IN_USE'?1:0)+c.types.filter(t=>t.status!=='IN_USE'&&c.status==='IN_USE').length,0);
+  $('#viewSeg [data-v=inactive]').textContent=`Inactive (${inact})`;
+  $('#newType').textContent=`New ${DOM[st.domain].noun} type`;$('#newClass').textContent='New class';
+  $('#orderSeg').style.display=$('#filter').style.display=st.view==='active'?'':'none';
+  let h='',nc=0,nt=0;const d=st.domain;
+  if(st.view==='active'){
+    for(const c of sortItems(data[d].filter(c=>c.status==='IN_USE'))){
+      const ts=sortItems(c.types.filter(t=>t.status==='IN_USE'&&passFilter(t)&&(matchQ(t)||matchQ(c))));
+      const hideEmpty=st.q||st.filter!=='all';
+      if(hideEmpty&&!ts.length)continue;
+      nc++;nt+=ts.length;
+      h+=classRow(c,c.types.filter(t=>t.status==='IN_USE').length);
+      if(st.expanded.has(c.id)||st.q)ts.forEach(t=>h+=typeRow(t,c));
+    }
+    if(!nc)h=`<tr><td colspan="${cols().length}"><div class="empty"><strong>${st.q||st.filter!=='all'?'No matches':'No '+DOM[d].noun+' classes yet'}</strong>${st.q||st.filter!=='all'?'Try a different search or clear the filter.':'Create a class, then add the types that belong to it.'}</div></td></tr>`;
+  }else{
+    for(const c of sortItems(data[d])){
+      const classOff=c.status!=='IN_USE';
+      const ts=sortItems(c.types.filter(t=>(classOff||t.status!=='IN_USE')&&(matchQ(t)||matchQ(c))));
+      if(!classOff&&!ts.length)continue;
+      nc++;nt+=ts.length;
+      h+=classRow(c,c.types.length,{inactive:true,dim:!classOff});
+      ts.forEach(t=>h+=typeRow(t,c,{inactive:true,dim:classOff}));
+    }
+    if(!nc)h=`<tr><td colspan="${cols().length}"><div class="empty"><strong>Nothing inactive in ${DOM[d].label}</strong>When you deactivate a class or type it appears here, so you can reactivate it later.</div></td></tr>`;
+  }
+  $('#tbody').innerHTML=h;
+  $('#footL').textContent=st.view==='active'?`${nc} ${nc===1?'class':'classes'}, ${nt} ${nt===1?'type':'types'} shown`:`Inactive records are excluded from all ${DOM[d].noun} processing.`;
+  $('#footR').textContent=st.view!=='active'?'':canDrag()?'Drag rows, or press Alt + ↑/↓, to set the reporting order.':st.orderMode[d]==='custom'?'Clear search and filters to reorder.':'Sorted A to Z. Switch to custom order to set a reporting order.';
+}
+
+/* ---------- toast & dialog ---------- */
+let toastTimer,undoFn;
+function toast(msg,undo){$('#toastT').textContent=msg;undoFn=undo;$('#toastU').hidden=!undo;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),undo?6000:3000)}
+$('#toastU').onclick=()=>{undoFn&&undoFn();$('#toast').classList.remove('show')};
+function ask(title,body,actions){$('#dlgT').textContent=title;$('#dlgB').innerHTML=body;$('#dlgA').innerHTML='';const all=[{label:'Cancel'},...actions];all.forEach(a=>{const b=document.createElement('button');b.className='btn'+(a.primary?' primary':'');b.textContent=a.label;b.onclick=()=>{$('#dlg').close();a.fn&&a.fn()};$('#dlgA').appendChild(b)});$('#dlg').showModal()}
+
+/* ---------- status changes ---------- */
+function countLinks(d,id){return TARGETS[d].concat(d==='commission'?['revenue','cost','expense']:[]).reduce((s,t)=>s+links(d,id,t).length,0)}
+function deactivateType(id){const d=st.domain,{t}=findType(d,id);const n=countLinks(d,id);
+  ask(`Deactivate ${t.name}?`,`It will stop being used for ${DOM[d].noun} processing${n?` and its ${n} ${n===1?'link':'links'} will stop applying`:''}. You can reactivate it from the Inactive view.`,[{label:'Deactivate',primary:true,fn:()=>{t.status='NOT_IN_USE';t.updated=TODAY;closeDrawer();render();toast(`${t.name} deactivated`,()=>{t.status='IN_USE';render()})}}])}
+function deactivateClass(id){const d=st.domain,c=findClass(d,id);const act=c.types.filter(t=>t.status==='IN_USE');
+  ask(`Deactivate ${c.name}?`,act.length?`Its ${act.length} active ${act.length===1?'type':'types'} will be deactivated too, because a type can't be used without an active class.`:'It has no active types.',[{label:'Deactivate',primary:true,fn:()=>{c.status='NOT_IN_USE';act.forEach(t=>t.status='NOT_IN_USE');closeDrawer();render();toast(`${c.name} deactivated`,()=>{c.status='IN_USE';act.forEach(t=>t.status='IN_USE');render()})}}])}
+function reactivateType(id){const d=st.domain,{t,c}=findType(d,id);if(c.status!=='IN_USE'){ask(`Reactivate ${t.name}?`,`Its class, ${esc(c.name)}, is inactive. Reactivating the type will reactivate the class as well.`,[{label:'Reactivate both',primary:true,fn:()=>{c.status='IN_USE';t.status='IN_USE';render();toast(`${t.name} and ${c.name} reactivated`)}}]);return}t.status='IN_USE';render();toast(`${t.name} reactivated`)}
+function reactivateClass(id){const d=st.domain,c=findClass(d,id);const off=c.types.filter(t=>t.status!=='IN_USE');const done=all=>{c.status='IN_USE';if(all)off.forEach(t=>t.status='IN_USE');st.expanded.add(c.id);render();toast(`${c.name} reactivated`)};if(!off.length)return done(false);
+  ask(`Reactivate ${c.name}?`,`It has ${off.length} inactive ${off.length===1?'type':'types'}. Choose whether to bring them back too.`,[{label:'Class only',fn:()=>done(false)},{label:'Class and types',primary:true,fn:()=>done(true)}])}
+
+/* ---------- ordering ---------- */
+function renumber(arr){sortItems(arr).forEach((x,i)=>x.order=i+1)}
+function setOrderMode(m){const d=st.domain;if(st.orderMode[d]===m)return;
+  if(m==='custom'){st.orderMode[d]='alpha';data[d].forEach(c=>{if(c.order==null)0});const cls=sortItems(data[d]);cls.forEach((c,i)=>{c.order=i+1;sortItems(c.types).forEach((t,j)=>t.order=j+1)});st.orderMode[d]='custom';render();toast('Custom order on. Drag rows to set the reporting order.');return}
+  const snap=data[d].map(c=>[c,c.order,c.types.map(t=>[t,t.order])]);
+  data[d].forEach(c=>{c.order=null;c.types.forEach(t=>t.order=null)});st.orderMode[d]='alpha';render();
+  toast('Reporting order cleared. Reports will sort A to Z.',()=>{snap.forEach(([c,o,ts])=>{c.order=o;ts.forEach(([t,to])=>t.order=to)});st.orderMode[d]='custom';render()});
+}
+function move(kind,id,parentId,targetId,after){const d=st.domain;const list=kind==='class'?data[d].filter(c=>c.status==='IN_USE'):findClass(d,parentId).types.filter(t=>t.status==='IN_USE');
+  const ord=sortItems(list);const from=ord.findIndex(x=>x.id===id);const item=ord.splice(from,1)[0];let to=ord.findIndex(x=>x.id===targetId);if(after)to++;ord.splice(to,0,item);ord.forEach((x,i)=>x.order=i+1);
+  // inactive items go after active ones
+  const rest=(kind==='class'?data[d]:findClass(d,parentId).types).filter(x=>x.status!=='IN_USE');rest.forEach((x,i)=>x.order=ord.length+i+1);render();
+  const el=document.querySelector(`tr[data-id="${id}"]`);el&&el.focus()}
+
+/* ---------- table events ---------- */
+const tbody=$('#tbody');
+tbody.addEventListener('click',e=>{
+  const a=e.target.closest('[data-act]');
+  if(a){e.stopPropagation();const id=a.dataset.id;
+    if(a.dataset.act==='toggle'){st.expanded.has(id)?st.expanded.delete(id):st.expanded.add(id);render();return}
+    if(a.dataset.act==='react-type')return reactivateType(id);
+    if(a.dataset.act==='react-class')return reactivateClass(id);
+    if(a.dataset.act==='menu')return openMenu(a);
+  }
+  const tr=e.target.closest('tr[data-id]');if(!tr||st.view!=='active')return;
+  openDrawer(tr.dataset.kind,tr.dataset.id);
+});
+tbody.addEventListener('keydown',e=>{const tr=e.target.closest('tr[data-id]');if(!tr||e.target!==tr)return;
+  if(e.key==='Enter'&&st.view==='active'){openDrawer(tr.dataset.kind,tr.dataset.id)}
+  if(e.altKey&&(e.key==='ArrowUp'||e.key==='ArrowDown')&&canDrag()){e.preventDefault();const k=tr.dataset.kind;const sibs=[...tbody.querySelectorAll(`tr[data-kind="${k}"]`+(k==='type'?`[data-parent="${tr.dataset.parent}"]`:''))];const i=sibs.indexOf(tr);const j=e.key==='ArrowUp'?i-1:i+1;if(j<0||j>=sibs.length)return;move(k,tr.dataset.id,tr.dataset.parent,sibs[j].dataset.id,e.key==='ArrowDown')}
+  if(!e.altKey&&(e.key==='ArrowDown'||e.key==='ArrowUp')){e.preventDefault();const rows=[...tbody.querySelectorAll('tr[data-id]')];const i=rows.indexOf(tr);const n=rows[e.key==='ArrowDown'?i+1:i-1];n&&n.focus()}
+});
+let drag=null;
+tbody.addEventListener('dragstart',e=>{const tr=e.target.closest('tr[draggable]');if(!tr)return;drag={kind:tr.dataset.kind,id:tr.dataset.id,parent:tr.dataset.parent};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',drag.id)});
+tbody.addEventListener('dragover',e=>{if(!drag)return;const tr=e.target.closest('tr[data-id]');clearDrop();if(!tr||tr.dataset.kind!==drag.kind||tr.dataset.id===drag.id||(drag.kind==='type'&&tr.dataset.parent!==drag.parent))return;e.preventDefault();const r=tr.getBoundingClientRect();tr.classList.add(e.clientY>r.top+r.height/2?'drop-below':'drop-above')});
+tbody.addEventListener('drop',e=>{const tr=e.target.closest('tr.drop-above,tr.drop-below');if(!tr||!drag)return;e.preventDefault();move(drag.kind,drag.id,drag.parent,tr.dataset.id,tr.classList.contains('drop-below'));drag=null});
+tbody.addEventListener('dragend',()=>{drag=null;clearDrop()});
+function clearDrop(){tbody.querySelectorAll('.drop-above,.drop-below').forEach(x=>x.classList.remove('drop-above','drop-below'))}
+
+/* ---------- menu ---------- */
+const menu=$('#menu');
+function openMenu(btn){const {kind,id}=btn.dataset;const items=kind==='class'?[['edit','Edit class'],['addtype','Add type to this class'],['deact','Deactivate class','d']]:[['edit','Edit type'],['deact','Deactivate type','d']];
+  menu.innerHTML=items.map(([a,l,c])=>`<button role="menuitem" class="${c||''}" data-m="${a}">${l}</button>`).join('');menu.dataset.kind=kind;menu.dataset.id=id;
+  const r=btn.getBoundingClientRect();menu.classList.add('open');menu.style.top=Math.min(r.bottom+4,innerHeight-menu.offsetHeight-8)+'px';menu.style.left=Math.max(8,r.right-menu.offsetWidth)+'px';menu.querySelector('button').focus()}
+menu.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const {kind,id}=menu.dataset;menu.classList.remove('open');
+  if(b.dataset.m==='edit')openDrawer(kind,id);if(b.dataset.m==='addtype')openDrawer('type',null,id);if(b.dataset.m==='deact')kind==='class'?deactivateClass(id):deactivateType(id)});
+document.addEventListener('click',e=>{if(!e.target.closest('#menu')&&!e.target.closest('[data-act=menu]'))menu.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(menu.classList.contains('open'))menu.classList.remove('open');else if($('#drawer').classList.contains('open')&&!$('#dlg').open)closeDrawer()}});
+
+/* ---------- drawer ---------- */
+const drawer=$('#drawer');let dr=null,lastFocus=null;
+function openDrawer(kind,id,parentId){
+  lastFocus=document.activeElement;const d=st.domain;
+  if(kind==='class'){const c=id?findClass(d,id):null;dr={kind,d,id,isNew:!c,codeTouched:!!c,draft:c?{name:c.name,code:c.code,desc:c.desc}:{name:'',code:'',desc:''},errs:{}}}
+  else{const f=id?findType(d,id):null;const firstClass=parentId||(sortItems(data[d].filter(c=>c.status==='IN_USE'))[0]||{}).id;
+    dr={kind,d,id,isNew:!f,codeTouched:!!f,errs:{},src:10000,
+      draft:f?{name:f.t.name,code:f.t.code,desc:f.t.desc,classId:f.c.id,method:f.t.method?{...f.t.method}:null}:{name:'',code:'',desc:'',classId:firstClass,method:null},
+      links:Object.fromEntries(TARGETS[d].map(t=>[t,id?links(d,id,t):[]]))};
+    if(!firstClass&&!f){toast('Create an active class first, then add types to it.');return}}
+  st.sel=id;render();drawDrawer();drawer.classList.add('open');$('#scrim').classList.add('open');setTimeout(()=>drawer.querySelector('input,select,button.x')?.focus(),60);
+}
+function closeDrawer(){drawer.classList.remove('open');$('#scrim').classList.remove('open');st.sel=null;dr=null;render();lastFocus&&lastFocus.focus&&document.body.contains(lastFocus)&&lastFocus.focus()}
+$('#scrim').onclick=closeDrawer;
+function fld(key,label,inner,help){return`<label class="fld${dr.errs[key]?' err':''}" data-f="${key}"><span>${label}</span>${inner}${help?`<small>${help}</small>`:''}<div class="e">${esc(dr.errs[key]||'')}</div></label>`}
+function drawDrawer(){
+  const {kind,d,draft}=dr;const noun=DOM[d].noun;let h='';
+  const cls=kind==='type'?findClass(d,draft.classId):null;
+  h+=`<div class="dh"><div><h2 id="dTitle">${dr.isNew?`New ${noun} ${kind}`:esc(draft.name||'Untitled')}</h2><p>${kind==='class'?`${DOM[d].label} class`:`${DOM[d].label} type${cls?' in '+esc(cls.name):''}`}</p></div><button class="x" data-dx="close" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="db">`;
+  h+=`<section class="sec"><h3>Details</h3><p class="lead">${kind==='class'?'A class groups related types. Events are always classified by a type, never by a class alone.':'The type is what each '+noun+' event is classified by.'}</p>`;
+  h+=fld('name','Name',`<input data-k="name" value="${esc(draft.name)}" autocomplete="off">`);
+  h+=fld('code','Code',`<input data-k="code" value="${esc(draft.code)}" autocomplete="off" spellcheck="false">`,kind==='class'?'Lowercase letters, numbers and underscores. Must be unique across '+noun+' classes.':'Lowercase letters, numbers and underscores. Must be unique within its class. Used in ingestion files.');
+  if(kind==='type')h+=fld('classId','Class',`<select data-k="classId">${sortItems(data[d].filter(c=>c.status==='IN_USE')).map(c=>`<option value="${c.id}" ${c.id===draft.classId?'selected':''}>${esc(c.name)}</option>`).join('')}</select>`);
+  h+=fld('desc','Description',`<textarea data-k="desc" rows="2">${esc(draft.desc)}</textarea>`)+'</section>';
+
+  if(kind==='type'&&d!=='commission'){
+    const m=draft.method,mt=m?m.type:'NONE';
+    h+=`<section class="sec"><h3>Calculation during ingestion</h3><p class="lead">How the recorded amount is worked out from the source amount when ARM ingests this ${noun}.</p>`;
+    h+=`<div class="mseg" role="radiogroup" aria-label="Calculation methodology">`+[['NONE','None'],['PERCENTAGE','Percentage'],['BASIS_POINTS','Basis points'],['FLAT','Flat']].map(([v,l])=>`<label><input type="radio" name="mt" value="${v}" ${mt===v?'checked':''}>${l}</label>`).join('')+'</div>';
+    if(m){const u=METH[m.type].unit;h+=fld('mval','Value',`<div class="affix">${m.type==='FLAT'?`<i>${u}</i>`:''}<input data-k="mval" inputmode="decimal" value="${esc(m.value??'')}">${m.type!=='FLAT'?`<i>${u}</i>`:''}</div>`,METH[m.type].help)}
+    else h+=`<p class="lead" style="margin:0 0 10px">No methodology set, so 100% of the source amount is recorded.</p>`;
+    h+=`<div class="calc" aria-live="polite"><div class="line"><span>Try a source amount</span><input data-k="src" inputmode="decimal" value="${dr.src}" aria-label="Source amount"></div>`;
+    const rec=applyM(m&&m.value!==''?m:null,+dr.src||0);
+    h+=`<div class="line"><span>Recorded ${noun}</span><b>${fmtR(rec)}</b></div>`;
+    if(d==='revenue'){const costs=dr.links.cost.map(i=>findType('cost',i)).filter(Boolean);
+      if(costs.length){let net=rec;costs.forEach(({t})=>{const v=applyM(t.method,+dr.src||0);net-=v;h+=`<div class="line"><span>Less ${esc(t.name)} <span class="sub">(${t.method?methLabel(t.method).replace(/<[^>]+>/g,''):'100% of source'})</span></span><span>− ${fmtR(v)}</span></div>`});
+        h+=`<div class="line total"><span>Net revenue</span><span>${fmtR(net)}</span></div>`}
+      else h+=`<div class="line sub">Link cost types below to preview net revenue.</div>`}
+    h+='</div></section>';
+  }
+  if(kind==='type'){
+    const labels={cost:['Linked cost types','Costs deducted from this revenue to calculate net revenue.'],revenue:['Linked revenue types','Revenue this cost is deducted from.'],commission:['Linked commission types','Commission that is earned from this '+noun+'.']};
+    for(const t of TARGETS[d]){const ids=dr.links[t];
+      h+=`<section class="sec"><h3>${labels[t][0]}</h3><p class="lead">${labels[t][1]}</p><div class="chips">`+(ids.length?ids.map(i=>{const x=findType(t,i);return x?`<span class="chip" style="--c:${DOM[t].c}"><span class="dt"></span>${esc(x.t.name)} <small>${esc(x.c.name)}</small><button data-rm="${t}:${i}" aria-label="Remove ${esc(x.t.name)}">×</button></span>`:''}).join(''):`<span class="none-t" style="font-size:13px">None linked</span>`)+'</div>';
+      h+=`<label class="adder"><span class="sr">Add ${DOM[t].noun} type</span><select data-add="${t}"><option value="">Add a ${DOM[t].noun} type…</option>`+sortItems(data[t].filter(c=>c.status==='IN_USE')).map(c=>{const opts=c.types.filter(x=>x.status==='IN_USE'&&!ids.includes(x.id));return opts.length?`<optgroup label="${esc(c.name)}">${opts.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</optgroup>`:''}).join('')+'</select></label></section>';}
+    if(d==='commission'&&!dr.isNew){h+=`<section class="sec"><h3>Linked from</h3><p class="lead">Revenue, cost and expense types that earn this commission. Manage links from those types.</p>`;let any=false;
+      for(const s of ['revenue','cost','expense']){const ids=links('commission',dr.id,s);if(!ids.length)continue;any=true;h+=`<div class="chips">`+ids.map(i=>{const x=findType(s,i);return`<span class="chip" style="--c:${DOM[s].c};padding-right:10px"><span class="dt"></span>${esc(x.t.name)} <small>${DOM[s].label}</small></span>`}).join('')+'</div>'}
+      if(!any)h+='<span class="none-t" style="font-size:13px">Nothing links to this commission type yet.</span>';h+='</section>'}
+  }
+  if(kind==='class'&&!dr.isNew){const c=findClass(d,dr.id);const ts=sortItems(c.types.filter(t=>t.status==='IN_USE'));
+    h+=`<section class="sec"><h3>Types in this class</h3><p class="lead">${ts.length} active. ${st.orderMode[d]==='custom'?'Shown in reporting order.':'Shown A to Z.'}</p>`+(ts.length?`<ul class="typelist">${ts.map(t=>`<li><button data-open="${t.id}">${esc(t.name)}</button>${d!=='commission'?methLabel(t.method):''}</li>`).join('')}</ul>`:'')+`<p style="margin:10px 0 0"><button class="btn sm" data-addtype="${c.id}">Add type</button></p></section>`}
+  if(!dr.isNew){const r=kind==='class'?findClass(d,dr.id):findType(d,dr.id).t;h+=`<section class="sec"><h3>Record</h3><dl class="kv"><dt>Status</dt><dd><span class="status">In use</span></dd>${st.orderMode[d]==='custom'?`<dt>Reporting order</dt><dd>${r.order??'Not set'}</dd>`:''}<dt>Created</dt><dd>${r.created} by ${esc(r.createdBy)}</dd><dt>Last updated</dt><dd>${r.updated} by ${esc(r.updatedBy)}</dd></dl></section>`}
+  h+='</div><div class="df">'+(dr.isNew?'':`<button class="btn danger" data-dx="deact">Deactivate</button>`)+`<span class="sp"></span><button class="btn" data-dx="close">Cancel</button><button class="btn primary" data-dx="save">${dr.isNew?`Create ${kind}`:'Save changes'}</button></div>`;
+  drawer.innerHTML=h;
+}
+drawer.addEventListener('input',e=>{if(!dr)return;const k=e.target.dataset.k;if(!k)return;const v=e.target.value;
+  if(k==='src'){dr.src=v;refreshCalc();return}
+  if(k==='mval'){dr.draft.method.value=v;delete dr.errs.mval;refreshCalc();return}
+  dr.draft[k]=v;delete dr.errs[k];
+  if(k==='code')dr.codeTouched=true;
+  if(k==='name'&&!dr.codeTouched){dr.draft.code=slug(v);const ci=drawer.querySelector('[data-k=code]');ci.value=dr.draft.code}
+  if(k==='name')drawer.querySelector('#dTitle').textContent=v||(dr.isNew?`New ${DOM[dr.d].noun} ${dr.kind}`:'Untitled');
+  e.target.closest('.fld')?.classList.remove('err');
+});
+function refreshCalc(){const pos=document.activeElement?.dataset.k;const sel=[document.activeElement?.selectionStart];drawDrawer();const el=drawer.querySelector(`[data-k="${pos}"]`);if(el){el.focus();try{el.setSelectionRange(sel[0],sel[0])}catch(_){}}}
+drawer.addEventListener('change',e=>{if(!dr)return;
+  if(e.target.name==='mt'){const v=e.target.value;dr.draft.method=v==='NONE'?null:{type:v,value:dr.draft.method?.type===v?dr.draft.method.value:''};delete dr.errs.mval;drawDrawer();drawer.querySelector(v==='NONE'?`input[value=NONE]`:'[data-k=mval]').focus();return}
+  if(e.target.dataset.k==='classId'){dr.draft.classId=e.target.value;delete dr.errs.code;drawDrawer();return}
+  if(e.target.dataset.add&&e.target.value){const t=e.target.dataset.add;dr.links[t].push(e.target.value);drawDrawer();drawer.querySelector(`[data-add="${t}"]`).focus()}
+});
+drawer.addEventListener('click',e=>{if(!dr)return;const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.rm){const [t,i]=b.dataset.rm.split(':');dr.links[t]=dr.links[t].filter(x=>x!==i);drawDrawer();drawer.querySelector(`[data-add="${t}"]`).focus();return}
+  if(b.dataset.open){openDrawer('type',b.dataset.open);return}
+  if(b.dataset.addtype){openDrawer('type',null,b.dataset.addtype);return}
+  const x=b.dataset.dx;if(x==='close')closeDrawer();if(x==='deact')dr.kind==='class'?deactivateClass(dr.id):deactivateType(dr.id);if(x==='save')save();
+});
+function validate(){const {kind,d,draft}=dr;const e={};const codeRe=/^[a-z][a-z0-9_]*$/;
+  if(!draft.name.trim())e.name='Enter a name.';
+  if(!draft.code.trim())e.code='Enter a code.';else if(!codeRe.test(draft.code))e.code='Use lowercase letters, numbers and underscores, starting with a letter.';
+  else if(kind==='class'&&data[d].some(c=>c.code===draft.code&&c.id!==dr.id))e.code=`Another ${DOM[d].noun} class already uses this code.`;
+  else if(kind==='type'){const c=findClass(d,draft.classId);if(c&&c.types.some(t=>t.code===draft.code&&t.id!==dr.id))e.code=`${c.name} already has a type with this code.`}
+  if(kind==='type'&&!draft.classId)e.classId='Choose a class.';
+  const m=draft.method;if(m){const v=m.value===''?NaN:Number(m.value);
+    if(isNaN(v))e.mval='Enter a number.';else if(v<0)e.mval='Enter a value of 0 or more.';else if(m.type==='PERCENTAGE'&&v>100)e.mval='Enter a percentage from 0 to 100.';else if(m.type==='BASIS_POINTS'&&v>10000)e.mval='Enter up to 10,000 basis points.'}
+  return e}
+function save(){const e=validate();dr.errs=e;if(Object.keys(e).length){drawDrawer();const f=drawer.querySelector('.fld.err input,.fld.err select');f&&f.focus();return}
+  const {kind,d,draft}=dr;let name=draft.name.trim();
+  if(kind==='class'){if(dr.isNew){const c=C(name,draft.code,[]);c.desc=draft.desc;c.createdBy=c.updatedBy='you';c.created=c.updated=TODAY;if(st.orderMode[d]==='custom')c.order=data[d].filter(x=>x.status==='IN_USE').length+1;data[d].push(c);st.expanded.add(c.id)}
+    else{const c=findClass(d,dr.id);Object.assign(c,{name,code:draft.code,desc:draft.desc,updated:TODAY,updatedBy:'you'})}}
+  else{let t;const target=findClass(d,draft.classId);
+    if(dr.isNew){t=T(name,null);t.createdBy=t.updatedBy='you';t.created=t.updated=TODAY;if(st.orderMode[d]==='custom')t.order=target.types.filter(x=>x.status==='IN_USE').length+1;target.types.push(t)}
+    else{const f=findType(d,dr.id);t=f.t;if(f.c.id!==target.id){f.c.types=f.c.types.filter(x=>x!==t);target.types.push(t);if(st.orderMode[d]==='custom'){t.order=target.types.length;renumber(f.c.types)}}}
+    Object.assign(t,{name,code:draft.code,desc:draft.desc,method:draft.method?{type:draft.method.type,value:Number(draft.method.value)}:null,updated:TODAY,updatedBy:'you'});
+    TARGETS[d].forEach(x=>setLinks(d,t.id,x,dr.links[x]));st.expanded.add(target.id)}
+  const verb=dr.isNew?'created':'saved';closeDrawer();toast(`${name} ${verb}`)}
+
+/* ---------- toolbar ---------- */
+$('#domains').addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(!b)return;st.domain=b.dataset.d;st.filter='all';render()});
+$('#domains').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;const ks=Object.keys(DOM);let i=ks.indexOf(st.domain)+(e.key==='ArrowRight'?1:-1);i=(i+ks.length)%ks.length;st.domain=ks[i];render();$(`[data-d=${ks[i]}]`).focus()});
+$('#q').addEventListener('input',e=>{st.q=e.target.value;render()});
+$('#filter').addEventListener('change',e=>{st.filter=e.target.value;render()});
+$('#viewSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b){st.view=b.dataset.v;render()}});
+$('#orderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setOrderMode(b.dataset.o)});
+$('#newClass').onclick=()=>openDrawer('class',null);
+$('#newType').onclick=()=>openDrawer('type',null);
+render();
+})();
+</script>
+</body>
+</html>
