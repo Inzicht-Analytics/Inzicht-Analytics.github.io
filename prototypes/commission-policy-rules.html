@@ -12,7 +12,7 @@
   --bg:#F8FAFC;--surface:#FFFFFF;--sunk:#F1F5F9;--hover:#F1F5F9;--ink:#0F172A;--muted:#475569;--faint:#5B6B80;
   --line:#E2E8F0;--line2:#CBD5E1;--primary:#1E293B;--on-primary:#FFFFFF;--link:#1D4ED8;--focus:#2563EB;
   --ok:#15803D;--okbg:#F0FDF4;--warn:#B45309;--warnbg:#FFFBEB;--danger:#B91C1C;--dangerbg:#FEF2F2;
-  --rev:#0F766E;--cost:#BE185D;--exp:#94580A;--sel:#EFF6FF;--selb:#60A5FA;
+  --rev:#4F46E5;--cost:#C2410C;--exp:#BE185D;--sel:#EFF6FF;--selb:#60A5FA;
   --radius:10px;--font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -20,12 +20,12 @@
   --bg:#0B1120;--surface:#111827;--sunk:#1E293B;--hover:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#A3B1C4;
   --line:#253246;--line2:#334155;--primary:#F1F5F9;--on-primary:#0F172A;--link:#93C5FD;--focus:#60A5FA;
   --ok:#4ADE80;--okbg:#06240F;--warn:#FBBF24;--warnbg:#2A1D05;--danger:#FCA5A5;--dangerbg:#2A0B0B;
-  --rev:#2DD4BF;--cost:#F9A8D4;--exp:#FACC15;--sel:#14223F;--selb:#3B82F6;}}
+  --rev:#A5B4FC;--cost:#FDBA74;--exp:#F9A8D4;--sel:#14223F;--selb:#3B82F6;}}
 :root[data-theme="dark"]{
   --bg:#0B1120;--surface:#111827;--sunk:#1E293B;--hover:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#A3B1C4;
   --line:#253246;--line2:#334155;--primary:#F1F5F9;--on-primary:#0F172A;--link:#93C5FD;--focus:#60A5FA;
   --ok:#4ADE80;--okbg:#06240F;--warn:#FBBF24;--warnbg:#2A1D05;--danger:#FCA5A5;--dangerbg:#2A0B0B;
-  --rev:#2DD4BF;--cost:#F9A8D4;--exp:#FACC15;--sel:#14223F;--selb:#3B82F6;}
+  --rev:#A5B4FC;--cost:#FDBA74;--exp:#F9A8D4;--sel:#14223F;--selb:#3B82F6;}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
@@ -137,6 +137,39 @@ main{max-width:1280px;margin:0 auto;padding:24px}
 .d-cost .lvl.c{background:var(--cost)}.d-cost .lvl.t{color:var(--cost);border-color:var(--cost)}
 .d-expense .lvl.c{background:var(--exp)}.d-expense .lvl.t{color:var(--exp);border-color:var(--exp)}
 .defrow .lvl{background:var(--primary);color:var(--on-primary);border-color:transparent}
+.bdg{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 5px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.02em;flex:none;border:1.5px solid transparent;line-height:1}
+.bdg.c{color:var(--on-primary)}.bdg.t{background:transparent}
+.d-revenue .bdg.c{background:var(--rev)}.d-revenue .bdg.t{color:var(--rev);border-color:var(--rev)}
+.d-cost .bdg.c{background:var(--cost)}.d-cost .bdg.t{color:var(--cost);border-color:var(--cost)}
+.d-expense .bdg.c{background:var(--exp)}.d-expense .bdg.t{color:var(--exp);border-color:var(--exp)}
+.lessl{list-style:none;margin:0 0 2px 26px;padding:0 0 0 12px;border-left:2px dashed var(--line2)}
+.lessrow{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:3px 8px;min-height:40px;cursor:pointer;font-size:14px}
+.lessrow:hover{background:var(--hover)}
+.lessrow .lw{font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:0 8px;flex:none}
+.lessrow .bdg{min-width:24px;height:24px;font-size:11px;border-radius:6px}
+.lessrow .rn b{font-size:14px;font-weight:500}
+.lessrow .rate.unset{font-weight:600}
+.lessrow .dflt{font-size:12px;color:var(--muted);font-weight:500;margin-right:4px}
+.nolink{color:var(--danger);font-weight:600}
+.lessinfo .nolinkbox{display:flex;gap:10px;align-items:flex-start;margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--dangerbg);border:1px solid color-mix(in srgb,var(--danger) 35%,transparent);font-size:14px;line-height:1.45}
+.lessinfo .nolinkbox .i{flex:none;margin-top:2px;color:var(--danger)}
+.lessinfo .nolinkbox b{font-weight:600}
+.lessinfo{margin:18px 0 4px}
+.lessinfo .flabel{margin-bottom:2px}
+.lessinfo .lg{font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 2px}
+.lessinfo .lessl{margin-left:0;padding-left:8px}
+.lessinfo .lessrow .rn b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.lessinfo .lessrow.ro{cursor:default}
+.lessinfo .lessrow.ro:hover{background:none}
+.pgrp{margin:0 0 8px}
+.pgrp>h4{margin:0 0 2px}
+.ghd{display:flex;align-items:center;gap:8px;width:100%;border:0;background:var(--sunk);border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.04em;text-align:left}
+.ghd i{width:9px;height:9px;border-radius:50%;flex:none}
+.ghd small{text-transform:none;letter-spacing:0;font-weight:500;color:var(--faint);margin-left:auto}
+.ghd svg{transition:transform .15s;flex:none}
+.ghd[aria-expanded="true"] svg{transform:rotate(90deg)}
+.ex .bdg{flex:none}
+@media (max-width:520px){.lessl{margin-left:14px;padding-left:8px}.lessrow .rn b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}.ghd small{display:none}.pick button{flex-wrap:wrap;row-gap:0}.pick button .rn{flex:1 1 0;min-width:0}.pick button .now{flex-basis:100%;white-space:normal;padding-left:40px;margin-top:-2px}.pick button.t{padding-left:16px}}
 .rate{font-weight:600;white-space:nowrap;text-align:right}
 .rate.unset{color:var(--danger);font-weight:500}
 .tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
@@ -358,6 +391,24 @@ const C=(d,c)=>`c:${d}:${slug(c)}`,T=(d,c,t)=>`t:${d}:${slug(c)}:${slug(t)}`;
 const ALLT=ORDER.flatMap(d=>LIB[d].flatMap(c=>c.types.map(t=>t.id)));
 const covers=eid=>{const e=ENT[eid];return e.level==='CLASS'?e.cls.types.map(t=>t.id):[e.id]};
 
+/* ===================== revenue-to-cost mapping (read-only here) =====================
+   One global table, revenue_cost_mapping (revenue_type_id, cost_type_id, record_status). It is many-to-many, set once
+   for every policy in Classes & Types. A policy only gives each linked cost a rate. */
+const MAP=[];
+{const M=(r,c)=>MAP.push({rev:r,cost:c});
+ M(T('revenue','Brokerage Percentage','Basic'),T('cost','Brokerage Percentage','Cost Basic'));
+ M(T('revenue','Other Income Percentage','ALLAN GRAY'),T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'));
+ M(T('revenue','Other Income Percentage','ALLAN GRAY'),T('cost','Other Income Percentage','Cost Spw Local Management Fee'));
+ M(T('revenue','Other Income Percentage','CORONATION'),T('cost','Other Income Percentage','Cost Spw Local Management Fee'));
+ ['ABSA Rebates','AllFunds Rebates','GinsGlobal Fund Rebates'].forEach(n=>M(T('revenue','Offshore Rebates Percentage',n),T('cost','Lisp Admin Fee','Cost Lisp Admin Fee Recouped')))}
+const costsFor=rt=>[...new Set(MAP.filter(m=>m.rev===rt).map(m=>m.cost))];
+const revsFor=ct=>[...new Set(MAP.filter(m=>m.cost===ct).map(m=>m.rev))];
+const uniq=a=>[...new Set(a)];
+/* a cost type with no revenue link can't be processed: its events have nothing to come off */
+const unlinked=eid=>covers(eid).filter(t=>ENT[t].d==='cost'&&!revsFor(t).length);
+const andList=ns=>ns.length<=1?ns.join(''):ns.slice(0,-1).join(', ')+' and '+ns[ns.length-1];
+const nameList=ids=>{const n=uniq(ids.map(i=>ENT[i].name));return n.length<=2?n.map(esc).join(' and '):`${n.length} revenue types`};
+
 /* ===================== demo data ===================== */
 let seq=0;const rid=()=>'r'+(++seq);
 const P=v=>({type:'PERCENTAGE',value:v}),BP=v=>({type:'BASIS_POINTS',value:v}),FL=v=>({type:'FLAT',value:v});
@@ -371,7 +422,7 @@ function seedTiered(){const a=[];const add=(...x)=>{const r=R(...x);a.push(r);re
   add(T('revenue','Other Income Percentage','ALLAN GRAY'),P(35),oi.id);add(T('revenue','Other Income Percentage','CORONATION'),P(35),oi.id);
   add(T('revenue','Other Income Percentage','Comm Rec: Bond Trade'),BP(10),oi.id);add(T('revenue','Other Income Percentage','Fees Receive: Guarantee'),FL(250),oi.id);
   add(T('revenue','Other Income Percentage','Fees: Product Development'),P(20),oi.id,'NOT_IN_USE');
-  const cb=add(C('cost','Brokerage Percentage'),P(30));add(T('cost','Brokerage Percentage','Cost Basic'),P(40),cb.id);
+  add(T('cost','Brokerage Percentage','Cost Basic'),P(40));
   const co=add(C('cost','Other Income Percentage'),P(30));add(T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'),P(100),co.id);
   add(C('cost','Lisp Admin Fee'),P(100),null,'IN_USE',false);
   add(C('expense','Assistant'),P(50));add(C('expense','Referral Fees'),FL(250),null,'IN_USE',false);
@@ -401,11 +452,11 @@ let POOLS=[
  {id:'pl6',code:'LEGACY ASSET MANAGERS',desc:'Replaced by OTHER INCOME in 2025',status:'NOT_IN_USE',types:[T('revenue','Other Income Percentage','ALLAN GRAY'),T('revenue','Other Income Percentage','CORONATION')],updated:'2025-11-02'}];
 
 /* saved changes survive a reload in this browser */
-const STORE='cpr.policies.v2';
+const STORE='cpr.policies.v4';
 try{const o=JSON.parse(localStorage.getItem(STORE)||'null');
-  if(o&&o.v===2&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
+  if(o&&o.v===4&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
 let noPersist=false;
-function persist(){if(noPersist)return;try{localStorage.setItem(STORE,JSON.stringify({v:2,seq,policies,pools:POOLS}))}catch(_){}}
+function persist(){if(noPersist)return;try{localStorage.setItem(STORE,JSON.stringify({v:4,seq,policies,pools:POOLS}))}catch(_){}}
 
 /* ===================== rule logic ===================== */
 const pol=()=>policies.find(p=>p.id===st.pid);
@@ -472,9 +523,26 @@ function guard(next){if(!isDirty())return next();const d=st.draft;const nm=ENT[d
 const methodSeg=(m,attr)=>`<div class="seg mseg" role="group" aria-label="How the rate is worked out">${[['PERCENTAGE','Percentage'],['BASIS_POINTS','Basis points'],['FLAT','Flat amount']].map(([v,l])=>`<button type="button" data-act="${attr}" data-v="${v}" aria-pressed="${m.type===v}">${l}</button>`).join('')}</div>`;
 const unitOf=t=>t==='NUM'?['','']:t==='FLAT'?['R','']:t==='BASIS_POINTS'?['','bps']:['','%'];
 const affix=(t,attrs,val,label,cls='')=>{const [a,b]=unitOf(t);return`<div class="affix${cls}">${a?`<i>${a}</i>`:''}<input inputmode="decimal" ${attrs} value="${esc(val)}" aria-label="${esc(label)}">${b?`<i>${b}</i>`:''}</div>`};
-const methodHint=t=>t==='FLAT'?'A fixed amount in rands for every event.':t==='BASIS_POINTS'?'Basis points of the amount. 100 bps = 1%.':'A percentage of the amount, from 0 to 100.';
+const methodHint=(t,dom)=>{const a=dom==='cost'?'the cost amount':'the amount';return t==='FLAT'?'A fixed amount in rands for every event.':t==='BASIS_POINTS'?`Basis points of ${a}. 100 bps = 1%.`:`A percentage of ${a}, from 0 to 100.`};
 function validMethod(m){const s=String(m.value??'').trim();if(s==='')return'Enter a rate.';const v=num(s);if(isNaN(v))return'Enter a number, for example 37.5.';if(v<0)return'Enter 0 or more.';if(m.type==='PERCENTAGE'&&v>100)return'Enter a percentage from 0 to 100.';if(m.type==='BASIS_POINTS'&&v>10000)return'Enter up to 10,000 bps.';return null}
-const lvlTag=e=>`<span class="lvl ${e.level==='CLASS'?'c':'t'}">${e.level==='CLASS'?'Class':'Type'}</span>`;
+const bcode=e=>{const w=e.cls.name.split(/[\s/&-]+/).filter(Boolean);return(w.length>1?w[0][0]+w[1][0]:w[0][0]).toUpperCase()};
+const badge=e=>`<span class="bdg ${e.level==='CLASS'?'c':'t'}" aria-hidden="true">${esc(bcode(e))}</span>`;
+const SUB={revenue:'',cost:' <small>· come off revenue before commission</small>',expense:' <small>· deducted from commission</small>'};
+/* a rule row's extra line: which revenue a cost comes off, or how many types of a revenue class have costs linked */
+const lessSub=(p,r)=>{const e=ent(r),mine=t=>r.status!=='IN_USE'||resolve(p,t).rule===r;
+  if(e.d==='cost'){const ts=covers(r.entityId).filter(mine),rv=uniq(ts.flatMap(revsFor)),nl=ts.filter(t=>!revsFor(t).length).length;
+    const a=rv.length===1?` · Less from ${esc(ENT[rv[0]].name)}`:rv.length>1?` · Less from ${rv.length} revenue types`:'';
+    const b=!nl?'':e.level==='TYPE'?' · <span class="nolink">Not linked to revenue</span>':nl===ts.length?' · <span class="nolink">None linked to revenue</span>':` · <span class="nolink">${nl} not linked</span>`;
+    return a+b}
+  if(e.d==='revenue'&&e.level==='CLASS'){const n=covers(r.entityId).filter(t=>mine(t)&&costsFor(t).length).length;return n?` · Costs come off ${n} ${n===1?'type':'types'}`:''}
+  return''};
+/* one linked cost, with the rate this policy gives it. Click opens the rule that sets it, or offers to add one */
+function lessRow(p,c,ro){const ce=ENT[c],x=resolve(p,c);
+  const inner=(rate)=>`<span class="lw">Less</span>${badge(ce)}<span class="rn"><b>${esc(ce.name)}</b></span>${rate}`;
+  const sr='<span class="sr">deducted </span>';
+  if(x.rule)return`<li><button class="lessrow d-cost" data-act="rule" data-v="${x.rule.id}">${inner(`<span class="rate">${sr}−${esc(rateText(x.rule))}</span>`)}</button></li>`;
+  if(x.def)return`<li><button class="lessrow d-cost" data-act="settings" data-focus="def">${inner(`<span class="rate"><span class="dflt">default</span>${sr}−${esc(mtxt(p.def))}</span>`)}</button></li>`;
+  return`<li><button class="lessrow d-cost" data-act="add-entity" data-v="${c}" title="Add a rule for ${esc(ce.name)}">${inner(`<span class="rate unset">No rate · add</span>`)}</button></li>`}
 
 /* ===================== render: policies list ===================== */
 function render(){
@@ -522,7 +590,7 @@ function viewEditor(){const p=pol();const g=uncovered(p);const live=p.rules.filt
     <p>This policy has no rules yet. It’s built from rules: each one picks something to pay on, or deduct, and gives it a rate.</p>
     <ol class="how"><li><span class="n">1</span><span><b>Choose what it covers.</b> A whole class, like Brokerage Percentage, or a single type.</span></li>
     <li><span class="n">2</span><span><b>Set the rate.</b> One rate, or a tiered rate that grows with the advisor’s revenue.</span></li></ol>
-    <div class="ex" role="img" aria-label="Example: a class rule at 30% with a type rule at 40% beneath it"><div class="d-revenue"><span class="lvl c">Class</span><span>Brokerage Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="lvl t">Type</span><span>Basic</span><b>40%</b></div></div>
+    <div class="ex" role="img" aria-label="Example: a class rule at 30% with a type rule at 40% beneath it"><div class="d-revenue"><span class="bdg c">BP</span><span>Brokerage Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="bdg t">BP</span><span>Basic</span><b>40%</b></div></div>
     <button class="btn primary" data-act="add-rule">${ICON.plus}Add the first rule</button>
     <p class="alt">Paying the same rate on everything? <button class="link" data-act="settings" data-focus="def">Use a default rate instead</button></p>
    </section></div>`;
@@ -533,19 +601,21 @@ function viewEditor(){const p=pol();const g=uncovered(p);const live=p.rules.filt
     ${st.showGaps?`<div class="gaplist">${g.slice(0,40).map(t=>`<button data-act="add-entity" data-v="${t}" title="Add a rule for ${esc(ENT[t].name)}">+ ${esc(ENT[t].name)}</button>`).join('')}</div>`:''}</div></div>`;
   else if(!p.rules.length)banner=`<div class="banner info">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb"><b>This policy pays ${mtxt(p.def)} on everything.</b> That’s all most contracts need. Add a rule only where a class or type earns a different rate.</div></div>`;
   else banner=`<div class="banner ok">${ICON.ok.replace('class="i"','class="i bi"')}<div class="bb"><b>Everything is covered.</b> ${live.length} active ${live.length===1?'rule':'rules'}${p.def?`, and everything else uses the ${mtxt(p.def)} default.`:'.'}</div></div>`;
+  const lessLines=r=>{const e=ent(r);if(e.d!=='revenue'||e.level!=='TYPE'||r.status!=='IN_USE')return'';const cs=costsFor(e.id);
+    return cs.length?`<ul class="lessl" role="list" aria-label="Costs that come off ${esc(e.name)}">${cs.map(c=>lessRow(p,c)).join('')}</ul>`:''};
   const row=(r,lvl)=>{const e=ent(r);const ks=sortRules(p.rules.filter(k=>k.parent===r.id));
     const sel=st.tab==='rule'&&st.draft&&st.draft.id===r.id;
     const cls=['rrow','d-'+e.d,sel?'sel':'',r.status!=='IN_USE'?'off':'',applied===r.id?'applied':path.includes(r.id)?'path':''].join(' ');
-    return`<li><button class="${cls}" data-act="rule" data-v="${r.id}" aria-current="${sel?'true':'false'}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b><small>${e.level==='TYPE'?`In ${esc(e.cls.name)}`:`${e.cls.types.length} ${e.cls.types.length===1?'type':'types'}`}</small></span>
+    return`<li><button class="${cls}" data-act="rule" data-v="${r.id}" aria-current="${sel?'true':'false'}">${badge(e)}<span class="rn"><b>${esc(e.name)}</b><small>${e.level==='TYPE'?`In ${esc(e.cls.name)}`:`Class · ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'}`}${lessSub(p,r)}</small></span>
       ${applied===r.id?'<span class="tag ap">Applies</span>':''}${r.tier?'<span class="tag tier">Tiered</span>':''}${r.status!=='IN_USE'?'<span class="tag off">Not in use</span>':''}
-      <span class="rate">${e.d==='revenue'?'':'<span class="sr">deducted </span>−'}${esc(sel?rateText(st.draft):rateText(r))}</span></button>
+      <span class="rate">${e.d==='revenue'?'':'<span class="sr">deducted </span>−'}${esc(sel?rateText(st.draft):rateText(r))}</span></button>${lessLines(r)}
       ${ks.length||(dr&&dr.parent===r.id)?`<ul class="kids" role="list">${ks.map(k=>row(k,lvl+1)).join('')}${dr&&dr.parent===r.id?dr.html:''}</ul>`:''}</li>`};
-  const draftRow=()=>{const d=st.draft;if(!(d&&d.isNew&&st.tab==='rule'))return'';const e=ENT[d.entityId];return{d:e.d,parent:d.parent,html:`<li><div class="rrow draft sel d-${e.d}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b><small>New rule, not added yet</small></span><span class="tag new">New</span><span class="rate">${esc(rateText(d))}</span></div></li>`}};
+  const draftRow=()=>{const d=st.draft;if(!(d&&d.isNew&&st.tab==='rule'))return'';const e=ENT[d.entityId];return{d:e.d,parent:d.parent,html:`<li><div class="rrow draft sel d-${e.d}">${badge(e)}<span class="rn"><b>${esc(e.name)}</b><small>New rule, not added yet</small></span><span class="tag new">New</span><span class="rate">${esc(rateText(d))}</span></div></li>`}};
   const dr=draftRow();
   const sec=d=>{const roots=sortRules(p.rules.filter(r=>!r.parent&&ent(r).d===d));
     let items=roots.map(r=>row(r,0)).join('');
     if(dr&&dr.d===d&&!dr.parent)items+=dr.html;
-    return`<section class="dsec" aria-label="${DOMS[d].one} rules"><h3><i style="background:${DOMS[d].c}"></i>${DOMS[d].many}${d==='revenue'?'':' <small>· deducted from commission</small>'}</h3>${items?`<ul role="list" style="list-style:none;margin:0;padding:0">${items}</ul>`:`<p class="none">No ${DOMS[d].one.toLowerCase()} rules${p.def?' · uses the default':''}</p>`}</section>`};
+    return`<section class="dsec" aria-label="${DOMS[d].one} rules"><h3><i style="background:${DOMS[d].c}"></i>${DOMS[d].many}${SUB[d]}</h3>${items?`<ul role="list" style="list-style:none;margin:0;padding:0">${items}</ul>`:`<p class="none">No ${DOMS[d].one.toLowerCase()} rules${p.def?' · uses the default':''}</p>`}</section>`};
   const defRow=`<section class="dsec" aria-label="Default rate"><h3><i style="background:var(--primary)"></i>Default rate <small>· optional</small></h3><button class="defrow${applied==='default'?' applied':''}" data-act="settings" data-focus="def"><span class="lvl">Default</span><span class="rn"><b>Everything else</b><small>${p.def?'Used for anything no rule covers':'Not set. Anything no rule covers will fail'}</small></span>${applied==='default'?'<span class="tag ap">Applies</span>':''}<span class="rate${p.def?'':g.length?' unset':' faint'}">${p.def?mtxt(p.def):'Not set'}</span></button></section>`;
   return head+`${banner}
   <div class="grid">
@@ -564,11 +634,12 @@ function viewPanel(p,res){
   const scope=e.level==='CLASS'?`all ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'} in ${esc(e.cls.name)}`:`${esc(e.name)}`;
   const dirty=isDirty();const isRev=e.d==='revenue';
   let h=`<div class="pbody">${d.isNew?`<p class="stepno">Step 2 of 2 · Set the rate</p>`:''}<h2 class="ptitle">${esc(e.name)}</h2><p class="psub">${DOMS[e.d].one} ${e.level==='CLASS'?'class':'type'}${e.level==='TYPE'?` in ${esc(e.cls.name)}`:''}${r&&r.status!=='IN_USE'?' · <b>not in use</b>':''}</p>
-   <p class="say">${isRev?'Pays':'Deducts'} <b>${esc(rateText(d))}</b> on ${scope}${d.tier?', depending on the advisor’s revenue so far this period':''}${parent?`, instead of ${esc(ent(parent).name)}’s ${esc(rateText(parent))}`:''}${d.adopt&&d.adopt.length?`. ${d.adopt.map(i=>esc(ent(byId(p,i)).name)).join(' and ')} will move under it`:''}.</p>`;
+   <p class="say">${isRev?'Pays':'Deducts'} <b>${esc(rateText(d))}</b>${e.d==='cost'&&d.method.type!=='FLAT'?' of the cost amount':''} on ${scope}${d.tier?', depending on the advisor’s revenue so far this period':''}${e.d==='cost'&&revCount(d.entityId)?`, taken off ${nameList(covers(d.entityId).flatMap(revsFor))} before commission is worked out`:''}${parent?`, instead of ${esc(ent(parent).name)}’s ${esc(rateText(parent))}`:''}${d.adopt&&d.adopt.length?`. ${d.adopt.map(i=>esc(ent(byId(p,i)).name)).join(' and ')} will move under it`:''}.</p>`;
   if(r&&r.status!=='IN_USE')h+=`<div class="banner info" style="margin-bottom:14px">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb">This rule is <b>not in use</b>, so it’s skipped along with everything under it. <div class="acts"><button class="btn sm" data-act="reactivate">Bring back into use</button></div></div></div>`;
   if(isRev)h+=`<div class="flabel" id="modeL">How is the rate set?</div><div class="seg" role="group" aria-labelledby="modeL" style="display:flex;margin-bottom:14px">${[['one','One rate'],['tier','Tiered rate']].map(([v,l])=>`<button type="button" style="flex:1" data-act="rmode" data-v="${v}" aria-pressed="${(v==='tier')===!!d.tier}">${l}</button>`).join('')}</div>`;
-  if(!d.tier)h+=`<div class="flabel" id="rateL">Rate</div>${methodSeg(d.method,'mtype')}<label class="fld${d.errs.val?' err':''}"><span class="sr">Rate value</span>${affix(d.method.type,'data-in="val" id="val"',d.method.value,'Rate')}<small>${methodHint(d.method.type)}</small><div class="e" id="valE">${esc(d.errs.val||'')}</div></label>`;
+  if(!d.tier)h+=`<div class="flabel" id="rateL">Rate</div>${methodSeg(d.method,'mtype')}<label class="fld${d.errs.val?' err':''}"><span class="sr">Rate value</span>${affix(d.method.type,'data-in="val" id="val"',d.method.value,'Rate')}<small>${methodHint(d.method.type,e.d)}</small><div class="e" id="valE">${esc(d.errs.val||'')}</div></label>`;
   else h+=viewTier(d);
+  if(e.d!=='expense')h+=lessInfo(p,d);
   const elig=p.rules.filter(x=>x.id!==d.id&&ent(x).d===e.d&&!(d.id&&descendants(p,d.id).includes(x.id))&&!check(p,d.entityId,x.id,d.isNew?null:d.id).err);
   const rootOk=!check(p,d.entityId,null,d.isNew?null:d.id).err||!d.parent;
   const open=d.moreOpen||!!d.errs.parent;
@@ -594,12 +665,25 @@ function poolSummary(id){const x=poolById(id);if(!x)return'Pick the pool whose t
 const tierIds=d=>({pid:pol().id,rid:d.isNew?'(new)':d.id});
 function tierRows(t,x){const n=t.bands.length,m=v=>{const x=num(v);return String(v??'').trim()===''||isNaN(x)?'':String(x)};
   return t.bands.map((b,i)=>`<tr><td>${esc(x.pid)}</td><td>${esc(x.rid)}</td><td>${i?m(b.from)||'—':'0'}</td><td>${i<n-1?m(t.bands[i+1].from)||'—':'NULL'}</td><td>${m(b.value)||'—'}</td><td>${t.ind!==false}</td><td>${t.team!==false}</td><td>IN_USE</td></tr>`).join('')}
+const revCount=eid=>covers(eid).filter(t=>revsFor(t).length).length;
+/* read-only: the revenue-to-cost mapping as this rule sees it */
+function lessInfo(p,d){const e=ENT[d.entityId],ts=covers(d.entityId);
+  const note=`<small class="note">Which costs come off which revenue is set once for every policy, in Classes &amp; Types. Only the rate is set here.</small>`;
+  if(e.d==='revenue'){const withC=ts.filter(t=>costsFor(t).length);
+    if(!withC.length)return`<div class="lessinfo"><div class="flabel">Costs taken off this revenue</div><p class="hint" style="margin-top:0">No cost is linked to ${e.level==='CLASS'?'any type in this class':'this type'}.</p>${note}</div>`;
+    return`<div class="lessinfo"><div class="flabel" id="lessL">Costs taken off this revenue</div>
+     ${withC.map(t=>`${e.level==='CLASS'?`<div class="lg">${esc(ENT[t].name)}</div>`:''}<ul class="lessl" role="list" aria-label="Costs that come off ${esc(ENT[t].name)}">${costsFor(t).map(c=>lessRow(p,c)).join('')}</ul>`).join('')}${note}</div>`}
+  const rv=uniq(ts.flatMap(revsFor)),nl=unlinked(d.entityId);
+  const names=nl.map(t=>`<b>${esc(ENT[t].name)}</b>`),many=nl.length>1;
+  const warn=nl.length?`<div class="nolinkbox" role="note">${ICON.warn}<div>${e.level==='TYPE'?`<b>Can’t be processed.</b> This cost isn’t linked to a revenue type, so its events can’t be processed, whatever rate it has. Link it to revenue in Classes &amp; Types.`:`<b>${nl.length===ts.length?'None of these can be processed.':`${nl.length} ${many?'types':'type'} can’t be processed.`}</b> ${nl.length<=3?andList(names):`${nl.length} cost types`} ${many?'aren’t':'isn’t'} linked to a revenue type, so ${many?'their events':'its events'} can’t be processed, whatever rate ${many?'they have':'it has'}. Link ${many?'them':'it'} to revenue in Classes &amp; Types.`}</div></div>`:'';
+  if(!rv.length)return`<div class="lessinfo"><div class="flabel">Taken off revenue</div>${warn}${note}</div>`;
+  return`<div class="lessinfo"><div class="flabel">Taken off these revenue types</div><ul class="lessl" role="list">${rv.map(t=>`<li><div class="lessrow ro d-revenue">${badge(ENT[t])}<span class="rn"><b>${esc(ENT[t].name)}</b><small>In ${esc(ENT[t].cls.name)}</small></span></div></li>`).join('')}</ul>${warn}${note}</div>`}
 const descField=d=>`<label class="fld"><span>Description <span style="font-weight:500;color:var(--faint)">· optional</span></span><input type="text" data-in="desc" value="${esc(d.desc||'')}" maxlength="200" autocomplete="off"><small>A note for the team. It isn’t used in calculations.</small></label>`;
 function ruleColsRows(d,p,r){const e=ENT[d.entityId];const first=d.tier&&d.tier.bands[0]?d.tier.bands[0].value:d.method.value;
-  return[['policy_id',p.id],['entity_type',`${e.d.toUpperCase()}_${e.level}`],['entity_id',e.id],['parent_rule_id',d.parent||null],['commission_methodology',d.method.type],['base_commission_rate',first],['is_accrued_revenue',!!d.tier],['revenue_accrual_pool_id',d.tier?d.tier.poolId:null],['is_subject_to_advisor_performance',false],['description',(d.desc||'').trim()||null],['record_status',r?r.status:'IN_USE']]
+  return[['policy_id',p.id],['entity_type',`${e.d.toUpperCase()}_${e.level}`],['entity_id',e.id],['parent_rule_id',d.parent||null],['commission_source','Gross Commission'],['commission_methodology',d.method.type],['base_commission_rate',first],['is_accrued_revenue',!!d.tier],['revenue_accrual_pool_id',d.tier?d.tier.poolId:null],['is_subject_to_advisor_performance',false],['description',(d.desc||'').trim()||null],['record_status',r?r.status:'IN_USE']]
    .map(([k,x])=>`<tr><th scope="row">${k}</th><td>${esc(x===''||x==null?'NULL':String(x))}</td></tr>`).join('')}
 function devBlock(d,p,r){return`<details class="more dev" ${d.devOpen?'open':''} data-act-toggle="dev"><summary>${ICON.chev}For developers: how this is saved</summary>
-  <p class="hint" style="margin-top:0">The rule is one row in <code>commission_rule</code>. The system fills in <code>id</code> and the audit columns.</p>
+  <p class="hint" style="margin-top:0">The rule is one row in <code>commission_rule</code>. The system fills in <code>id</code> and the audit columns. <code>revenue_class</code> and <code>revenue_type</code> are redundant and no longer used, so the screen doesn’t write them.${d.entityId&&ENT[d.entityId].d!=='expense'?' The link between a cost and the revenue it comes off is not stored on the rule. It is read from <code>revenue_cost_mapping</code>.':''}</p>
   <div class="dbwrap" tabindex="0" role="region" aria-label="commission_rule columns"><table class="dbtab"><caption class="sr">commission_rule columns</caption><tbody id="ruleCols">${ruleColsRows(d,p,r)}</tbody></table></div>
   ${d.tier?`<p class="hint">Its tiers are one row each in the tier table. The last tier’s <code>upper_bound</code> is NULL. <code>commission_rate</code> is read with the rule’s <code>commission_methodology</code>.</p>
   <div class="dbwrap" tabindex="0" role="region" aria-label="Tier table rows"><table class="dbtab"><caption class="sr">Tier table rows</caption><thead><tr><th scope="col">policy_id</th><th scope="col">rule_id</th><th scope="col">lower_bound</th><th scope="col">upper_bound</th><th scope="col">commission_rate</th><th scope="col">is_applied_to_individual_advisors</th><th scope="col">is_applied_to_advisor_teams</th><th scope="col">record_status</th></tr></thead><tbody id="tierRows">${tierRows(d.tier,tierIds(d))}</tbody></table></div>
@@ -617,17 +701,24 @@ function viewTier(d){const t=d.method.type,bs=d.tier.bands,n=bs.length,ba=d.errs
   ${d.errs.bands?`<p class="berr" role="alert">${esc(d.errs.bands)}</p>`:''}<button class="btn sm" data-act="add-band">${ICON.plus}Add tier</button>
   <p class="hint">The tier the advisor’s total falls in sets the rate. The last tier has no upper limit.</p>
   <fieldset class="fld${d.errs.who?' err':''}"><legend>Applies to</legend><div class="who"><label class="chk"><input type="checkbox" data-in="t-ind" ${d.tier.ind!==false?'checked':''}>Individual advisors</label><label class="chk"><input type="checkbox" data-in="t-team" ${d.tier.team!==false?'checked':''}>Advisor teams</label></div><div class="e">${esc(d.errs.who||'')}</div></fieldset>`}
-function viewCheck(p,res){const c=st.check;const t=ENT[c.typeId];const amt=num(c.amt)||0;
+function lessSteps(p,t,res){
+  if(t.d==='revenue'){const cs=costsFor(t.id);
+    return cs.length?[`Costs linked to this revenue type come off it first: ${cs.map(c=>{const x=resolve(p,c);return`<b>${esc(ENT[c].name)}</b> (${x.rule?`−${esc(rateText(x.rule))}`:x.def?`−${esc(mtxt(p.def))}, the default`:'no rate'})`}).join(', ')}.`]:[]}
+  if(t.d==='cost'){const rs=revsFor(t.id);
+    return rs.length?[`This cost is linked to <b>${nameList(rs)}</b>, so it comes off ${rs.length===1?'that revenue':'them'} before commission is worked out.`,`The rate is applied to the cost event’s <b>cost amount</b>.`]:[`This cost isn’t linked to a revenue type in Classes &amp; Types, so its events <b>can’t be processed</b>. Linking it is done there, not in a policy.`]}
+  return[]}
+function viewCheck(p,res){const c=st.check;const t=ENT[c.typeId];const amt=num(c.amt)||0;const steps=[...res.steps,...lessSteps(p,t,res)];
   let out='';const m=res.rule?methodFor(res.rule,c.bal):res.def?{m:p.def}:null;
   if(m){let v=applyM(m.m,amt);const ded=t.d!=='revenue';if(ded)v=-v;
-    out=`<div class="result" aria-live="polite"><div class="big">${esc(mtxt(m.m))}</div><div class="from">from ${res.rule?`<b>${esc(ent(res.rule).name)}</b>${res.rule.tier?`, ${esc(bandName(res.rule,m.band))}`:''}`:'the <b>policy default</b>'}</div><div class="calc"><span>${ded?'Deducted from commission':'Commission'} on ${fmtR(amt)}</span><b>${fmtR(v)}</b></div></div>`}
+    out=`<div class="result" aria-live="polite"><div class="big">${esc(mtxt(m.m))}</div><div class="from">from ${res.rule?`<b>${esc(ent(res.rule).name)}</b>${res.rule.tier?`, ${esc(bandName(res.rule,m.band))}`:''}`:'the <b>policy default</b>'}${t.d==='cost'&&revsFor(t.id).length?`, taken off <b>${nameList(revsFor(t.id))}</b>`:''}</div><div class="calc"><span>${t.d==='cost'?'Taken off revenue':ded?'Deducted from commission':'Commission'} on ${t.d==='cost'?'a cost amount of ':''}${fmtR(amt)}</span><b>${fmtR(v)}</b></div></div>`}
   else out=`<div class="result bad" aria-live="polite"><div class="big" style="font-size:20px">No rate applies</div><div class="from">${esc(t.name)} events would fail in a commission run.</div><div class="acts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn sm primary" data-act="add-entity" data-v="${t.id}">Add a rule for it</button><button class="btn sm" data-act="settings" data-focus="def">Set a default rate</button></div></div>`;
   return`<div class="pbody"><p class="psub" style="margin-bottom:14px">Pick something an advisor earns or pays to see the rate this policy gives it. Nothing is changed.</p>
    <div class="seg" role="group" aria-label="Kind" style="display:flex;margin-bottom:12px">${ORDER.map(d=>`<button style="flex:1" data-act="check-d" data-v="${d}" aria-pressed="${c.d===d}">${DOMS[d].many}</button>`).join('')}</div>
    <label class="fld"><span>${DOMS[c.d].one} type</span><select data-in="check-type">${LIB[c.d].map(cl=>`<optgroup label="${esc(cl.name)}">${cl.types.map(x=>`<option value="${x.id}" ${x.id===c.typeId?'selected':''}>${esc(x.name)}</option>`).join('')}</optgroup>`).join('')}</select></label>
-   <label class="fld"><span>Amount</span>${affix('FLAT','data-in="check-amt"',c.amt,'Amount')}</label>
+   <label class="fld"><span>${c.d==='cost'?'Cost amount':'Amount'}</span>${affix('FLAT','data-in="check-amt"',c.amt,c.d==='cost'?'Cost amount':'Amount')}${c.d==='cost'?'<small>The cost event’s <code>costAmount</code>. The rate is applied to this.</small>':''}</label>
    ${res.rule&&res.rule.tier?`<label class="fld"><span>Advisor’s revenue so far in ${esc(poolById(res.rule.tier.poolId)?.code||'the pool')}</span>${affix('FLAT','data-in="check-bal"',c.bal,'Revenue so far in the pool')}<small>This is a tiered rule: that total picks the tier.</small></label>`:''}
-   ${out}<details class="more" open><summary>${ICON.chev}How it was worked out</summary><ol class="steps">${res.steps.map(s=>`<li>${s}</li>`).join('')}</ol></details></div>`}
+   ${t.d==='cost'&&!revsFor(t.id).length?`<div class="banner bad">${ICON.warn.replace('class="i"','class="i bi"')}<div class="bb"><b>This cost can’t be processed.</b> It isn’t linked to a revenue type, so its events have nothing to come off. A policy can’t fix that. Link it in Classes &amp; Types.</div></div>`:''}
+   ${out}<details class="more" open><summary>${ICON.chev}How it was worked out</summary><ol class="steps">${steps.map(s=>`<li>${s}</li>`).join('')}</ol></details></div>`}
 
 /* ===================== render: pools ===================== */
 function viewPools(){const q=st.pq.trim().toLowerCase();
@@ -715,22 +806,25 @@ function settingsDialog(isNew,focus){const p=isNew?null:pol();const f={name:p?p.
 function duplicatePolicy(){const p=pol();const map={};const rules=p.rules.map(r=>{const n=JSON.parse(JSON.stringify(r));n.id=rid();n.used=false;n.lastRun=null;n.updated=TODAY;n.updatedBy='you';map[r.id]=n.id;return n});rules.forEach(r=>{if(r.parent)r.parent=map[r.parent]});
   let code=p.code+' copy',i=2;while(policies.some(x=>x.code===code))code=`${p.code} copy ${i++}`;
   const np={...JSON.parse(JSON.stringify(p)),id:'p'+Date.now().toString(36),name:'Copy of '+p.name,code,rules,updated:TODAY,updatedBy:'you'};policies.push(np);st.pid=np.id;st.draft=null;st.sel=null;render();toast('Policy duplicated. Rename it in Policy settings.')}
-function addRuleDialog(){const p=pol();let q='',d0=st.check.d||'revenue';
+function addRuleDialog(){const p=pol();let q='';const open={revenue:false,cost:false,expense:false};open[st.check.d||'revenue']=true;
   const has=eid=>p.rules.find(r=>r.entityId===eid);
   const now=t=>{const r=resolve(p,t);return r.rule?`${rateText(r.rule)} via ${ent(r.rule).name}`:r.def?`${mtxt(p.def)} default`:null};
   const item=(eid,isType)=>{const e=ENT[eid];const ex=has(eid);let note;
     if(ex)note=`<span class="now">Has a rule · edit</span>`;else if(isType){const n=now(eid);note=n?`<span class="now">Now ${esc(n)}</span>`:`<span class="now bad">Not covered</span>`}else note='';
-    return`<li><button type="button" class="${isType?'t':''} d-${e.d}" data-pick="${eid}">${lvlTag(e)}<span class="rn"><b>${esc(e.name)}</b>${isType?'':`<small>Every type in this class</small>`}</span>${note}</button></li>`};
-  const draw=()=>{const ql=q.trim().toLowerCase();
-    const body=LIB[d0].map(c=>{const ts=c.types.filter(t=>!ql||t.name.toLowerCase().includes(ql)||c.name.toLowerCase().includes(ql));if(!ts.length)return'';
-      return`<h4>${esc(c.name)}</h4><ul class="pick">${item(c.id,false)}${ts.filter(t=>!(c.types.length===1&&t.name===c.name)).map(t=>item(t.id,true)).join('')}</ul>`}).join('')||'<p class="empty">Nothing matches.</p>';
-    const list=$('#pickList');if(list){list.innerHTML=body;$$('#pickSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===d0));return}
+    return`<li><button type="button" class="${isType?'t':''} d-${e.d}" data-pick="${eid}">${badge(e)}<span class="rn"><b>${esc(e.name)}</b>${isType?'':`<small>Every type in this class</small>`}</span>${note}</button></li>`};
+  const group=d=>{const ql=q.trim().toLowerCase();
+    const cls=LIB[d].map(c=>{const ts=c.types.filter(t=>!ql||t.name.toLowerCase().includes(ql)||c.name.toLowerCase().includes(ql));if(!ts.length)return'';
+      return`<ul class="pick">${item(c.id,false)}${ts.filter(t=>!(c.types.length===1&&t.name===c.name)).map(t=>item(t.id,true)).join('')}</ul>`}).join('');
+    if(ql&&!cls)return'';
+    const isOpen=ql?true:open[d],nT=LIB[d].reduce((n,c)=>n+c.types.length,0);
+    return`<section class="pgrp d-${d}"><h4><button type="button" class="ghd" data-pk="grp" data-v="${d}" aria-expanded="${isOpen}" aria-controls="g-${d}"><i style="background:${DOMS[d].c}"></i>${DOMS[d].many}<small>${LIB[d].length} ${LIB[d].length===1?'class':'classes'} · ${nT} ${nT===1?'type':'types'}</small>${ICON.chev}</button></h4><div id="g-${d}" ${isOpen?'':'hidden'}>${cls}</div></section>`};
+  const draw=()=>{const body=ORDER.map(group).join('')||'<p class="empty">Nothing matches.</p>';
+    const list=$('#pickList');if(list){list.innerHTML=body;return}
     openDialog(`<div class="dh"><div><p class="stepno">Step 1 of 2 · Choose what it covers</p><h2 id="dlgT">Add a rule</h2><p>Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</p></div><button class="btn ghost x" data-pk="close" aria-label="Close">${ICON.x}</button></div>
-     <div class="db" style="padding-bottom:0"><div class="seg" id="pickSeg" role="group" aria-label="Kind" style="display:flex;margin-bottom:10px">${ORDER.map(d=>`<button type="button" style="flex:1" data-pk="dom" data-v="${d}" aria-pressed="${d===d0}">${DOMS[d].many}</button>`).join('')}</div>
-     <label class="sr" for="pickQ">Search classes and types</label><input class="inp" id="pickQ" type="search" placeholder="Search classes and types" autofocus></div>
-     <div class="db" id="pickList" style="max-height:min(52vh,460px)">${body}</div>`,{wide:true})};
+     <div class="db" style="padding-bottom:0"><label class="sr" for="pickQ">Search classes and types</label><input class="inp" id="pickQ" type="search" placeholder="Search classes and types" autofocus></div>
+     <div class="db" id="pickList" style="max-height:min(56vh,500px)">${body}</div>`,{wide:true})};
   dlg.oninput=e=>{if(e.target.id==='pickQ'){q=e.target.value;draw()}};dlg.onchange=null;
-  dlg.onclick=e=>{const b=e.target.closest('[data-pk]');if(b){if(b.dataset.pk==='close')closeDialog();else{d0=b.dataset.v;draw()}return}
+  dlg.onclick=e=>{const b=e.target.closest('[data-pk]');if(b){if(b.dataset.pk==='close')closeDialog();else if(b.dataset.pk==='grp'){const g=b.dataset.v;open[g]=!open[g];draw();$(`#pickList [data-pk="grp"][data-v="${g}"]`)?.focus()}return}
     const pk=e.target.closest('[data-pick]');if(!pk)return;const eid=pk.dataset.pick;closeDialog();const ex=has(eid);if(ex)return selectRule(ex.id);startNew(eid)};
   draw()}
 
@@ -838,7 +932,7 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
  <div class="db help">
   <h3>In three steps</h3><ol><li><b>Add a rule.</b> Start here. Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</li><li><b>Set its rate.</b> One rate, or a <b>tiered</b> rate that grows as the advisor’s revenue builds up during the period.</li><li><b>Check a rate</b> to see what any type earns and why.</li></ol>
   <p>A <b>default rate</b> is optional. It covers anything no rule does. Without one, anything no rule covers fails in a commission run.</p>
-  <h3>Which rate wins</h3><p>The system starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission; cost and expense rules are deducted from it.</p>
+  <h3>Which rate wins</h3><p>The system starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission. A cost comes off the revenue types it’s linked to, in Classes &amp; Types, before commission is worked out. Its rate is applied to the cost amount of the event, and a cost that isn’t linked to any revenue type can’t be processed. Expenses are deducted from commission.</p>
   <h3>Tiered rates</h3><p>Each tier has a <b>From</b>, an <b>Up to</b> and a <b>Rate</b>. <b>From</b> is filled in for you: it’s where the tier before ended. The last tier has no upper limit. The advisor’s total revenue so far this period, added up from an <b>accrued revenue pool</b>, picks the tier, and that tier’s rate is used. Tiers use the same rate type as the rule (percentage, basis points or flat amount), and can apply to individual advisors, advisor teams, or both. Pools are managed under <b>Accrued revenue pools</b> and shared by every policy.</p>
   <h3>Changing and removing rules</h3><ul><li>Click a rule to edit it. Save shows <b>✓ Saved</b>; every change offers <b>Undo</b>.</li><li><b>Remove…</b> lets you stop using a rule (kept, can come back) or delete it. Rules already used in a commission run can only be stopped, so history stays traceable.</li><li>Stopping a rule also stops the rules under it.</li></ul>
   <h3>For developers: rules the screen enforces</h3><ul>
@@ -846,14 +940,16 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
    <li>Two rules at the same level can’t cover the same type. Adding a class where some of its types already have rules at that level moves those rules under the class.</li>
    <li>No cycles: a rule can’t sit under itself or its sub-rules.</li>
    <li>Rates: percentage 0–100, basis points 0–10,000, flat ≥ 0.</li>
+   <li>Which costs come off which revenue is not set per policy. It is one global, many-to-many table, <code>revenue_cost_mapping</code> (revenue type, cost type, record status), kept in Classes &amp; Types. A revenue rule lists the costs linked to its types, each with the rate this policy gives that cost. A cost rule lists the revenue types it comes off. Both are read-only here. The link is separate from “Sits under”. A cost type with no link can’t be processed, so its rows say “Not linked to revenue”; it has to be linked in Classes &amp; Types, because a policy can’t fix it. A cost’s rate is applied to <code>costAmount</code>.</li>
    <li>Tiers are contiguous. The first starts at 0, each tier’s upper bound is the next tier’s lower bound, and the last has none (NULL). A tiered rule needs a pool, at least two tiers, and at least one of “individual advisors” or “advisor teams”. Tier rates use the rule’s own <code>commission_methodology</code> (percentage, basis points or flat).</li>
-   <li>Under “For developers” a rule shows how it is saved: its <code>commission_rule</code> columns and, for a tiered rule, its tier rows (<code>lower_bound</code>, <code>upper_bound</code>, <code>commission_rate</code>, the two <code>is_applied_to_…</code> flags, <code>record_status</code>) and the <code>CommissionTiers</code> seeding value, <code>lower:upper:rate; …</code>. A tiered rule saves <code>is_accrued_revenue</code> = true and its pool in <code>revenue_accrual_pool_id</code>. <code>is_subject_to_advisor_performance</code> is always saved as false, because performance tiers no longer apply. Assumed: stopping a rule stops its tiers, and changing the tiers of a rule already used in a run retires the old rows rather than deleting them.</li>
+   <li>Under “For developers” a rule shows how it is saved: its <code>commission_rule</code> columns and, for a tiered rule, its tier rows (<code>lower_bound</code>, <code>upper_bound</code>, <code>commission_rate</code>, the two <code>is_applied_to_…</code> flags, <code>record_status</code>) and the <code>CommissionTiers</code> seeding value, <code>lower:upper:rate; …</code>. Every rule saves <code>commission_source</code> as Gross Commission, the usual value. <code>revenue_class</code> and <code>revenue_type</code> are redundant, so they aren’t written. A tiered rule saves <code>is_accrued_revenue</code> = true and its pool in <code>revenue_accrual_pool_id</code>. <code>is_subject_to_advisor_performance</code> is always saved as false, because performance tiers no longer apply. Assumed: stopping a rule stops its tiers, and changing the tiers of a rule already used in a run retires the old rows rather than deleting them.</li>
    <li>Stopping a rule cascades to its sub-rules; bringing it back restores stopped parents. Delete is only allowed for rules never used in a run; sub-rules move up a level.</li>
    <li>A pool can’t be taken out of use while an active tiered rule uses it. Pools are never deleted. A pool is saved as one mapping row (pool, revenue type) per revenue type; ticking a class adds a row for each of its types.</li>
    <li>Policy codes and pool codes are unique. Unsaved edits prompt Save or Discard before leaving.</li></ul>
   <h3>Open questions for the team</h3><ul>
    <li><b>Whole event or slices?</b> Here, the tier the advisor’s total falls in sets the rate for the whole event. If revenue should be paid in slices, like income-tax brackets, the calculation and wording change.</li>
-   <li><b>Other rule columns.</b> The prototype writes <code>entity_type</code> and <code>entity_id</code>. What do <code>commission_source</code>, <code>revenue_class</code> and <code>revenue_type</code> hold now, and are they still needed? For a tiered rule it saves the first tier’s rate in <code>base_commission_rate</code>. Is that right?</li>
+   <li><b>Rule columns.</b> The screen saves <code>commission_source</code> as Gross Commission on every rule. Is that right for cost and expense rules too, and when is it anything else? For a tiered rule it saves the first tier’s rate in <code>base_commission_rate</code>. Is that right?</li>
+   <li><b>Several costs on one revenue.</b> When more than one cost comes off the same revenue, does the order matter, for example if a later cost is taken on what is left? That isn’t decided yet, so the screen shows each linked cost on its own and assumes no order.</li>
    <li><b>Applies-to flags.</b> They’re stored on every tier row, and this prototype sets them once per rule. If a rule can have different tiers for individual advisors and for advisor teams, the editor needs a second tier table.</li>
    <li><b>Policy columns.</b> The <code>commission_policy</code> table wasn’t shared. The prototype assumes it holds the default rate and the policy type (Advisor or Distributor).</li></ul>
  </div><div class="da"><button class="btn ghost" data-hx="reset">Reset demo data</button><span class="sp"></span><button class="btn" data-hx="intro">Replay intro</button><button class="btn primary" data-hx="close">Done</button></div>`,{wide:true});
@@ -862,7 +958,7 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
   if(a==='close')return closeDialog();if(a==='intro')return intro(0);
   if(a==='reset')return confirmBox('Reset the demo data?','Every change saved in this browser is removed and the original data comes back.',[{label:'Reset',danger:true,fn:()=>{noPersist=true;try{localStorage.removeItem(STORE)}catch(_){}location.reload()}}])}}
 const SLIDES=[
- {t:'A policy is a list of rules',b:'Each rule picks a <b>class</b> (all its types) or a single <b>type</b> and gives it a rate. The most specific rule wins. Start by adding the first rule.',art:`<div class="ex"><div class="d-revenue"><span class="lvl c">Class</span><span>Other Income Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="lvl t">Type</span><span>ALLAN GRAY</span><b>35%</b></div></div>`},
+ {t:'A policy is a list of rules',b:'Each rule picks a <b>class</b> (all its types) or a single <b>type</b> and gives it a rate. The most specific rule wins. Start by adding the first rule.',art:`<div class="ex"><div class="d-revenue"><span class="bdg c">OI</span><span>Other Income Percentage</span><b>30%</b></div><div class="in1 d-revenue"><span class="bdg t">OI</span><span>ALLAN GRAY</span><b>35%</b></div></div>`},
  {t:'Rates can grow with revenue',b:'A <b>tiered rate</b> looks at the advisor’s total revenue so far this period. The tier it falls in decides the rate.',art:`<div class="ex"><div><span>Up to R 100,000</span><b>30%</b></div><div><span>R 100,000 to R 250,000</span><b>40%</b></div><div><span>Above R 250,000</span><b>50%</b></div></div>`},
  {t:'Check a rate before it counts',b:'Use <b>Check a rate</b> to see what a type earns and why. A red warning means something has no rate and would fail in a commission run. A <b>default rate</b> is an optional safety net for everything the rules don’t cover.',art:`<div class="ex"><div><span>ALLAN GRAY on R 10,000</span><b>R 3,500.00</b></div><div><span style="color:var(--muted)">from ALLAN GRAY, a type rule</span></div></div>`}];
 function intro(i){const s=SLIDES[i];openDialog(`<div class="intro"><div class="dh"><div><p style="margin:0 0 4px;font-weight:600;color:var(--faint);font-size:13px">Step ${i+1} of ${SLIDES.length}</p><h2 id="dlgT">${s.t}</h2></div></div><div class="db"><div class="art">${s.art}</div><p style="margin:0;color:var(--muted)">${s.b}</p></div>
