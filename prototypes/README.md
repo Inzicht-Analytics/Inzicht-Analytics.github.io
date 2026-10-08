@@ -22,6 +22,7 @@ The setup screens are used by people who are not highly technical, but the data 
 
 - **Start from the rule.** A policy begins empty with one clear first step ("Start with the first rule"), instead of asking for a default rate and policy settings up front.
 - **Tiers as plain bands.** Tiers are entered as From, Up to and Rate. From is filled in for the user, the last tier is open-ended, and the editor prevents gaps and overlaps.
+- **Keeping what people already know.** Revenue, cost and expense keep their colours (blue, orange, pink), each class has a short code badge, and the type picker is grouped and collapsible. A cost can be tied to the revenue it comes off, shown as a "Less" line under that revenue.
 - **Rules enforced on the screen.** The deepest matching rule wins, a rule sits under at most one parent, rates are range-checked for their type (percentage, basis points or flat), and a pool cannot be taken out of use while an active tiered rule depends on it.
 - **A developer layer that stays out of the way.** Each rule has a collapsible "For developers" block showing the table columns it writes and the tier seeding value (`lower:upper:rate; …`).
 - **Open questions are listed, not hidden.** The Help dialog ends with the points the business still needs to confirm, such as whether tiers apply to the whole event or in slices.
