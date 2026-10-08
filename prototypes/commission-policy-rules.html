@@ -148,6 +148,15 @@ main{max-width:1280px;margin:0 auto;padding:24px}
 .lessrow .lw{font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:0 8px;flex:none}
 .lessrow .bdg{min-width:24px;height:24px;font-size:11px;border-radius:6px}
 .lessrow .rn b{font-size:14px;font-weight:500}
+.lessrow .rate.unset{font-weight:600}
+.lessrow .dflt{font-size:12px;color:var(--muted);font-weight:500;margin-right:4px}
+.lessinfo{margin:18px 0 4px}
+.lessinfo .flabel{margin-bottom:2px}
+.lessinfo .lg{font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 2px}
+.lessinfo .lessl{margin-left:0;padding-left:8px}
+.lessinfo .lessrow .rn b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.lessinfo .lessrow.ro{cursor:default}
+.lessinfo .lessrow.ro:hover{background:none}
 .pgrp{margin:0 0 8px}
 .pgrp>h4{margin:0 0 2px}
 .ghd{display:flex;align-items:center;gap:8px;width:100%;border:0;background:var(--sunk);border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.04em;text-align:left}
@@ -156,7 +165,7 @@ main{max-width:1280px;margin:0 auto;padding:24px}
 .ghd svg{transition:transform .15s;flex:none}
 .ghd[aria-expanded="true"] svg{transform:rotate(90deg)}
 .ex .bdg{flex:none}
-@media (max-width:520px){.lessl{margin-left:14px;padding-left:8px}.ghd small{display:none}.pick button{flex-wrap:wrap;row-gap:0}.pick button .rn{flex:1 1 0;min-width:0}.pick button .now{flex-basis:100%;white-space:normal;padding-left:40px;margin-top:-2px}.pick button.t{padding-left:16px}}
+@media (max-width:520px){.lessl{margin-left:14px;padding-left:8px}.lessrow .rn b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}.ghd small{display:none}.pick button{flex-wrap:wrap;row-gap:0}.pick button .rn{flex:1 1 0;min-width:0}.pick button .now{flex-basis:100%;white-space:normal;padding-left:40px;margin-top:-2px}.pick button.t{padding-left:16px}}
 .rate{font-weight:600;white-space:nowrap;text-align:right}
 .rate.unset{color:var(--danger);font-weight:500}
 .tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
@@ -378,11 +387,25 @@ const C=(d,c)=>`c:${d}:${slug(c)}`,T=(d,c,t)=>`t:${d}:${slug(c)}:${slug(t)}`;
 const ALLT=ORDER.flatMap(d=>LIB[d].flatMap(c=>c.types.map(t=>t.id)));
 const covers=eid=>{const e=ENT[eid];return e.level==='CLASS'?e.cls.types.map(t=>t.id):[e.id]};
 
+/* ===================== revenue-to-cost mapping (read-only here) =====================
+   One global table, revenue_cost_mapping (revenue_type_id, cost_type_id, record_status). It is many-to-many, set once
+   for every policy in Classes & Types. A policy only gives each linked cost a rate. */
+const MAP=[];
+{const M=(r,c)=>MAP.push({rev:r,cost:c});
+ M(T('revenue','Brokerage Percentage','Basic'),T('cost','Brokerage Percentage','Cost Basic'));
+ M(T('revenue','Other Income Percentage','ALLAN GRAY'),T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'));
+ M(T('revenue','Other Income Percentage','ALLAN GRAY'),T('cost','Other Income Percentage','Cost Spw Local Management Fee'));
+ M(T('revenue','Other Income Percentage','CORONATION'),T('cost','Other Income Percentage','Cost Spw Local Management Fee'));
+ ['ABSA Rebates','AllFunds Rebates','GinsGlobal Fund Rebates'].forEach(n=>M(T('revenue','Offshore Rebates Percentage',n),T('cost','Lisp Admin Fee','Cost Lisp Admin Fee Recouped')))}
+const costsFor=rt=>[...new Set(MAP.filter(m=>m.rev===rt).map(m=>m.cost))];
+const revsFor=ct=>[...new Set(MAP.filter(m=>m.cost===ct).map(m=>m.rev))];
+const uniq=a=>[...new Set(a)];
+const nameList=ids=>{const n=uniq(ids.map(i=>ENT[i].name));return n.length<=2?n.map(esc).join(' and '):`${n.length} revenue types`};
+
 /* ===================== demo data ===================== */
 let seq=0;const rid=()=>'r'+(++seq);
 const P=v=>({type:'PERCENTAGE',value:v}),BP=v=>({type:'BASIS_POINTS',value:v}),FL=v=>({type:'FLAT',value:v});
-function R(eid,m,parent=null,status='IN_USE',used=true){return{id:rid(),parent,entityId:eid,method:m,tier:null,less:null,status,used,lastRun:used?LASTRUN:null,updated:'2026-09-21',updatedBy:'b.kennedy'}}
-const L=(r,l)=>{r.less=l;return r};
+function R(eid,m,parent=null,status='IN_USE',used=true){return{id:rid(),parent,entityId:eid,method:m,tier:null,status,used,lastRun:used?LASTRUN:null,updated:'2026-09-21',updatedBy:'b.kennedy'}}
 function seedTiered(){const a=[];const add=(...x)=>{const r=R(...x);a.push(r);return r};
   const bp=add(C('revenue','Brokerage Percentage'),P(30));bp.tier={poolId:'pl1',bands:[{from:0,value:30},{from:100000,value:40},{from:250000,value:50}]};
   add(T('revenue','Brokerage Percentage','Basic'),P(40),bp.id);add(T('revenue','Brokerage Percentage','Brokerage'),BP(35),bp.id);
@@ -392,9 +415,9 @@ function seedTiered(){const a=[];const add=(...x)=>{const r=R(...x);a.push(r);re
   add(T('revenue','Other Income Percentage','ALLAN GRAY'),P(35),oi.id);add(T('revenue','Other Income Percentage','CORONATION'),P(35),oi.id);
   add(T('revenue','Other Income Percentage','Comm Rec: Bond Trade'),BP(10),oi.id);add(T('revenue','Other Income Percentage','Fees Receive: Guarantee'),FL(250),oi.id);
   add(T('revenue','Other Income Percentage','Fees: Product Development'),P(20),oi.id,'NOT_IN_USE');
-  add(T('cost','Brokerage Percentage','Cost Basic'),P(40)).less=T('revenue','Brokerage Percentage','Basic');
-  const co=add(C('cost','Other Income Percentage'),P(30));co.less=C('revenue','Other Income Percentage');add(T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'),P(100),co.id).less=T('revenue','Other Income Percentage','ALLAN GRAY');
-  add(C('cost','Lisp Admin Fee'),P(100),null,'IN_USE',false).less=C('revenue','Offshore Rebates Percentage');
+  add(T('cost','Brokerage Percentage','Cost Basic'),P(40));
+  const co=add(C('cost','Other Income Percentage'),P(30));add(T('cost','Other Income Percentage','Cost Spw Offshore Asset Swap Fee'),P(100),co.id);
+  add(C('cost','Lisp Admin Fee'),P(100),null,'IN_USE',false);
   add(C('expense','Assistant'),P(50));add(C('expense','Referral Fees'),FL(250),null,'IN_USE',false);
   return a}
 const POL=[['IMED (30%)','IMED 30','DISTRIBUTOR',30],['Third Party Contract (33.33%)','Third Party 33','DISTRIBUTOR',33.33],['Fixed 29% Contract','Fixed 29','ADVISOR',29],['Allfunds Distributor 25%','Allfunds 25','DISTRIBUTOR',0,'allfunds',25],
@@ -408,8 +431,8 @@ const DAYS=['2026-09-29','2026-09-24','2026-09-18','2026-09-11','2026-08-30','20
 let policies=POL.map(([name,code,type,def,seed,x],i)=>{let rules=[];
   if(seed==='tiered')rules=seedTiered();
   if(seed==='allfunds')rules=[R(T('revenue','Offshore Rebates Percentage','AllFunds Rebates'),P(x))];
-  if(seed==='lisp')rules=[L(R(C('cost','Lisp Admin Fee'),P(100)),C('revenue','Offshore Rebates Percentage'))];
-  if(seed==='lispc')rules=[R(C('revenue','Offshore Rebates Percentage'),P(50)),L(R(C('cost','Lisp Admin Fee'),P(100)),C('revenue','Offshore Rebates Percentage'))];
+  if(seed==='lisp')rules=[R(C('cost','Lisp Admin Fee'),P(100))];
+  if(seed==='lispc')rules=[R(C('revenue','Offshore Rebates Percentage'),P(50)),R(C('cost','Lisp Admin Fee'),P(100))];
   if(seed==='adv0')rules=[R(T('revenue','Offshore Rebates Percentage','Mutual Fund'),P(0))];
   return{id:'p'+i,name,code,type,ncf:!name.startsWith('IMED'),status:'IN_USE',def:def==null?null:P(def),rules,updated:seed==='tiered'?'2026-10-02':DAYS[i%7],updatedBy:'b.kennedy'}});
 const revT=c=>LIB.revenue.find(x=>x.name===c).types.map(t=>t.id);
@@ -422,11 +445,11 @@ let POOLS=[
  {id:'pl6',code:'LEGACY ASSET MANAGERS',desc:'Replaced by OTHER INCOME in 2025',status:'NOT_IN_USE',types:[T('revenue','Other Income Percentage','ALLAN GRAY'),T('revenue','Other Income Percentage','CORONATION')],updated:'2025-11-02'}];
 
 /* saved changes survive a reload in this browser */
-const STORE='cpr.policies.v3';
+const STORE='cpr.policies.v4';
 try{const o=JSON.parse(localStorage.getItem(STORE)||'null');
-  if(o&&o.v===3&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
+  if(o&&o.v===4&&o.policies.every(p=>p.rules.every(r=>ENT[r.entityId]))&&o.pools.every(x=>x.types.every(t=>ENT[t]))){policies=o.policies;POOLS=o.pools;seq=Math.max(seq,o.seq||0)}}catch(_){}
 let noPersist=false;
-function persist(){if(noPersist)return;try{localStorage.setItem(STORE,JSON.stringify({v:3,seq,policies,pools:POOLS}))}catch(_){}}
+function persist(){if(noPersist)return;try{localStorage.setItem(STORE,JSON.stringify({v:4,seq,policies,pools:POOLS}))}catch(_){}}
 
 /* ===================== rule logic ===================== */
 const pol=()=>policies.find(p=>p.id===st.pid);
@@ -474,7 +497,7 @@ const usedBy=poolId=>policies.flatMap(p=>p.rules.filter(r=>r.tier&&r.tier.poolId
 const st={view:'policies',pid:null,q:'',ftype:'ALL',showOff:false,pq:'',pshowOff:false,tab:'check',sel:null,draft:null,saved:null,
   check:{d:'revenue',typeId:T('revenue','Brokerage Percentage','Basic'),amt:'10000',bal:'120000'},showGaps:false};
 const isDirty=()=>{const d=st.draft;if(!d)return false;if(d.isNew)return true;const r=byId(pol(),d.id);if(!r)return false;
-  return JSON.stringify([d.method.type,num(d.method.value),d.parent||null,d.tier&&[d.tier.poolId,d.tier.bands.map(b=>[num(b.from),num(b.value)]),d.tier.ind!==false,d.tier.team!==false],(d.desc||'').trim(),d.less||null])!==JSON.stringify([r.method.type,num(r.method.value),r.parent||null,r.tier&&[r.tier.poolId,r.tier.bands.map(b=>[num(b.from),num(b.value)]),r.tier.ind!==false,r.tier.team!==false],(r.desc||'').trim(),r.less||null])};
+  return JSON.stringify([d.method.type,num(d.method.value),d.parent||null,d.tier&&[d.tier.poolId,d.tier.bands.map(b=>[num(b.from),num(b.value)]),d.tier.ind!==false,d.tier.team!==false],(d.desc||'').trim()])!==JSON.stringify([r.method.type,num(r.method.value),r.parent||null,r.tier&&[r.tier.poolId,r.tier.bands.map(b=>[num(b.from),num(b.value)]),r.tier.ind!==false,r.tier.team!==false],(r.desc||'').trim()])};
 
 /* ===================== small UI helpers ===================== */
 let toastT=null,undoFn=null;
@@ -497,10 +520,19 @@ const methodHint=t=>t==='FLAT'?'A fixed amount in rands for every event.':t==='B
 function validMethod(m){const s=String(m.value??'').trim();if(s==='')return'Enter a rate.';const v=num(s);if(isNaN(v))return'Enter a number, for example 37.5.';if(v<0)return'Enter 0 or more.';if(m.type==='PERCENTAGE'&&v>100)return'Enter a percentage from 0 to 100.';if(m.type==='BASIS_POINTS'&&v>10000)return'Enter up to 10,000 bps.';return null}
 const bcode=e=>{const w=e.cls.name.split(/[\s/&-]+/).filter(Boolean);return(w.length>1?w[0][0]+w[1][0]:w[0][0]).toUpperCase()};
 const badge=e=>`<span class="bdg ${e.level==='CLASS'?'c':'t'}" aria-hidden="true">${esc(bcode(e))}</span>`;
-const lessSub=r=>r.less&&ent(r).d==='cost'?` · Less from ${esc(ENT[r.less].name)}`:'';
 const SUB={revenue:'',cost:' <small>· come off revenue before commission</small>',expense:' <small>· deducted from commission</small>'};
-/* a cost named like a revenue class (Brokerage Percentage) most likely comes off that revenue */
-const suggestLess=eid=>{const e=ENT[eid];if(e.d!=='cost')return null;const rc=LIB.revenue.find(c=>c.name===e.cls.name);return rc?rc.id:null};
+/* a rule row's extra line: which revenue a cost comes off, or how many types of a revenue class have costs linked */
+const lessSub=(p,r)=>{const e=ent(r),mine=t=>r.status!=='IN_USE'||resolve(p,t).rule===r;
+  if(e.d==='cost'){const rv=uniq(covers(r.entityId).filter(mine).flatMap(revsFor));return rv.length===1?` · Less from ${esc(ENT[rv[0]].name)}`:rv.length>1?` · Less from ${rv.length} revenue types`:''}
+  if(e.d==='revenue'&&e.level==='CLASS'){const n=covers(r.entityId).filter(t=>mine(t)&&costsFor(t).length).length;return n?` · Costs come off ${n} ${n===1?'type':'types'}`:''}
+  return''};
+/* one linked cost, with the rate this policy gives it. Click opens the rule that sets it, or offers to add one */
+function lessRow(p,c,ro){const ce=ENT[c],x=resolve(p,c);
+  const inner=(rate)=>`<span class="lw">Less</span>${badge(ce)}<span class="rn"><b>${esc(ce.name)}</b></span>${rate}`;
+  const sr='<span class="sr">deducted </span>';
+  if(x.rule)return`<li><button class="lessrow d-cost" data-act="rule" data-v="${x.rule.id}">${inner(`<span class="rate">${sr}−${esc(rateText(x.rule))}</span>`)}</button></li>`;
+  if(x.def)return`<li><button class="lessrow d-cost" data-act="settings" data-focus="def">${inner(`<span class="rate"><span class="dflt">default</span>${sr}−${esc(mtxt(p.def))}</span>`)}</button></li>`;
+  return`<li><button class="lessrow d-cost" data-act="add-entity" data-v="${c}" title="Add a rule for ${esc(ce.name)}">${inner(`<span class="rate unset">No rate · add</span>`)}</button></li>`}
 
 /* ===================== render: policies list ===================== */
 function render(){
@@ -559,12 +591,12 @@ function viewEditor(){const p=pol();const g=uncovered(p);const live=p.rules.filt
     ${st.showGaps?`<div class="gaplist">${g.slice(0,40).map(t=>`<button data-act="add-entity" data-v="${t}" title="Add a rule for ${esc(ENT[t].name)}">+ ${esc(ENT[t].name)}</button>`).join('')}</div>`:''}</div></div>`;
   else if(!p.rules.length)banner=`<div class="banner info">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb"><b>This policy pays ${mtxt(p.def)} on everything.</b> That’s all most contracts need. Add a rule only where a class or type earns a different rate.</div></div>`;
   else banner=`<div class="banner ok">${ICON.ok.replace('class="i"','class="i bi"')}<div class="bb"><b>Everything is covered.</b> ${live.length} active ${live.length===1?'rule':'rules'}${p.def?`, and everything else uses the ${mtxt(p.def)} default.`:'.'}</div></div>`;
-  const lessLines=r=>{if(ent(r).d!=='revenue')return'';const ls=p.rules.filter(c=>c.status==='IN_USE'&&ent(c).d==='cost'&&c.less===r.entityId);
-    return ls.length?`<ul class="lessl" role="list" aria-label="Costs that come off ${esc(ent(r).name)}">${ls.map(c=>`<li><button class="lessrow d-cost" data-act="rule" data-v="${c.id}"><span class="lw">Less</span>${badge(ent(c))}<span class="rn"><b>${esc(ent(c).name)}</b></span><span class="rate"><span class="sr">deducted </span>−${esc(rateText(c))}</span></button></li>`).join('')}</ul>`:''};
+  const lessLines=r=>{const e=ent(r);if(e.d!=='revenue'||e.level!=='TYPE'||r.status!=='IN_USE')return'';const cs=costsFor(e.id);
+    return cs.length?`<ul class="lessl" role="list" aria-label="Costs that come off ${esc(e.name)}">${cs.map(c=>lessRow(p,c)).join('')}</ul>`:''};
   const row=(r,lvl)=>{const e=ent(r);const ks=sortRules(p.rules.filter(k=>k.parent===r.id));
     const sel=st.tab==='rule'&&st.draft&&st.draft.id===r.id;
     const cls=['rrow','d-'+e.d,sel?'sel':'',r.status!=='IN_USE'?'off':'',applied===r.id?'applied':path.includes(r.id)?'path':''].join(' ');
-    return`<li><button class="${cls}" data-act="rule" data-v="${r.id}" aria-current="${sel?'true':'false'}">${badge(e)}<span class="rn"><b>${esc(e.name)}</b><small>${e.level==='TYPE'?`In ${esc(e.cls.name)}`:`Class · ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'}`}${lessSub(r)}</small></span>
+    return`<li><button class="${cls}" data-act="rule" data-v="${r.id}" aria-current="${sel?'true':'false'}">${badge(e)}<span class="rn"><b>${esc(e.name)}</b><small>${e.level==='TYPE'?`In ${esc(e.cls.name)}`:`Class · ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'}`}${lessSub(p,r)}</small></span>
       ${applied===r.id?'<span class="tag ap">Applies</span>':''}${r.tier?'<span class="tag tier">Tiered</span>':''}${r.status!=='IN_USE'?'<span class="tag off">Not in use</span>':''}
       <span class="rate">${e.d==='revenue'?'':'<span class="sr">deducted </span>−'}${esc(sel?rateText(st.draft):rateText(r))}</span></button>${lessLines(r)}
       ${ks.length||(dr&&dr.parent===r.id)?`<ul class="kids" role="list">${ks.map(k=>row(k,lvl+1)).join('')}${dr&&dr.parent===r.id?dr.html:''}</ul>`:''}</li>`};
@@ -592,12 +624,12 @@ function viewPanel(p,res){
   const scope=e.level==='CLASS'?`all ${e.cls.types.length} ${e.cls.types.length===1?'type':'types'} in ${esc(e.cls.name)}`:`${esc(e.name)}`;
   const dirty=isDirty();const isRev=e.d==='revenue';
   let h=`<div class="pbody">${d.isNew?`<p class="stepno">Step 2 of 2 · Set the rate</p>`:''}<h2 class="ptitle">${esc(e.name)}</h2><p class="psub">${DOMS[e.d].one} ${e.level==='CLASS'?'class':'type'}${e.level==='TYPE'?` in ${esc(e.cls.name)}`:''}${r&&r.status!=='IN_USE'?' · <b>not in use</b>':''}</p>
-   <p class="say">${isRev?'Pays':'Deducts'} <b>${esc(rateText(d))}</b> on ${scope}${d.tier?', depending on the advisor’s revenue so far this period':''}${e.d==='cost'&&d.less?`, taken off ${esc(ENT[d.less].name)} before commission is worked out`:''}${parent?`, instead of ${esc(ent(parent).name)}’s ${esc(rateText(parent))}`:''}${d.adopt&&d.adopt.length?`. ${d.adopt.map(i=>esc(ent(byId(p,i)).name)).join(' and ')} will move under it`:''}.</p>`;
+   <p class="say">${isRev?'Pays':'Deducts'} <b>${esc(rateText(d))}</b> on ${scope}${d.tier?', depending on the advisor’s revenue so far this period':''}${e.d==='cost'&&revCount(d.entityId)?`, taken off ${nameList(covers(d.entityId).flatMap(revsFor))} before commission is worked out`:''}${parent?`, instead of ${esc(ent(parent).name)}’s ${esc(rateText(parent))}`:''}${d.adopt&&d.adopt.length?`. ${d.adopt.map(i=>esc(ent(byId(p,i)).name)).join(' and ')} will move under it`:''}.</p>`;
   if(r&&r.status!=='IN_USE')h+=`<div class="banner info" style="margin-bottom:14px">${ICON.info.replace('class="i"','class="i bi"')}<div class="bb">This rule is <b>not in use</b>, so it’s skipped along with everything under it. <div class="acts"><button class="btn sm" data-act="reactivate">Bring back into use</button></div></div></div>`;
   if(isRev)h+=`<div class="flabel" id="modeL">How is the rate set?</div><div class="seg" role="group" aria-labelledby="modeL" style="display:flex;margin-bottom:14px">${[['one','One rate'],['tier','Tiered rate']].map(([v,l])=>`<button type="button" style="flex:1" data-act="rmode" data-v="${v}" aria-pressed="${(v==='tier')===!!d.tier}">${l}</button>`).join('')}</div>`;
   if(!d.tier)h+=`<div class="flabel" id="rateL">Rate</div>${methodSeg(d.method,'mtype')}<label class="fld${d.errs.val?' err':''}"><span class="sr">Rate value</span>${affix(d.method.type,'data-in="val" id="val"',d.method.value,'Rate')}<small>${methodHint(d.method.type)}</small><div class="e" id="valE">${esc(d.errs.val||'')}</div></label>`;
   else h+=viewTier(d);
-  if(e.d==='cost')h+=lessField(d);
+  if(e.d!=='expense')h+=lessInfo(p,d);
   const elig=p.rules.filter(x=>x.id!==d.id&&ent(x).d===e.d&&!(d.id&&descendants(p,d.id).includes(x.id))&&!check(p,d.entityId,x.id,d.isNew?null:d.id).err);
   const rootOk=!check(p,d.entityId,null,d.isNew?null:d.id).err||!d.parent;
   const open=d.moreOpen||!!d.errs.parent;
@@ -623,13 +655,23 @@ function poolSummary(id){const x=poolById(id);if(!x)return'Pick the pool whose t
 const tierIds=d=>({pid:pol().id,rid:d.isNew?'(new)':d.id});
 function tierRows(t,x){const n=t.bands.length,m=v=>{const x=num(v);return String(v??'').trim()===''||isNaN(x)?'':String(x)};
   return t.bands.map((b,i)=>`<tr><td>${esc(x.pid)}</td><td>${esc(x.rid)}</td><td>${i?m(b.from)||'—':'0'}</td><td>${i<n-1?m(t.bands[i+1].from)||'—':'NULL'}</td><td>${m(b.value)||'—'}</td><td>${t.ind!==false}</td><td>${t.team!==false}</td><td>IN_USE</td></tr>`).join('')}
-const lessField=d=>`<label class="fld"><span>Comes off this revenue <span style="font-weight:500;color:var(--faint)">· optional</span></span><select data-in="less"><option value="">Not tied to one revenue</option>${LIB.revenue.map(c=>`<optgroup label="${esc(c.name)}"><option value="${c.id}" ${d.less===c.id?'selected':''}>All of ${esc(c.name)}</option>${c.types.map(t=>`<option value="${t.id}" ${d.less===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</optgroup>`).join('')}</select><small>${d.less?`Taken off ${esc(ENT[d.less].name)} before commission is worked out.`:'Pick the revenue this cost is taken off before commission is worked out.'}</small></label>`;
+const revCount=eid=>covers(eid).filter(t=>revsFor(t).length).length;
+/* read-only: the revenue-to-cost mapping as this rule sees it */
+function lessInfo(p,d){const e=ENT[d.entityId],ts=covers(d.entityId);
+  const note=`<small class="note">Which costs come off which revenue is set once for every policy, in Classes &amp; Types. Only the rate is set here.</small>`;
+  if(e.d==='revenue'){const withC=ts.filter(t=>costsFor(t).length);
+    if(!withC.length)return`<div class="lessinfo"><div class="flabel">Costs taken off this revenue</div><p class="hint" style="margin-top:0">No cost is linked to ${e.level==='CLASS'?'any type in this class':'this type'}.</p>${note}</div>`;
+    return`<div class="lessinfo"><div class="flabel" id="lessL">Costs taken off this revenue</div>
+     ${withC.map(t=>`${e.level==='CLASS'?`<div class="lg">${esc(ENT[t].name)}</div>`:''}<ul class="lessl" role="list" aria-label="Costs that come off ${esc(ENT[t].name)}">${costsFor(t).map(c=>lessRow(p,c)).join('')}</ul>`).join('')}${note}</div>`}
+  const rv=uniq(ts.flatMap(revsFor));
+  if(!rv.length)return`<div class="lessinfo"><div class="flabel">Taken off revenue</div><p class="hint" style="margin-top:0">Not linked to any revenue type.</p>${note}</div>`;
+  return`<div class="lessinfo"><div class="flabel">Taken off these revenue types</div><ul class="lessl" role="list">${rv.map(t=>`<li><div class="lessrow ro d-revenue">${badge(ENT[t])}<span class="rn"><b>${esc(ENT[t].name)}</b><small>In ${esc(ENT[t].cls.name)}</small></span></div></li>`).join('')}</ul>${note}</div>`}
 const descField=d=>`<label class="fld"><span>Description <span style="font-weight:500;color:var(--faint)">· optional</span></span><input type="text" data-in="desc" value="${esc(d.desc||'')}" maxlength="200" autocomplete="off"><small>A note for the team. It isn’t used in calculations.</small></label>`;
-function ruleColsRows(d,p,r){const e=ENT[d.entityId];const first=d.tier&&d.tier.bands[0]?d.tier.bands[0].value:d.method.value;const lx=e.d==='cost'&&d.less?ENT[d.less]:null;
-  return[['policy_id',p.id],['entity_type',`${e.d.toUpperCase()}_${e.level}`],['entity_id',e.id],['revenue_class',lx?lx.cls.name:null],['revenue_type',lx&&lx.level==='TYPE'?lx.name:null],['parent_rule_id',d.parent||null],['commission_methodology',d.method.type],['base_commission_rate',first],['is_accrued_revenue',!!d.tier],['revenue_accrual_pool_id',d.tier?d.tier.poolId:null],['is_subject_to_advisor_performance',false],['description',(d.desc||'').trim()||null],['record_status',r?r.status:'IN_USE']]
+function ruleColsRows(d,p,r){const e=ENT[d.entityId];const first=d.tier&&d.tier.bands[0]?d.tier.bands[0].value:d.method.value;
+  return[['policy_id',p.id],['entity_type',`${e.d.toUpperCase()}_${e.level}`],['entity_id',e.id],['parent_rule_id',d.parent||null],['commission_methodology',d.method.type],['base_commission_rate',first],['is_accrued_revenue',!!d.tier],['revenue_accrual_pool_id',d.tier?d.tier.poolId:null],['is_subject_to_advisor_performance',false],['description',(d.desc||'').trim()||null],['record_status',r?r.status:'IN_USE']]
    .map(([k,x])=>`<tr><th scope="row">${k}</th><td>${esc(x===''||x==null?'NULL':String(x))}</td></tr>`).join('')}
 function devBlock(d,p,r){return`<details class="more dev" ${d.devOpen?'open':''} data-act-toggle="dev"><summary>${ICON.chev}For developers: how this is saved</summary>
-  <p class="hint" style="margin-top:0">The rule is one row in <code>commission_rule</code>. The system fills in <code>id</code> and the audit columns.</p>
+  <p class="hint" style="margin-top:0">The rule is one row in <code>commission_rule</code>. The system fills in <code>id</code> and the audit columns.${d.entityId&&ENT[d.entityId].d!=='expense'?' The link between a cost and the revenue it comes off is not stored on the rule. It is read from <code>revenue_cost_mapping</code>.':''}</p>
   <div class="dbwrap" tabindex="0" role="region" aria-label="commission_rule columns"><table class="dbtab"><caption class="sr">commission_rule columns</caption><tbody id="ruleCols">${ruleColsRows(d,p,r)}</tbody></table></div>
   ${d.tier?`<p class="hint">Its tiers are one row each in the tier table. The last tier’s <code>upper_bound</code> is NULL. <code>commission_rate</code> is read with the rule’s <code>commission_methodology</code>.</p>
   <div class="dbwrap" tabindex="0" role="region" aria-label="Tier table rows"><table class="dbtab"><caption class="sr">Tier table rows</caption><thead><tr><th scope="col">policy_id</th><th scope="col">rule_id</th><th scope="col">lower_bound</th><th scope="col">upper_bound</th><th scope="col">commission_rate</th><th scope="col">is_applied_to_individual_advisors</th><th scope="col">is_applied_to_advisor_teams</th><th scope="col">record_status</th></tr></thead><tbody id="tierRows">${tierRows(d.tier,tierIds(d))}</tbody></table></div>
@@ -647,15 +689,16 @@ function viewTier(d){const t=d.method.type,bs=d.tier.bands,n=bs.length,ba=d.errs
   ${d.errs.bands?`<p class="berr" role="alert">${esc(d.errs.bands)}</p>`:''}<button class="btn sm" data-act="add-band">${ICON.plus}Add tier</button>
   <p class="hint">The tier the advisor’s total falls in sets the rate. The last tier has no upper limit.</p>
   <fieldset class="fld${d.errs.who?' err':''}"><legend>Applies to</legend><div class="who"><label class="chk"><input type="checkbox" data-in="t-ind" ${d.tier.ind!==false?'checked':''}>Individual advisors</label><label class="chk"><input type="checkbox" data-in="t-team" ${d.tier.team!==false?'checked':''}>Advisor teams</label></div><div class="e">${esc(d.errs.who||'')}</div></fieldset>`}
-function lessSteps(p,t,res){const live=p.rules.filter(r=>r.status==='IN_USE');
-  if(t.d==='revenue'){const ls=live.filter(r=>ent(r).d==='cost'&&r.less&&covers(r.less).includes(t.id));
-    return ls.length?[`Costs tied to this revenue come off it first: ${ls.map(r=>`<b>${esc(ent(r).name)}</b> (−${esc(rateText(r))})`).join(', ')}.`]:[]}
-  if(t.d==='cost'&&res.rule&&res.rule.less)return[`This cost comes off <b>${esc(ENT[res.rule.less].name)}</b> before commission is worked out.`];
+function lessSteps(p,t,res){
+  if(t.d==='revenue'){const cs=costsFor(t.id);
+    return cs.length?[`Costs linked to this revenue type come off it first: ${cs.map(c=>{const x=resolve(p,c);return`<b>${esc(ENT[c].name)}</b> (${x.rule?`−${esc(rateText(x.rule))}`:x.def?`−${esc(mtxt(p.def))}, the default`:'no rate'})`}).join(', ')}.`]:[]}
+  if(t.d==='cost'){const rs=revsFor(t.id);
+    return rs.length?[`This cost is linked to <b>${nameList(rs)}</b>, so it comes off ${rs.length===1?'that revenue':'them'} before commission is worked out.`]:[`This cost isn’t linked to a revenue type in Classes &amp; Types.`]}
   return[]}
 function viewCheck(p,res){const c=st.check;const t=ENT[c.typeId];const amt=num(c.amt)||0;const steps=[...res.steps,...lessSteps(p,t,res)];
   let out='';const m=res.rule?methodFor(res.rule,c.bal):res.def?{m:p.def}:null;
   if(m){let v=applyM(m.m,amt);const ded=t.d!=='revenue';if(ded)v=-v;
-    out=`<div class="result" aria-live="polite"><div class="big">${esc(mtxt(m.m))}</div><div class="from">from ${res.rule?`<b>${esc(ent(res.rule).name)}</b>${res.rule.tier?`, ${esc(bandName(res.rule,m.band))}`:''}`:'the <b>policy default</b>'}${res.rule&&t.d==='cost'&&res.rule.less?`, taken off <b>${esc(ENT[res.rule.less].name)}</b>`:''}</div><div class="calc"><span>${t.d==='cost'?'Taken off revenue':ded?'Deducted from commission':'Commission'} on ${fmtR(amt)}</span><b>${fmtR(v)}</b></div></div>`}
+    out=`<div class="result" aria-live="polite"><div class="big">${esc(mtxt(m.m))}</div><div class="from">from ${res.rule?`<b>${esc(ent(res.rule).name)}</b>${res.rule.tier?`, ${esc(bandName(res.rule,m.band))}`:''}`:'the <b>policy default</b>'}${t.d==='cost'&&revsFor(t.id).length?`, taken off <b>${nameList(revsFor(t.id))}</b>`:''}</div><div class="calc"><span>${t.d==='cost'?'Taken off revenue':ded?'Deducted from commission':'Commission'} on ${fmtR(amt)}</span><b>${fmtR(v)}</b></div></div>`}
   else out=`<div class="result bad" aria-live="polite"><div class="big" style="font-size:20px">No rate applies</div><div class="from">${esc(t.name)} events would fail in a commission run.</div><div class="acts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn sm primary" data-act="add-entity" data-v="${t.id}">Add a rule for it</button><button class="btn sm" data-act="settings" data-focus="def">Set a default rate</button></div></div>`;
   return`<div class="pbody"><p class="psub" style="margin-bottom:14px">Pick something an advisor earns or pays to see the rate this policy gives it. Nothing is changed.</p>
    <div class="seg" role="group" aria-label="Kind" style="display:flex;margin-bottom:12px">${ORDER.map(d=>`<button style="flex:1" data-act="check-d" data-v="${d}" aria-pressed="${c.d===d}">${DOMS[d].many}</button>`).join('')}</div>
@@ -774,12 +817,12 @@ function addRuleDialog(){const p=pol();let q='';const open={revenue:false,cost:f
 
 /* ===================== rule actions ===================== */
 function selectRule(id){guard(()=>{const r=byId(pol(),id);if(!r)return;st.tab='rule';st.saved=st.saved===id?id:null;
-  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',less:r.less||null,method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:false};render();
+  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:false};render();
   const b=$(`[data-act="rule"][data-v="${id}"]`);b&&b.scrollIntoView({block:'nearest'});if(innerWidth<=1000)$('.panel').scrollIntoView({block:'start'})})}
 function startNew(eid,parent){guard(()=>{const p=pol();parent=parent===undefined?bestParent(p,eid):parent;const c=check(p,eid,parent);if(c.err){toast(c.err);return}
   const pr=parent&&byId(p,parent);const cur=resolve(p,ENT[eid].level==='TYPE'?eid:covers(eid)[0]);
   const base=pr?pr.method:cur.rule?cur.rule.method:p.def||{type:'PERCENTAGE',value:''};
-  st.tab='rule';st.saved=null;st.draft={isNew:true,entityId:eid,parent,desc:'',less:(pr&&pr.less)||suggestLess(eid),adopt:c.adopt,method:{type:base.type,value:base.value},tier:null,errs:{},moreOpen:false};render();
+  st.tab='rule';st.saved=null;st.draft={isNew:true,entityId:eid,parent,desc:'',adopt:c.adopt,method:{type:base.type,value:base.value},tier:null,errs:{},moreOpen:false};render();
   if(innerWidth<=1000)$('.panel').scrollIntoView({block:'start'});const i=$('#val');i&&(i.focus(),i.select())})}
 function saveRule(){const p=pol();const d=st.draft;const errs={};
   if(d.tier){if(!d.tier.poolId)errs.pool='Choose which pool’s revenue decides the tier.';if(d.tier.ind===false&&d.tier.team===false)errs.who='Choose who these tiers apply to.';
@@ -795,10 +838,10 @@ function saveRule(){const p=pol();const d=st.draft;const errs={};
   const undo=snapshot();const name=ENT[d.entityId].name;
   const tier=d.tier?{poolId:d.tier.poolId,ind:d.tier.ind!==false,team:d.tier.team!==false,bands:d.tier.bands.map((b,i)=>({from:i?num(b.from):0,value:num(b.value)}))}:null;
   const method={type:d.method.type,value:tier?tier.bands[0].value:num(d.method.value)};
-  let r;if(d.isNew){r={id:rid(),parent:d.parent||null,entityId:d.entityId,method,tier,desc:(d.desc||'').trim(),less:ENT[d.entityId].d==='cost'?(d.less||null):null,status:'IN_USE',used:false,lastRun:null,updated:TODAY,updatedBy:'you'};p.rules.push(r)}
-  else{r=byId(p,d.id);Object.assign(r,{method,tier,desc:(d.desc||'').trim(),less:ENT[d.entityId].d==='cost'?(d.less||null):null,parent:d.parent||null,updated:TODAY,updatedBy:'you'})}
+  let r;if(d.isNew){r={id:rid(),parent:d.parent||null,entityId:d.entityId,method,tier,desc:(d.desc||'').trim(),status:'IN_USE',used:false,lastRun:null,updated:TODAY,updatedBy:'you'};p.rules.push(r)}
+  else{r=byId(p,d.id);Object.assign(r,{method,tier,desc:(d.desc||'').trim(),parent:d.parent||null,updated:TODAY,updatedBy:'you'})}
   c.adopt.forEach(i=>byId(p,i).parent=r.id);p.updated=TODAY;
-  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',less:r.less||null,method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:d.moreOpen,devOpen:d.devOpen};st.saved=r.id;
+  st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{},moreOpen:d.moreOpen,devOpen:d.devOpen};st.saved=r.id;
   const first=d.isNew&&p.rules.length===1&&!p.def;
   render();toast(d.isNew?(first?`Rule for ${name} added. Add more rules, or set a default rate for everything else.`:`Rule for ${name} added`):`${name} saved`,undo);return true}
 function removeRule(){const p=pol();const r=byId(p,st.draft.id);const e=ent(r);const ds=descendants(p,r.id).map(i=>byId(p,i)).filter(x=>x.status==='IN_USE');
@@ -837,7 +880,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#dlg,#drawer'))return
   case'add-band':{const bs=st.draft.tier.bands;const last=num(bs[bs.length-1].from)||0;bs.push({from:last?last*2:1000000,value:''});delete st.draft.errs.bands;delete st.draft.errs.bandAt;render();const ins=$$('.panel [data-bf="value"]');return ins[ins.length-1].focus()}
   case'rm-band':st.draft.tier.bands.splice(+v,1);delete st.draft.errs.bands;delete st.draft.errs.bandAt;return render();
   case'save-rule':return saveRule();
-  case'cancel-rule':{const d=st.draft;if(d.isNew||!isDirty()){st.draft=null;st.tab=d.isNew?'check':'rule';return render()}const r=byId(pol(),d.id);st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',less:r.less||null,method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{}};return render()}
+  case'cancel-rule':{const d=st.draft;if(d.isNew||!isDirty()){st.draft=null;st.tab=d.isNew?'check':'rule';return render()}const r=byId(pol(),d.id);st.draft={id:r.id,entityId:r.entityId,parent:r.parent,desc:r.desc||'',method:{...r.method},tier:r.tier?JSON.parse(JSON.stringify(r.tier)):null,errs:{}};return render()}
   case'remove':return removeRule();
   case'reactivate':return reactivate();
   case'check-d':st.check.d=v;st.check.typeId=LIB[v][0].types[0].id;return render();
@@ -865,7 +908,6 @@ function softRefresh(){/* update preview without stealing focus */const d=st.dra
 document.addEventListener('change',e=>{if(e.target.closest('#dlg,#drawer'))return;const k=e.target.dataset.in;const d=st.draft;
   if(k==='showOff'||k==='pshowOff'){st[k]=e.target.checked;return render()}
   if(k==='check-type'){st.check.typeId=e.target.value;render();return $('[data-in="check-type"]').focus()}
-  if(k==='less'&&d){d.less=e.target.value||null;render();return $('[data-in="less"]').focus()}
   if(k==='parent'&&d){d.parent=e.target.value||null;delete d.errs.parent;if(d.isNew)d.adopt=check(pol(),d.entityId,d.parent).adopt||[];render();return $('[data-in="parent"]').focus()}
   if((k==='t-ind'||k==='t-team')&&d&&d.tier){d.tier[k==='t-ind'?'ind':'team']=e.target.checked;delete d.errs.who;e.target.closest('.fld')?.classList.remove('err');return softRefresh()}
   if(k==='pool'&&d){if(e.target.value==='__new'){e.target.value=d.tier.poolId||'';return openPool(null,true)}d.tier.poolId=e.target.value;delete d.errs.pool;render();$('[data-in="pool"]').focus()}});
@@ -877,7 +919,7 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
  <div class="db help">
   <h3>In three steps</h3><ol><li><b>Add a rule.</b> Start here. Choose a <b>class</b> to cover all its types, or a single <b>type</b> for an exception.</li><li><b>Set its rate.</b> One rate, or a <b>tiered</b> rate that grows as the advisor’s revenue builds up during the period.</li><li><b>Check a rate</b> to see what any type earns and why.</li></ol>
   <p>A <b>default rate</b> is optional. It covers anything no rule does. Without one, anything no rule covers fails in a commission run.</p>
-  <h3>Which rate wins</h3><p>The system starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission. A cost comes off the revenue it’s tied to before commission is worked out, and expenses are deducted from commission.</p>
+  <h3>Which rate wins</h3><p>The system starts at the top-level rule that covers the event and moves down to the most specific rule that also covers it. If no rule covers it, the default applies. With no default, the event fails. Revenue rules earn commission. A cost comes off the revenue types it’s linked to, in Classes &amp; Types, before commission is worked out, and expenses are deducted from commission.</p>
   <h3>Tiered rates</h3><p>Each tier has a <b>From</b>, an <b>Up to</b> and a <b>Rate</b>. <b>From</b> is filled in for you: it’s where the tier before ended. The last tier has no upper limit. The advisor’s total revenue so far this period, added up from an <b>accrued revenue pool</b>, picks the tier, and that tier’s rate is used. Tiers use the same rate type as the rule (percentage, basis points or flat amount), and can apply to individual advisors, advisor teams, or both. Pools are managed under <b>Accrued revenue pools</b> and shared by every policy.</p>
   <h3>Changing and removing rules</h3><ul><li>Click a rule to edit it. Save shows <b>✓ Saved</b>; every change offers <b>Undo</b>.</li><li><b>Remove…</b> lets you stop using a rule (kept, can come back) or delete it. Rules already used in a commission run can only be stopped, so history stays traceable.</li><li>Stopping a rule also stops the rules under it.</li></ul>
   <h3>For developers: rules the screen enforces</h3><ul>
@@ -885,7 +927,7 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
    <li>Two rules at the same level can’t cover the same type. Adding a class where some of its types already have rules at that level moves those rules under the class.</li>
    <li>No cycles: a rule can’t sit under itself or its sub-rules.</li>
    <li>Rates: percentage 0–100, basis points 0–10,000, flat ≥ 0.</li>
-   <li>A cost rule can name the revenue it comes off, either a whole revenue class or one type (“Comes off this revenue”). It’s optional and separate from “Sits under”. Assumed: it’s saved in <code>revenue_class</code> and <code>revenue_type</code> on the cost rule.</li>
+   <li>Which costs come off which revenue is not set per policy. It is one global, many-to-many table, <code>revenue_cost_mapping</code> (revenue type, cost type, record status), kept in Classes &amp; Types. A revenue rule lists the costs linked to its types, each with the rate this policy gives that cost. A cost rule lists the revenue types it comes off. Both are read-only here. The link is separate from “Sits under”.</li>
    <li>Tiers are contiguous. The first starts at 0, each tier’s upper bound is the next tier’s lower bound, and the last has none (NULL). A tiered rule needs a pool, at least two tiers, and at least one of “individual advisors” or “advisor teams”. Tier rates use the rule’s own <code>commission_methodology</code> (percentage, basis points or flat).</li>
    <li>Under “For developers” a rule shows how it is saved: its <code>commission_rule</code> columns and, for a tiered rule, its tier rows (<code>lower_bound</code>, <code>upper_bound</code>, <code>commission_rate</code>, the two <code>is_applied_to_…</code> flags, <code>record_status</code>) and the <code>CommissionTiers</code> seeding value, <code>lower:upper:rate; …</code>. A tiered rule saves <code>is_accrued_revenue</code> = true and its pool in <code>revenue_accrual_pool_id</code>. <code>is_subject_to_advisor_performance</code> is always saved as false, because performance tiers no longer apply. Assumed: stopping a rule stops its tiers, and changing the tiers of a rule already used in a run retires the old rows rather than deleting them.</li>
    <li>Stopping a rule cascades to its sub-rules; bringing it back restores stopped parents. Delete is only allowed for rules never used in a run; sub-rules move up a level.</li>
@@ -893,8 +935,8 @@ function helpDialog(){openDialog(`<div class="dh"><div><h2 id="dlgT">How commiss
    <li>Policy codes and pool codes are unique. Unsaved edits prompt Save or Discard before leaving.</li></ul>
   <h3>Open questions for the team</h3><ul>
    <li><b>Whole event or slices?</b> Here, the tier the advisor’s total falls in sets the rate for the whole event. If revenue should be paid in slices, like income-tax brackets, the calculation and wording change.</li>
-   <li><b>Other rule columns.</b> The prototype writes <code>entity_type</code> and <code>entity_id</code>. What does <code>commission_source</code> hold now, and is it still needed? For a tiered rule it saves the first tier’s rate in <code>base_commission_rate</code>. Is that right?</li>
-   <li><b>Costs off revenue.</b> A cost rule here can name the revenue class or type it comes off. Can a cost be left untied? Can several costs come off one revenue, and in what order? Is a cost’s rate taken on the cost amount?</li>
+   <li><b>Other rule columns.</b> The prototype writes <code>entity_type</code> and <code>entity_id</code>. What do <code>commission_source</code>, <code>revenue_class</code> and <code>revenue_type</code> hold now, and are they still needed? For a tiered rule it saves the first tier’s rate in <code>base_commission_rate</code>. Is that right?</li>
+   <li><b>Costs off revenue.</b> The mapping is settled: it lives in Classes &amp; Types. Still open: what happens to a cost event whose type isn’t linked to any revenue? When several costs come off one revenue, in what order? Is a cost’s rate taken on the event’s <code>costAmount</code>, after any calculation methodology on the cost type?</li>
    <li><b>Applies-to flags.</b> They’re stored on every tier row, and this prototype sets them once per rule. If a rule can have different tiers for individual advisors and for advisor teams, the editor needs a second tier table.</li>
    <li><b>Policy columns.</b> The <code>commission_policy</code> table wasn’t shared. The prototype assumes it holds the default rate and the policy type (Advisor or Distributor).</li></ul>
  </div><div class="da"><button class="btn ghost" data-hx="reset">Reset demo data</button><span class="sp"></span><button class="btn" data-hx="intro">Replay intro</button><button class="btn primary" data-hx="close">Done</button></div>`,{wide:true});
