@@ -287,6 +287,7 @@ function renderFilter(){
   const d=st.domain,o=[['all','All types']];
   if(d!=='commission'){o.push(['meth','Has a calculation methodology'],['nometh','Uses 100% of source'],['nocom','No commission link'])}
   if(d==='revenue')o.push(['nocost','No cost link']);
+  if(d==='cost')o.push(['norev','No revenue link']);
   if(d==='commission')o.push(['unused','Not linked to anything']);
   if(!o.find(x=>x[0]===st.filter))st.filter='all';
   $('#filter').innerHTML=o.map(([v,l])=>`<option value="${v}" ${v===st.filter?'selected':''}>${l}</option>`).join('');
@@ -305,6 +306,7 @@ function passFilter(t){
   if(f==='meth')return!!t.method; if(f==='nometh')return!t.method;
   if(f==='nocom')return!links(d,t.id,'commission').length;
   if(f==='nocost')return!links(d,t.id,'cost').length;
+  if(f==='norev')return!links(d,t.id,'revenue').length;
   if(f==='unused')return['revenue','cost','expense'].every(x=>!links('commission',t.id,x).length);
   return true;
 }
@@ -479,9 +481,9 @@ function drawDrawer(){
     h+='</div></section>';
   }
   if(kind==='type'){
-    const labels={cost:['Linked cost types','Costs deducted from this revenue to calculate net revenue.'],revenue:['Linked revenue types','Revenue this cost is deducted from.'],commission:['Linked commission types','Commission that is earned from this '+noun+'.']};
+    const labels={cost:['Linked cost types','Costs deducted from this revenue to calculate net revenue.'],revenue:['Linked revenue types','Revenue this cost is deducted from. A cost with no linked revenue type can’t be processed.'],commission:['Linked commission types','Commission that is earned from this '+noun+'.']};
     for(const t of TARGETS[d]){const ids=dr.links[t];
-      h+=`<section class="sec"><h3>${labels[t][0]}</h3><p class="lead">${labels[t][1]}</p><div class="chips">`+(ids.length?ids.map(i=>{const x=findType(t,i);return x?`<span class="chip" style="--c:${DOM[t].c}"><span class="dt"></span>${esc(x.t.name)} <small>${esc(x.c.name)}</small><button data-rm="${t}:${i}" aria-label="Remove ${esc(x.t.name)}">×</button></span>`:''}).join(''):`<span class="none-t" style="font-size:13px">None linked</span>`)+'</div>';
+      h+=`<section class="sec"><h3>${labels[t][0]}</h3><p class="lead">${labels[t][1]}</p><div class="chips">`+(ids.length?ids.map(i=>{const x=findType(t,i);return x?`<span class="chip" style="--c:${DOM[t].c}"><span class="dt"></span>${esc(x.t.name)} <small>${esc(x.c.name)}</small><button data-rm="${t}:${i}" aria-label="Remove ${esc(x.t.name)}">×</button></span>`:''}).join(''):`<span class="none-t" style="font-size:13px">None linked${d==='cost'&&t==='revenue'?` · <b style="color:var(--danger);font-weight:600">events for this cost can’t be processed</b>`:''}</span>`)+'</div>';
       h+=`<label class="adder"><span class="sr">Add ${DOM[t].noun} type</span><select data-add="${t}"><option value="">Add a ${DOM[t].noun} type…</option>`+sortItems(data[t].filter(c=>c.status==='IN_USE')).map(c=>{const opts=c.types.filter(x=>x.status==='IN_USE'&&!ids.includes(x.id));return opts.length?`<optgroup label="${esc(c.name)}">${opts.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</optgroup>`:''}).join('')+'</select></label></section>';}
     if(d==='commission'&&!dr.isNew){h+=`<section class="sec"><h3>Linked from</h3><p class="lead">Revenue, cost and expense types that earn this commission. Manage links from those types.</p>`;let any=false;
       for(const s of ['revenue','cost','expense']){const ids=links('commission',dr.id,s);if(!ids.length)continue;any=true;h+=`<div class="chips">`+ids.map(i=>{const x=findType(s,i);return`<span class="chip" style="--c:${DOM[s].c};padding-right:10px"><span class="dt"></span>${esc(x.t.name)} <small>${DOM[s].label}</small></span>`}).join('')+'</div>'}
