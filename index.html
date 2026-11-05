@@ -222,6 +222,8 @@
   .case-meta .role { font-size: 0.9rem; margin-top: 10px; color: var(--persimmon); font-weight: 600; }
   .case-body h3 { font-size: 1.2rem; margin-bottom: 12px; }
   .case-body p { margin: 0 0 14px 0; max-width: 68ch; }
+  .case-body ul { margin: 0 0 14px 0; padding-left: 20px; max-width: 68ch; }
+  .case-body li { margin: 0 0 6px 0; }
   .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
   .tag {
     font-size: 0.78rem;
@@ -532,9 +534,14 @@
             <div class="role">Product owner</div>
           </div>
           <div class="case-body">
-            <h3>Feno, a season diary for fig and pomegranate growers</h3>
-            <p>Figs and pomegranates have no shared growing recipe in South Africa, so growers lean on chemical sales reps for advice. I interviewed fig growers in Porterville and Piket-Bo-Berg, then wrote the requirements, data model and privacy rules for an app that lets them log their season block by block, offline in the orchard, in English and Afrikaans.</p>
-            <p>I own the backlog and roadmap in GitHub, and turn pilot feedback into decisions: a guided install step after growers said they didn't know apps install from a browser, and a "who can see my farm" screen after they asked. Its exporter module, Feno Ops, gives an export company a harvest forecast from what growers log, and growers tick exactly what is shared.</p>
+            <h3>Feno: diary, forecasting and export planning for fig and pomegranate growers</h3>
+            <p>Figs and pomegranates have no shared growing recipe in South Africa, so growers lean on chemical sales reps for advice. I interviewed fig growers in Porterville and Piket-Bo-Berg, then wrote the requirements, data model and privacy rules for an app with three modules:</p>
+            <ul>
+              <li><strong>Feno Diary:</strong> growers log their season block by block, offline in the orchard, in English and Afrikaans.</li>
+              <li><strong>Feno Forecasting:</strong> automatic weather and heat units for every farm, and a harvest forecast per block (how much, when and which weeks) with the reasons in plain words.</li>
+              <li><strong>Feno Ops:</strong> the exporter's planning view of farms whose owners chose to share, so buyers and shipping are ready before picking.</li>
+            </ul>
+            <p>I own the backlog and roadmap in GitHub, and turn pilot feedback into decisions: a guided install step after growers said they didn't know apps install from a browser, and a "who can see my farm" screen after they asked. Growers tick exactly what their exporter sees.</p>
             <div class="highlight">Built with Claude as my daily partner: 105 pull requests merged, and 580+ tests plus 28 database rule suites run on every change. Now in pilot with growers and a first exporter.</div>
             <div class="case-links">
               <a class="btn btn-ghost btn-sm" href="https://github.com/Inzicht-Analytics/feno-showcase">Product case study →</a>
@@ -543,6 +550,7 @@
               <span class="tag">Product ownership</span>
               <span class="tag">Field research</span>
               <span class="tag">Backlog &amp; roadmap</span>
+              <span class="tag">Forecasting</span>
               <span class="tag">Privacy by design</span>
               <span class="tag">Building with AI</span>
             </div>
@@ -823,7 +831,7 @@
     tenlifestyle: "At Ten Lifestyle Group (2022–2025) I was Technical BA on a ground-up rebuild of a global CRM platform serving Visa, HSBC, Coutts and other banking/concierge clients — leading requirements gathering, QA, and UAT, and managing the backlog alongside the .NET dev team. I was named Employee of the Year in the technical space in 2024.",
     datanoble: "At DataNoble (2021–2022) I was Senior Researcher & Technical Consultant on UX/CX, using data modelling and Design Thinking workshops to solve CX inefficiencies for Altron Group and major SA internet/IoT suppliers, working directly with C-level stakeholders on KPI design.",
     iam: "I specialise in Identity & Access Management — mapping access requirements into Azure AD (Entra ID), designing RBAC frameworks, and writing least-privilege security specifications. I was Lead IAM Specialist for a startup app from concept to launch, and refined IAM controls at Ten Lifestyle Group for banking-grade compliance.",
-    feno: "Belinda owns Feno, a season diary app for fig and pomegranate growers in the Western Cape, now in pilot with growers and a first exporter. She interviewed growers, wrote the requirements and privacy rules, runs the backlog in GitHub, and ships it with Claude as her daily partner: 105 pull requests merged and 580+ automated tests so far. Its exporter module, Feno Ops, turns what growers log into a harvest forecast. The case study is at github.com/Inzicht-Analytics/feno-showcase.",
+    feno: "Belinda owns Feno, a season diary app for fig and pomegranate growers in the Western Cape, now in pilot with growers and a first exporter. She interviewed growers, wrote the requirements and privacy rules, runs the backlog in GitHub, and ships it with Claude as her daily partner: 105 pull requests merged and 580+ automated tests so far. It has three modules: Feno Diary for growers' season records, Feno Forecasting for weather, heat units and a harvest forecast per block, and Feno Ops for exporters planning ahead of the harvest. The case study is at github.com/Inzicht-Analytics/feno-showcase.",
     industries: "So far: fintech and private wealth management (SecuritEase), banking and global concierge services (Ten Lifestyle Group), and CX/IoT consulting (DataNoble). I'm domain-agnostic by design — the constant is the way I work, not the industry.",
     skills: "Core toolkit: Jira, Confluence, SQL/PostgreSQL, Postman, Figma, Miro, REST APIs, Agile/Scrum. I use Claude every day, with 10 custom skills I designed and connectors to Vercel, Supabase, Sentry and Amplitude, and I'm studying frontend engineering through Scrimba.",
     availability: "Belinda is based in Western Cape, South Africa, and open to remote Technical BA / Product Owner engagements globally, as well as consulting work through Inzicht Analytics. Best way to reach her is via the contact links below.",
@@ -831,7 +839,7 @@
   };
 
   var PATTERNS = [
-    { re: /feno|fig|pomegranate|grower|farm|claude|\bai\b|automat|built|build|side project|own product/i, key: 'feno' },
+    { re: /feno|forecast|fig|pomegranate|grower|farm|claude|\bai\b|automat|built|build|side project|own product/i, key: 'feno' },
     { re: /securitease|sanlam|wealth|new zealand/i, key: 'securitease' },
     { re: /ten lifestyle|visa|hsbc|coutts|crm/i, key: 'tenlifestyle' },
     { re: /datanoble|altron|cx|ux|nps/i, key: 'datanoble' },
